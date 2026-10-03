@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TroopDefinition", menuName = "Scriptable Objects/TroopDefinition")]
 public class TroopDefinition : ScriptableObject
 {
-    [SerializeField] private int ID;
-    [SerializeField] private string Name;
+    public int ID { get; private set; }
+    public string Name { get; private set; }
     // [SerializeField] private Type role;
     // [SerializeField] private Faction faction;
 
@@ -14,7 +14,7 @@ public class TroopDefinition : ScriptableObject
     [SerializeField] private int strength;
     [SerializeField] private int attackReach;
     // [SerializeField] private Resource[] cost;
-    // [SerializeField] private Resoruce[] capacity;
+    // [SerializeField] private Resource[] capacity;
 
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Sprite[] _sprites;

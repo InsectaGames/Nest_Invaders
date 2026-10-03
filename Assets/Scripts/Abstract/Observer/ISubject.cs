@@ -4,5 +4,5 @@ public interface ISubject<T>
 
     public void AddObserver(IObserver<T> obs);
     public void RemoveObserver(IObserver<T> obs);
-    public void UpdateObservers();
+    public void UpdateObservers(T data);
 }

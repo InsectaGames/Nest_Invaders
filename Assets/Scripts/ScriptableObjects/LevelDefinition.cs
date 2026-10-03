@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Scriptable Objects/LevelDefinition")]
 public class LevelDefinition : ScriptableObject
 {
-    [SerializeField] private int ID;
-    [SerializeField] private string Name;
-    [SerializeField] private Sprite Map;
-    [SerializeField] private GameObject allyBase;
-    [SerializeField] private GameObject enemyBase;
+    public int ID { get; private set; }
+    public string Name { get; private set; }
+    public int dayLength { get; private set; }
+    public int nightLength { get; private set; }
     // [SerializeField] private Resource[] initialResources;
     // [SerializeField] private Troops[] initialTroops;
     // [SerializeField] private Troops[] initialEnemies;
-    [SerializeField] private int dayLength;
-    [SerializeField] private int nightLength;
+    // [SerializeField] private Sprite Map;
+    public GameObject allyBase { get; private set; }
+    public GameObject enemyBase { get; private set; }
 }
