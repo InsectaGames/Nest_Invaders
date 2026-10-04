@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &161436059 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4732532758180681498, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+  m_PrefabInstance: {fileID: 6458666521675776906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d928a92b4689ee549b03fc7afac30023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameFlowController
 --- !u!1 &322125787
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,8 +161,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1686275383}
-  - {fileID: 1027412882}
   - {fileID: 893490135}
+  - {fileID: 1027412882}
   m_Father: {fileID: 347150125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -564,7 +575,7 @@ GameObject:
   - component: {fileID: 893490137}
   - component: {fileID: 893490136}
   m_Layer: 5
-  m_Name: Start_button (2)
+  m_Name: Settings_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -822,7 +833,7 @@ GameObject:
   - component: {fileID: 1027412884}
   - component: {fileID: 1027412883}
   m_Layer: 5
-  m_Name: Start_button (1)
+  m_Name: Quit_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -891,7 +902,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1027412884}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 161436059}
+        m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1027412884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1897,7 +1920,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1686275385}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 161436059}
+        m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1686275385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1993,7 +2028,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2149,6 +2184,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002069146}
   m_CullTransparentMesh: 1
+--- !u!1001 &6458666521675776906
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1803263382137227204, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100054071727327056, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      propertyPath: m_Name
+      value: GameFlowController
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2156,3 +2248,4 @@ SceneRoots:
   - {fileID: 381100426}
   - {fileID: 347150125}
   - {fileID: 541487836}
+  - {fileID: 6458666521675776906}

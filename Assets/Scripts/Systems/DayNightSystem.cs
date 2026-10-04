@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum DayTime
 {
@@ -13,9 +14,16 @@ public class DayNightSystem
     private LevelDefinition levelInfo;
     private float _timer;
 
-    public DayNightSystem()
+    public DayNightSystem() => StartDay();
+
+    private void Update()
     {
-        _timer = levelInfo.dayLength;
+        _timer -= Time.deltaTime;
+
+        if(_timer == 0)
+        {
+            UpdateCycle();
+        }
     }
 
     public void ChangeLevel()
@@ -25,12 +33,14 @@ public class DayNightSystem
 
     public void StartDay()
     {
-        
+        Debug.Log("Inicia el día.");
+        _timer = levelInfo.dayLength;
     }
 
     public void StartNight()
     {
-        
+        Debug.Log("Inicia la noche.");
+        _timer = levelInfo.nightLength;
     }
 
     public void UpdateCycle()
@@ -38,6 +48,9 @@ public class DayNightSystem
         if(GetRemainingTime() <= 0)
         {
             _dayTime = phaseOrder[(phaseOrder.IndexOf(_dayTime) + 1) % phaseOrder.Count];
+
+            if(_dayTime == DayTime.DAY) StartDay();
+            else StartNight();
         }
     }
 
@@ -49,6 +62,7 @@ public class DayNightSystem
     {
         _dayTime = phase;
 
-        // _timer = forzar reinicio según fase.
+        if(_dayTime == DayTime.DAY) StartDay();
+        else StartNight();
     }
 }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241a3cc0e382cbd4db5a04167c82d551, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
+  ID: 1
+  Name: Level_1
+  dayLength: 1000
+  nightLength: 1000
+  initialResources: 
+  Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
+  allyBase: {fileID: 0}
+  enemyBase: {fileID: 0}

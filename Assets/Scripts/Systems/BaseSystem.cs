@@ -1,8 +1,11 @@
-public class BaseSystem
+using UnityEngine;
+
+public class BaseSystem : MonoBehaviour
 {
+    [Header("Configuración")]
+    [SerializeField] private Faction faction;
     private HealthComponent health;
-    // private Faction faction;
-    // private Resource[] resources;
+    private Resource[] resources;
 
     public BaseSystem(int maxHealth)
     {
@@ -11,7 +14,7 @@ public class BaseSystem
 
     public void SpawnUnit()
     {
-        
+        //
     }
 
     public bool CanSpawn()
@@ -23,6 +26,8 @@ public class BaseSystem
 
     public void GetAvailableResources()
     {
-        
+        if(faction != Faction.ALLY) return;
+
+        //
     }
 }

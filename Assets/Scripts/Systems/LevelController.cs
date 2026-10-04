@@ -1,6 +1,6 @@
 public class LevelController
 {
-    private LevelDefinition levelInfo;
+    public LevelDefinition LevelInfo { get; private set; }
 
     public LevelController()
     {

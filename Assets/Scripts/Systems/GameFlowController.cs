@@ -1,26 +1,41 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameFlowController
+public class GameFlowController : Singleton<GameFlowController>
 {
     [Header("Estado de juego")]
     private LevelController levelController;
     private bool gamePaused = false;
 
     [Header("Victoria y Derrota")]
-    [SerializeField] private Scene victoryScene;
-    [SerializeField] private Scene defeatScene;
+    [SerializeField] private string victoryScene;
+    [SerializeField] private string defeatScene;
 
     [Header("Niveles")]
-    [SerializeField] private List<Scene> gameLevels;
-    private Scene currentLevel;
+    [SerializeField] private List<string> gameLevels;
+    private string currentLevel;
 
+    #region MENU
     public void StartGame()
     {
-        LoadLevel(gameLevels[0].name);
+        LoadLevel(gameLevels[0]);
     }
 
+    public void ExitGame()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+
+        Application.Quit();
+    }
+    #endregion
+
+    #region NIVELES
+
+    public LevelDefinition GetLevelInfo() => levelController.LevelInfo;
     public void LoadLevel(string name)
     {
         if(FindLevel(name))
@@ -31,9 +46,9 @@ public class GameFlowController
 
     private bool FindLevel(string name)
     {
-        foreach(Scene level in gameLevels)
+        foreach(string level in gameLevels)
         {
-            if(level.name.Equals(name))
+            if(level.Equals(name))
             {
                 return true;
             }
@@ -45,6 +60,25 @@ public class GameFlowController
     // Inicializar el nivel con todo lo necesario, la info la conoce el LevelController.
     public void StartLevel() => levelController.StartLevel();
 
+    public void RestartLevel()
+    {
+        if(!String.IsNullOrEmpty(currentLevel))
+        {
+            SceneManager.LoadScene(currentLevel);
+        }
+    }
+
+    public void LoadNextLevel()
+    {
+        int pos = gameLevels.IndexOf(currentLevel);
+        if(pos != -1 && pos < gameLevels.Count - 1)
+        {
+            SceneManager.LoadScene(gameLevels[pos + 1]);
+        }
+    }
+    #endregion
+
+    #region PAUSA
     public void PauseGame()
     {
         if(!gamePaused)
@@ -62,12 +96,14 @@ public class GameFlowController
             Time.timeScale = 1;
         }
     }
+    #endregion
 
+    #region VICTORIA Y DERROTA
     public void TriggerVictory()
     {
         if(victoryScene != null)
         {
-            SceneManager.LoadScene(victoryScene.name);
+            SceneManager.LoadScene(victoryScene);
         }
         else
         {
@@ -79,29 +115,12 @@ public class GameFlowController
     {
         if(defeatScene != null)
         {
-            SceneManager.LoadScene(defeatScene.name);
+            SceneManager.LoadScene(defeatScene);
         }
         else
         {
             Debug.LogWarning("No hay una escena de derrota asignada.");
         }
     }
-
-    public void RestartLevel()
-    {
-        if(currentLevel != null)
-        {
-            SceneManager.LoadScene(currentLevel.name);
-        }
-    }
-
-    public void LoadNextLevel()
-    {
-        int pos = gameLevels.IndexOf(currentLevel);
-        if(pos != -1 && pos < gameLevels.Count - 1)
-        {
-            SceneManager.LoadScene(gameLevels[pos + 1].name);
-        }
-    }
-
+    #endregion
 }
