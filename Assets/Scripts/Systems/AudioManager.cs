@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public struct AudioEntry
 {
-    public string name;       // Nombre del audio (ej. "beePickUp").
+    public string name;       // Nombre del audio.
     public AudioClip clip;    // Clip de audio asociado.
 }
 
@@ -25,7 +25,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent>
     {
         base.Awake();
 
-        if (Instance != this) return; // si es duplicado no seguir
+        if (Instance != this) return; // Si es duplicado, no seguir.
 
         InitAudioSystem();
 

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameFlowController : Singleton<GameFlowController>
 {
     [Header("Estado de juego")]
-    private LevelController levelController;
     private bool gamePaused = false;
 
     [Header("Victoria y Derrota")]
@@ -35,7 +34,6 @@ public class GameFlowController : Singleton<GameFlowController>
 
     #region NIVELES
 
-    public LevelDefinition GetLevelInfo() => levelController.LevelInfo;
     public void LoadLevel(string name)
     {
         if(FindLevel(name))
@@ -56,9 +54,6 @@ public class GameFlowController : Singleton<GameFlowController>
 
         return false;
     }
-
-    // Inicializar el nivel con todo lo necesario, la info la conoce el LevelController.
-    public void StartLevel() => levelController.StartLevel();
 
     public void RestartLevel()
     {

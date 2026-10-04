@@ -2513,8 +2513,9 @@ MonoBehaviour:
   placementKey: 34
   cancelKey: 60
   groundLayerMask:
-    serializedVersion: 2
     m_Bits: 64
+  currentPreview: {fileID: 0}
+  isPlacing: 0
 --- !u!4 &871816451
 Transform:
   m_ObjectHideFlags: 0
@@ -2835,6 +2836,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 0
+  towerPrefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
+  placementKey: 34
 --- !u!212 &897641592
 SpriteRenderer:
   serializedVersion: 2
@@ -6269,6 +6272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 1
+  towerPrefab: {fileID: 0}
+  placementKey: 0
 --- !u!212 &2045669156
 SpriteRenderer:
   serializedVersion: 2

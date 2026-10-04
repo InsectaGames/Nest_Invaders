@@ -1,7 +1,10 @@
-public class HealthComponent
+using UnityEngine;
+
+public class HealthComponent : MonoBehaviour
 {
     public int Health { get; private set; }
     public int MaxHealth { get; private set; }
+    public GameObject obj { get; private set; }
 
     public HealthComponent(int maxHealth = 100)
     {
@@ -24,8 +27,5 @@ public class HealthComponent
 
     public bool IsDead() => Health == 0;
 
-    public void Die()
-    {
-        // Devolver al object pool.
-    }
+    public void Die() => GameObject.Destroy(gameObject);
 }

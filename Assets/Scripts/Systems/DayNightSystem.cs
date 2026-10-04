@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum DayTime
@@ -9,26 +10,21 @@ public enum DayTime
 
 public class DayNightSystem
 {
-    private DayTime _dayTime = DayTime.DAY;
+    [Header("Configuración")]
+    public DayTime _dayTime { get; private set; } = DayTime.DAY;
+
     private List<DayTime> phaseOrder = new List<DayTime>(){DayTime.DAY, DayTime.NIGHT};
-    private LevelDefinition levelInfo;
-    private float _timer;
+
+    [SerializeField] private LevelDefinition levelInfo;
+
+    public float _timer { get; private set; }
 
     public DayNightSystem() => StartDay();
 
-    private void Update()
+    public void Update()
     {
         _timer -= Time.deltaTime;
-
-        if(_timer == 0)
-        {
-            UpdateCycle();
-        }
-    }
-
-    public void ChangeLevel()
-    {
-        // Cambiar el levelInfo para los nuevos datos.
+        if(_timer == 0) UpdateCycle();
     }
 
     public void StartDay()
@@ -45,7 +41,7 @@ public class DayNightSystem
 
     public void UpdateCycle()
     {
-        if(GetRemainingTime() <= 0)
+        if(_timer <= 0)
         {
             _dayTime = phaseOrder[(phaseOrder.IndexOf(_dayTime) + 1) % phaseOrder.Count];
 
@@ -53,10 +49,6 @@ public class DayNightSystem
             else StartNight();
         }
     }
-
-    public DayTime GetCurrentPhase() => _dayTime;
-
-    public float GetRemainingTime() => _timer;
 
     public void ForcePhase(DayTime phase)
     {
