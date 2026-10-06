@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Melee_Attacker
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   faction: 0
-  type: 0
-  maxHealth: 0
-  speed: 0
-  strength: 0
-  attackReach: 0
-  cost: 
+  type: 1
+  maxHealth: 200
+  speed: 3
+  strength: 30
+  attackReach: 2
+  cost: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   capacity: 
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
   _sprites: []
   _animator: {fileID: 0}
