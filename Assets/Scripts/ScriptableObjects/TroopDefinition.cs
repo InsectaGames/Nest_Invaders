@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TroopDefinition", menuName = "Scriptable Objects/TroopDefinition")]
@@ -12,8 +13,10 @@ public class TroopDefinition : ScriptableObject
     public float speed;
     public int strength;
     public int attackReach;
-    public Resource[] cost;
-    public Resource[] capacity;
+
+
+    public ResourceSlot[] recursos;  // <Resource,int>  ==== ResourceInventory   Cost[] cost;
+    public ResourceSlot[] capacity; // <Resource , int>
 
     public GameObject _prefab;
     public Sprite[] _sprites;
