@@ -17,7 +17,7 @@ public class Utils
     #endregion
 
     #region ENTRADA DE USUARIO
-    public static bool KeyPressed(Key key) => Keyboard.current != null && Keyboard.current[key].wasPressedThisFrame;
+    public static bool KeyPressed(Key key) => Keyboard.current != null && key != Key.None && Keyboard.current[key].wasPressedThisFrame;
 
     public static bool MouseClicked() => Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
 

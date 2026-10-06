@@ -10,6 +10,8 @@ public class Troop : MonoBehaviour
     private NavMeshAgent agent;
     private HealthComponent health;
 
+    public TroopDefinition GetDefinition() => definition;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -21,7 +23,11 @@ public class Troop : MonoBehaviour
         definition = troopDefinition;
 
         if (agent != null)
+        {
             agent.speed = definition.speed;
+            // agent.updateRotation = false;
+            agent.updateUpAxis = false;
+        }
 
         if (health != null)
             health.Initialize(definition.maxHealth);

@@ -2,7 +2,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Threading;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+
+[System.Serializable]
+public struct TowerSummon
+{
+    public TroopDefinition towerInfo;
+    public Key key;
+}
 
 public class BaseSystem : MonoBehaviour
 {
@@ -11,11 +18,10 @@ public class BaseSystem : MonoBehaviour
     private HealthComponent health;
 
     [Header("Lógica de Spawner")]
-    [SerializeField] private GameObject towerPrefab;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private List<TowerSummon> towerSummons;
     private Mutex spawnerMutex = new Mutex();
-    
-    [Tooltip("Tecla para activar el modo de colocación.")]
-    [SerializeField] private Key placementKey = Key.T;
+
 
     private void Start()
     {
@@ -27,22 +33,32 @@ public class BaseSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Utils.KeyPressed(placementKey)) SpawnUnit();
+        for(int i = 0; i < towerSummons.Count; i++)
+        {
+            if (Utils.KeyPressed(towerSummons[i].key)) SpawnUnit(i);   
+        }
     }
 
-    public void SpawnUnit()
+    public void SpawnUnit(int id = 0)
     {
         spawnerMutex.WaitOne();
         Debug.Log("Colocando torre...");
 
-        if (towerPrefab == null)
+        if(id < 0 || id > towerSummons.Count)
+        {
+            Debug.LogWarning("ID fuera de los límites de la lista.");
+            return;
+
+        }
+        else if (prefab == null)
         {
             Debug.LogWarning("No hay un prefab de torre asignado para colocar.");
             return;
         }
 
-        Instantiate(towerPrefab);
-        Debug.Log("Torre colocada.");
+        Troop troop = Instantiate(prefab).GetComponent<Troop>();
+        troop.Initialize(towerSummons[id].towerInfo);
+        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }");
 
         spawnerMutex.ReleaseMutex();
     }

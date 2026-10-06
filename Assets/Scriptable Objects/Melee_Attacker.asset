@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad45e27b4cddd5a4b922829f5ef70b5e, type: 3}
   m_Name: Melee_Attacker
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
+  ID: 0
+  Name: MELEE
   faction: 0
   type: 1
   maxHealth: 200
   speed: 3
   strength: 30
   attackReach: 2
-  cost: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  capacity: 
+  recursos: []
+  capacity: []
   _prefab: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
   _sprites: []
   _animator: {fileID: 0}

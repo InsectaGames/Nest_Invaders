@@ -8,34 +8,48 @@ public enum DayTime
     NIGHT
 }
 
-public class DayNightSystem
+public class DayNightSystem : MonoBehaviour
 {
     [Header("Configuración")]
+    [SerializeField] private float timeScale = 1f;
     public DayTime _dayTime { get; private set; } = DayTime.DAY;
 
     private List<DayTime> phaseOrder = new List<DayTime>(){DayTime.DAY, DayTime.NIGHT};
 
     [SerializeField] private LevelDefinition levelInfo;
 
+    private SpriteRenderer gameBG;
+    private Color defaultColour;
+    [SerializeField] private Color nightColour;
+
     public float _timer { get; private set; }
 
-    public DayNightSystem() => StartDay();
+    private void Start()
+    {
+        gameBG = GameObject.Find("BG").GetComponent<SpriteRenderer>();
+        defaultColour = gameBG.color;
+
+        StartDay();
+    }
 
     public void Update()
     {
-        _timer -= Time.deltaTime;
-        if(_timer == 0) UpdateCycle();
+        _timer -= timeScale * Time.deltaTime;
+        // Debug.Log(_timer);
+        if(_timer <= 0) UpdateCycle();
     }
 
     public void StartDay()
     {
-        Debug.Log("Inicia el día.");
+        // Debug.Log("Inicia el día.");
+        gameBG.color = defaultColour;
         _timer = levelInfo.dayLength;
     }
 
     public void StartNight()
     {
-        Debug.Log("Inicia la noche.");
+        // Debug.Log("Inicia la noche.");
+        gameBG.color = nightColour;
         _timer = levelInfo.nightLength;
     }
 

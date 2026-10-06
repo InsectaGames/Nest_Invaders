@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 176932750}
   - component: {fileID: 176932752}
   - component: {fileID: 176932751}
+  - component: {fileID: 176932753}
   m_Layer: 5
   m_Name: Day-nightCycle
   m_TagString: Untagged
@@ -355,6 +356,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176932749}
   m_CullTransparentMesh: 1
+--- !u!114 &176932753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176932749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62994970403fab42a2e03a5ae938c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayNightSystem
+  timeScale: 10
+  levelInfo: {fileID: 11400000, guid: a249ed31de429694abc49cdb3afe6d60, type: 2}
+  nightColour: {r: 0.4862745, g: 0.5647059, b: 0.8509804, a: 0.7372549}
 --- !u!1 &241010206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,8 +2892,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 0
-  towerPrefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
-  placementKey: 34
+  prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
+  towerSummons:
+  - towerInfo: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
+    key: 15
+  - towerInfo: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
+    key: 33
 --- !u!212 &897641592
 SpriteRenderer:
   serializedVersion: 2
@@ -6306,14 +6326,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045669154}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e2ff3ae357626241bcaf43da6b40258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 1
-  towerPrefab: {fileID: 0}
-  placementKey: 0
+  prefab: {fileID: 0}
+  towerSummons: []
 --- !u!212 &2045669156
 SpriteRenderer:
   serializedVersion: 2

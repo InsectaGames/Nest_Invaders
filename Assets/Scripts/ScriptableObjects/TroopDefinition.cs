@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TroopDefinition", menuName = "Scriptable Objects/TroopDefinition")]
 public class TroopDefinition : ScriptableObject
 {
-    public int ID { get; private set; }
-    public string Name { get; private set; }
+    public int ID;
+    public string Name;
     public Faction faction;
     public TroopType type;
 
