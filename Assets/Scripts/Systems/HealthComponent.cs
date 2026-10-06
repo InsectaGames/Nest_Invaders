@@ -6,7 +6,12 @@ public class HealthComponent : MonoBehaviour
     public int MaxHealth { get; private set; }
     public GameObject obj { get; private set; }
 
-    public HealthComponent(int maxHealth = 100)
+
+    private void Awake()
+    {
+        Initialize(100);
+    }
+    public void Initialize(int maxHealth = 100)
     {
         Health = maxHealth;
         MaxHealth = maxHealth;

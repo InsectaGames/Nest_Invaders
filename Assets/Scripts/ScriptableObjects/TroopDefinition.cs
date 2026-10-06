@@ -6,6 +6,7 @@ public class TroopDefinition : ScriptableObject
     public int ID { get; private set; }
     public string Name { get; private set; }
     public Faction faction;
+    public TroopType type;
 
     public int maxHealth;
     public float speed;
