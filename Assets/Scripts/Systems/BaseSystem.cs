@@ -11,7 +11,13 @@ public struct TowerSummon
     public Key key;
 }
 
-public class BaseSystem : MonoBehaviour
+public struct TroopInstance
+{
+    public GameObject go;
+    public int id;
+}
+
+public class BaseSystem : MonoBehaviour , IObserver<int>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -23,12 +29,24 @@ public class BaseSystem : MonoBehaviour
     private Mutex spawnerMutex = new Mutex();
 
 
+  
+
     private void Start()
     {
-        health = this.gameObject.GetComponent<HealthComponent>();
 
-        if(faction == Faction.ENEMY)
-            StartCoroutine(SpawnCoroutine());
+
+        UITroopsGenerator generator =
+            FindFirstObjectByType<UITroopsGenerator>();
+
+        if (generator == null)
+        {
+            Debug.LogError("No se encontró UITroopsGenerator en la escena.");
+            return;
+        }
+
+        generator.AddObserver(this);
+
+
     }
 
     private void Update()
@@ -73,5 +91,16 @@ public class BaseSystem : MonoBehaviour
         }
     }
 
+  public Faction GetFaction() { return this.faction; }
+
     public bool IsDestroyed() => health.IsDead();
+
+    public void UpdateObserver(int data)
+    {
+       if(faction == Faction.ALLY)
+        {
+            SpawnUnit(data);
+            
+        }
+    }
 }
