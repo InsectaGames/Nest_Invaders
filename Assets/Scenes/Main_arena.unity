@@ -2874,7 +2874,7 @@ GameObject:
   - component: {fileID: 897641591}
   m_Layer: 0
   m_Name: AllyBase
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4960,10 +4960,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da1b9353e4a4694eb5ef0321ee5e8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITroopsGenerator
-  ghostPrefabs:
-  - ghost: {fileID: 1358891150988844776, guid: 20d9b5cb5a7608c45857658fdeb03b7a, type: 3}
-    prefab: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-    id: 0
 --- !u!4 &1600037797
 Transform:
   m_ObjectHideFlags: 0
@@ -6374,7 +6370,7 @@ GameObject:
   - component: {fileID: 2045669155}
   m_Layer: 0
   m_Name: EnemyBase
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6392,7 +6388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 1
-  prefab: {fileID: 0}
+  prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   towerSummons: []
 --- !u!212 &2045669156
 SpriteRenderer:
