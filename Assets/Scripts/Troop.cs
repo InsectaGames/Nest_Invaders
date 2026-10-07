@@ -16,6 +16,8 @@ public class Troop : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
+        agent.updateUpAxis = false;
+        Debug.Log("Se ha girado correctamente");
     }
 
     public void Initialize(TroopDefinition troopDefinition)
@@ -27,6 +29,7 @@ public class Troop : MonoBehaviour
             agent.speed = definition.speed;
             // agent.updateRotation = false;
             agent.updateUpAxis = false;
+            Debug.Log("Se ha girado correctamente");
         }
 
         if (health != null)
