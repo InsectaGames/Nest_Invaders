@@ -17,10 +17,11 @@ public struct TroopInstance
     public int id;
 }
 
-public class BaseSystem : MonoBehaviour , IObserver<int>
+public class BaseSystem : MonoBehaviour, IObserver<int>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
+    [SerializeField] private int HP = 3;
     private HealthComponent health;
 
     [Header("Lógica de Spawner")]
@@ -28,32 +29,64 @@ public class BaseSystem : MonoBehaviour , IObserver<int>
     [SerializeField] private List<TowerSummon> towerSummons;
     private Mutex spawnerMutex = new Mutex();
 
-
-  
-
     private void Start()
     {
+        health = gameObject.GetComponent<HealthComponent>();
+        health?.Initialize(HP);
 
-
-        UITroopsGenerator generator =
-            FindFirstObjectByType<UITroopsGenerator>();
-
-        if (generator == null)
+        switch(faction)
         {
-            Debug.LogError("No se encontró UITroopsGenerator en la escena.");
-            return;
+            case Faction.ALLY:
+                UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
+
+                if (generator == null)
+                {
+                    Debug.LogError("No se encontró UITroopsGenerator en la escena.");
+                    return;
+                }
+
+                generator.AddObserver(this);
+            break;
+
+            case Faction.ENEMY:
+                // StartCoroutine(SpawnCoroutine());
+            break;
         }
-
-        generator.AddObserver(this);
-
-
     }
 
     private void Update()
     {
-        for(int i = 0; i < towerSummons.Count; i++)
+        if(health.IsDead())
         {
-            if (Utils.KeyPressed(towerSummons[i].key)) SpawnUnit(i);   
+            GameFlowController gfc = GameObject.FindGameObjectWithTag("GameFlowController").GetComponent<GameFlowController>();
+            if (gfc != null)
+            {
+                switch (faction)
+                {
+                    case Faction.ALLY:
+                        gfc.TriggerDefeat();
+                    break;
+                    
+                    case Faction.ENEMY:
+                        StopCoroutine(SpawnCoroutine());
+                        gfc.TriggerVictory();
+                    break;
+                }
+            }
+            else
+            {
+                Debug.LogError("No se encontró el GameFlowController en la escena. Asegúrate de que el Tag sea correcto.");
+            }
+
+            health.Die();
+        }
+        
+        if(faction == Faction.ALLY)
+        {
+            for(int i = 0; i < towerSummons.Count; i++)
+            {
+                if (Utils.KeyPressed(towerSummons[i].key)) SpawnUnit(i);   
+            }
         }
     }
 
@@ -91,7 +124,7 @@ public class BaseSystem : MonoBehaviour , IObserver<int>
         }
     }
 
-  public Faction GetFaction() { return this.faction; }
+    public Faction GetFaction() { return this.faction; }
 
     public bool IsDestroyed() => health.IsDead();
 
@@ -100,7 +133,6 @@ public class BaseSystem : MonoBehaviour , IObserver<int>
        if(faction == Faction.ALLY)
         {
             SpawnUnit(data);
-            
         }
     }
 }

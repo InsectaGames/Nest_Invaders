@@ -11,20 +11,21 @@ public class HealthComponent : MonoBehaviour
     {
         Initialize(100);
     }
+
     public void Initialize(int maxHealth = 100)
     {
         Health = maxHealth;
         MaxHealth = maxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount = 1)
     {
         int result = Health - amount;
         Health = (result < 0) ? 0 : result;
-        if(IsDead()) { Die(); }
+        // if(IsDead()) { Die(); }
     }
 
-    public void Heal(int amount)
+    public void Heal(int amount = 1)
     {
         int result = Health + amount;
         Health = (result > MaxHealth) ? MaxHealth : result;
