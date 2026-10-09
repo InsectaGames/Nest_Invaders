@@ -174,6 +174,9 @@ MonoBehaviour:
   levelInfo: {fileID: 11400000, guid: a249ed31de429694abc49cdb3afe6d60, type: 2}
   nightColour: {r: 0.027233727, g: 0.629298, b: 0.9622642, a: 0.69411767}
   fillTime: {fileID: 106297186}
+  fillTimeBG: {fileID: 81487822}
+  imageFillBGColor: {r: 0, g: 0, b: 0, a: 0}
+  imageFillColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &81487822
 MonoBehaviour:
   m_ObjectHideFlags: 0
