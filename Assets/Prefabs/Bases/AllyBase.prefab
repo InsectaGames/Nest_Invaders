@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6470804845990370895}
   m_Layer: 0
   m_Name: Front
-  m_TagString: Base
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,6 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 0
   HP: 3
+  resources: []
+  maxResources: 
   prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   towerSummons:
   - towerInfo: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}

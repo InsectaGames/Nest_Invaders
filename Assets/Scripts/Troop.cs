@@ -15,6 +15,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     private static GameObject[] bases;
 
     private bool isGathering = false;
+
     private Transform allyBaseTransform;
     private Transform gatherPointTransform;
 
@@ -25,6 +26,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
         bases = GameObject.FindGameObjectsWithTag("Base");
+        Debug.Log(bases.Length);
         foreach(GameObject obj in bases)
         {
             BaseSystem bs = obj.GetComponent<BaseSystem>();
@@ -35,7 +37,9 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             }
         }
 
-        agent.updateUpAxis = false;
+        GameObject.Find("OperativeCentral").GetComponent<TroopsManager>().AddTroop(this.gameObject);
+
+        //agent.updateUpAxis = false;
         Debug.Log("Se ha girado correctamente");
     }
 
@@ -148,18 +152,30 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         }
     }
 
-    private IEnumerator GatherRoutine()
+   // [System.Obsolete]
+   IEnumerator GatherRoutine()
     {
         isGathering = true;
 
         if (agent != null)
             agent.isStopped = true;
 
+        SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
+        Collider2D collider = this.GetComponent<Collider2D>();
+
+        //Hacemos como que entra en la cueva ,  en ese momento , no es interactuable
+        spr.enabled = false;
+        collider.enabled = false;
+        
         yield return new WaitForSeconds(5f);
 
         if (agent != null)
         {
+         
+
             agent.isStopped = false;
+            spr.enabled = true;
+            collider.enabled = true;
 
             if (allyBaseTransform != null)
             {

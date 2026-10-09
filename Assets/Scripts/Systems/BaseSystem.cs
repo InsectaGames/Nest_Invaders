@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 [System.Serializable]
 public struct TowerSummon
@@ -27,6 +28,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     [Header("Recursos")]
     [SerializeField] private ResourceSlot[] resources;
     [SerializeField] private int[] maxResources;
+    
 
     [Header("Lógica de Spawner")]
     [SerializeField] private GameObject prefab;
@@ -35,6 +37,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
     private void Start()
     {
+        
         health = gameObject.GetComponent<HealthComponent>();
         health?.Initialize(HP);
 
