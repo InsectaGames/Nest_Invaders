@@ -97,29 +97,55 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
         }
     }
 
+
     public void SpawnUnit(int id = 0)
     {
         spawnerMutex.WaitOne();
-        Debug.Log("Colocando torre...");
 
-        if(id < 0 || id > towerSummons.Count)
+        try
         {
-            Debug.LogWarning("ID fuera de los límites de la lista.");
-            return;
+            if (id < 0 || id >= towerSummons.Count)
+            {
+                Debug.LogWarning("ID fuera de los límites de la lista.");
+                return;
+            }
 
+            if (prefab == null)
+            {
+                Debug.LogWarning("No hay un prefab asignado.");
+                return;
+            }
+
+            TroopDefinition definition = towerSummons[id].towerInfo;
+
+            GameObject instance = Instantiate(
+                prefab,
+                transform.position,
+                Quaternion.identity
+            );
+
+            Troop troop = instance.GetComponent<Troop>();
+
+            if (troop == null)
+            {
+                Debug.LogError("El prefab no contiene el componente Troop.");
+                Destroy(instance);
+                return;
+            }
+
+            troop.Initialize(definition);
+
+            resources[0].cantidad--;
+
+            Debug.Log(
+                $"Tropa creada: {troop.GetDefinition().Name}. " +
+                $"Hojas restantes: {resources[0].cantidad}"
+            );
         }
-        else if (prefab == null)
+        finally
         {
-            Debug.LogWarning("No hay un prefab de torre asignado para colocar.");
-            return;
+            spawnerMutex.ReleaseMutex();
         }
-
-        Troop troop = Instantiate(prefab).GetComponent<Troop>();
-        troop.Initialize(towerSummons[id].towerInfo);
-        resources[0].cantidad--;
-        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }, ahora tengo { resources[0].cantidad } hojas.");
-
-        spawnerMutex.ReleaseMutex();
     }
 
     private IEnumerator SpawnCoroutine()
@@ -151,7 +177,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
         if(data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && faction == Faction.ALLY)
         {
             int pos = (int) data.data.res;
-            resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]);
+            resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]); // out of bounds
             Debug.Log($"Ahora tengo { resources[pos].cantidad } del recurso { resources[pos].res }");
         }
     }

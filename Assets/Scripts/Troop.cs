@@ -36,8 +36,8 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                 break;
             }
         }
-
-        GameObject.Find("OperativeCentral").GetComponent<TroopsManager>().AddTroop(this.gameObject);
+ 
+      
 
         //agent.updateUpAxis = false;
         Debug.Log("Se ha girado correctamente");
@@ -82,6 +82,11 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (health != null)
             health.Initialize(definition.maxHealth);
+
+        if (TroopsManager.Instance != null)
+        {
+            TroopsManager.Instance.AddTroop(gameObject);
+        }
     }
 
     private void FindAllyBase()
@@ -132,7 +137,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
             if (definition.type == TroopType.GATHERER && isGathering && baseCol.GetFaction() == this.definition.faction)
             {
-                GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAF, 1));
+                GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, 1));
                 UpdateObservers(resourceEvent);
 
                 Debug.Log("Recursos entregados en la base. Volviendo a la mina...");
@@ -181,6 +186,14 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             {
                 SetTarget(allyBaseTransform);
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (TroopsManager.Instance != null)
+        {
+            TroopsManager.Instance.RemoveTroop(gameObject);
         }
     }
 }

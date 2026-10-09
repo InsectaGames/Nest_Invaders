@@ -10,6 +10,7 @@ public class UISticksCounter : MonoBehaviour , IObserver<GameEvent<ResourceSlot>
 
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
+        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_2)
         text.text = "Sticks: " + (UIresources + data.data.cantidad).ToString();
     }
 
