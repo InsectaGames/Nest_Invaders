@@ -117,7 +117,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
         Troop troop = Instantiate(prefab).GetComponent<Troop>();
         troop.Initialize(towerSummons[id].towerInfo);
         resources[0].cantidad--;
-        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }, ahora tengo { resources[0] } hojas.");
+        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }, ahora tengo { resources[0].cantidad } hojas.");
 
         spawnerMutex.ReleaseMutex();
     }

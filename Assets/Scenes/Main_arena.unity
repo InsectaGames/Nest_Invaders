@@ -827,6 +827,7 @@ GameObject:
   - component: {fileID: 508426598}
   - component: {fileID: 508426600}
   - component: {fileID: 508426599}
+  - component: {fileID: 508426601}
   m_Layer: 5
   m_Name: LeafsRemainingText
   m_TagString: Untagged
@@ -953,6 +954,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508426597}
   m_CullTransparentMesh: 1
+--- !u!114 &508426601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508426597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3cd78edf12dbc4abf0158d7ecfa8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UILeavesCounter
 --- !u!1001 &518333885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2122,6 +2135,7 @@ GameObject:
   - component: {fileID: 780767298}
   - component: {fileID: 780767300}
   - component: {fileID: 780767299}
+  - component: {fileID: 780767301}
   m_Layer: 5
   m_Name: SticksRemainingText
   m_TagString: Untagged
@@ -2248,6 +2262,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780767297}
   m_CullTransparentMesh: 1
+--- !u!114 &780767301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780767297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68c5177344437dd4896decba0c089724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UISticksCounter
 --- !u!1 &838694183
 GameObject:
   m_ObjectHideFlags: 0
@@ -6749,6 +6775,14 @@ PrefabInstance:
     - target: {fileID: 3839016442115381566, guid: 590e03311d085fe4383a3784076737ce, type: 3}
       propertyPath: m_Offset.y
       value: -0.38434708
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+      propertyPath: resources.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+      propertyPath: resources.Array.data[1].res
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
       propertyPath: m_Name

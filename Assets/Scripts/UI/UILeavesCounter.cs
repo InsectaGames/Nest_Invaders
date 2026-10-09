@@ -8,7 +8,7 @@ public class UILeavesCounter : MonoBehaviour ,IObserver<GameEvent<ResourceSlot>>
 
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
-        text.text = "Leaves = " + (UIresources + data.data.cantidad).ToString();
+        text.text = "Leaves: " + (UIresources + data.data.cantidad).ToString();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,7 +18,7 @@ public class UILeavesCounter : MonoBehaviour ,IObserver<GameEvent<ResourceSlot>>
        
 
         text = this.GetComponent<TextMeshProUGUI>();
-        text.text = "Leaves = " + UIresources.ToString();
+        text.text = "Leaves: " + UIresources.ToString();
     }
 
    
