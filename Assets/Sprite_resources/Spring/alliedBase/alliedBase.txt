@@ -1,0 +1,8 @@
+Para quien lo monte:
+para que tenga tridimensionalidad habia pensado en montarlo por capas
+si los insectos que salen de la base estan en la capa 1 (por ejemplo) 
+que alliedbase1 o 2 (segun si se quiere con el reborde blanco o no) esten en la capa 0
+y alliedbasefront en la capa2, de este modo parecera que salen de dentro.
+
+Si no os apetece/no se puede:
+meted alliedBaseHighlight o alliedBaseNoHighlight, la que queráis

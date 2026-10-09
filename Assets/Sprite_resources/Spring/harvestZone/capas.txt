@@ -1,0 +1,2 @@
+montaje por capas:
+harvestZone1 -> bichos -> harvestZone2 o 3 si se quiere borde blanco

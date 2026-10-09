@@ -1,0 +1,2 @@
+montaje por capas:
+enemyBase1 -> bichos -> enemyBase2 o 3 si se quiere borde blanco
