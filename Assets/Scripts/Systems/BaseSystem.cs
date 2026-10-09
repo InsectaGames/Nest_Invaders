@@ -17,12 +17,16 @@ public struct TroopInstance
     public int id;
 }
 
-public class BaseSystem : MonoBehaviour, IObserver<int>
+public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
     [SerializeField] private int HP = 3;
     private HealthComponent health;
+
+    [Header("Recursos")]
+    [SerializeField] private ResourceSlot[] resources;
+    [SerializeField] private int[] maxResources;
 
     [Header("Lógica de Spawner")]
     [SerializeField] private GameObject prefab;
@@ -109,7 +113,8 @@ public class BaseSystem : MonoBehaviour, IObserver<int>
 
         Troop troop = Instantiate(prefab).GetComponent<Troop>();
         troop.Initialize(towerSummons[id].towerInfo);
-        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }");
+        resources[0].cantidad--;
+        Debug.Log($"Torre colocada: { troop.GetDefinition().Name }, ahora tengo { resources[0] } hojas.");
 
         spawnerMutex.ReleaseMutex();
     }
@@ -128,11 +133,24 @@ public class BaseSystem : MonoBehaviour, IObserver<int>
 
     public bool IsDestroyed() => health.IsDead();
 
-    public void UpdateObserver(int data)
+    #region PATRÓN OBSERVER
+    public void UpdateObserver(GameEvent<int> data)
     {
-       if(faction == Faction.ALLY)
+        if(data.logicEvent == LogicEvent.TROOP_PLACED && faction == Faction.ALLY)
         {
-            SpawnUnit(data);
+            SpawnUnit(data.data);
         }
     }
+
+    public void UpdateObserver(GameEvent<ResourceSlot> data)
+    {
+        Debug.Log("Info de recurso recibida!");
+        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && faction == Faction.ALLY)
+        {
+            int pos = (int) data.data.res;
+            resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]);
+            Debug.Log($"Ahora tengo { resources[pos].cantidad } del recurso { resources[pos].res }");
+        }
+    }
+    #endregion
 }

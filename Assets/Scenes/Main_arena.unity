@@ -1774,6 +1774,7 @@ RectTransform:
   - {fileID: 1102550988}
   - {fileID: 135684790}
   - {fileID: 2116796304}
+  - {fileID: 1600037797}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2932,6 +2933,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 0
   HP: 3
+  resources:
+  - res: 0
+    cantidad: 10
+  - res: 1
+    cantidad: 10
+  maxResources: e7030000e7030000
   prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   towerSummons:
   - towerInfo: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
@@ -4892,7 +4899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.26742205, y: 0.4668236}
   m_AnchorMax: {x: 0.47355506, y: 1}
-  m_AnchoredPosition: {x: -0.016090393, y: 4.911503}
+  m_AnchoredPosition: {x: -0.016082764, y: 4.911503}
   m_SizeDelta: {x: 3.0803, y: 9.9099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1403561250
@@ -5207,12 +5214,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600037795}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 84.39234, y: 120.67554, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -364.8365, y: -174.7185, z: 0}
+  m_LocalScale: {x: 0.41666663, y: 0.41666663, z: 0.41666663}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 667844047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1607626111
 GameObject:
@@ -6630,6 +6637,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 1
   HP: 3
+  resources: []
+  maxResources: 
   prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   towerSummons: []
 --- !u!212 &2045669156
@@ -6979,4 +6988,3 @@ SceneRoots:
   - {fileID: 243507654}
   - {fileID: 2045669157}
   - {fileID: 1381670540}
-  - {fileID: 1600037797}
