@@ -10,7 +10,7 @@ public struct AudioEntry
     public AudioClip clip;    // Clip de audio asociado.
 }
 
-public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent>
+public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
 {
     [SerializeField]
     private List<AudioEntry> audioEntries; // Lista configurable desde el inspector.
@@ -63,7 +63,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent>
         // Añadir el AudioManager a lo que sea necesario según la escena.
     }
 
-    public void UpdateObserver(GameEvent data)
+    public void UpdateObserver(GameEvent<int> data)
     {
         // Reproducir sonidos según información recibida.
     }

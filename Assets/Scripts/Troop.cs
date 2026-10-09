@@ -1,9 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using Unity.VisualScripting;
 
-public class Troop : MonoBehaviour
+public class Troop : ASubject<GameEvent<ResourceSlot>>
 {
     // Tipo de tropa.
     [SerializeField] private TroopDefinition definition;
@@ -11,6 +11,7 @@ public class Troop : MonoBehaviour
     // Componentes de vida y navmesh.
     private NavMeshAgent agent;
     private HealthComponent health;
+
     private static GameObject[] bases;
 
     private bool isGathering = false;
@@ -24,6 +25,15 @@ public class Troop : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
         bases = GameObject.FindGameObjectsWithTag("Base");
+        foreach(GameObject obj in bases)
+        {
+            BaseSystem bs = obj.GetComponent<BaseSystem>();
+            if(bs.GetFaction() == Faction.ALLY)
+            {
+                this.AddObserver(bs);
+                break;
+            }
+        }
 
         agent.updateUpAxis = false;
         Debug.Log("Se ha girado correctamente");
@@ -118,6 +128,9 @@ public class Troop : MonoBehaviour
 
             if (definition.type == TroopType.GATHERER && isGathering && baseCol.GetFaction() == this.definition.faction)
             {
+                GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAF, 1));
+                UpdateObservers(resourceEvent);
+
                 Debug.Log("Recursos entregados en la base. Volviendo a la mina...");
                 isGathering = false;
 

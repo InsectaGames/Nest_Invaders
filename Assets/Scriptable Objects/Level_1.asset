@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   ID: 1
   Name: Level_1
-  dayLength: 10
-  nightLength: 10
+  dayLength: 300
+  nightLength: 200
   initialResources: []
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
   allyBase: {fileID: 0}
