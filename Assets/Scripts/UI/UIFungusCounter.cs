@@ -1,31 +1,23 @@
 using TMPro;
 using UnityEngine;
 
-public class UIFungusCounter : MonoBehaviour, IObserver<int>
+public class UIFungusCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private TextMeshProUGUI text;
-    BaseSystem bs;
 
+  void Start()
+    {
 
-    public void UpdateObserver(int data) { 
-   
-      
-            text.text = "Fungus: " + data.ToString();
+        text = GetComponent<TextMeshProUGUI>();
+
+    }
+
+    public void UpdateObserver(GameEvent<ResourceSlot> data) {
+
+        if (data.logicEvent == LogicEvent.RESOURCE_GATHER_1)
+            text.text = "Fungus: " + data.data.cantidad.ToString();
         
     }
 
-    private void Start()
-    {
-    
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Base"))
-        {
-            bs = obj.GetComponent<BaseSystem>();
-            if (bs.GetFaction() == Faction.ALLY)
-            {
-                bs.AddObserver(this);
-                Debug.Log("He he suscrito a:" + bs.gameObject.name);
-            }
-        }
-    
-     }
+  
 }

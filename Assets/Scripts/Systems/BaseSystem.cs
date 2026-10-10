@@ -17,7 +17,7 @@ public struct TroopInstance
     public int id;
 }
 
-public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
+public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -34,6 +34,10 @@ public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<Gam
     [SerializeField] private List<TowerSummon> towerSummons;
     private Mutex spawnerMutex = new Mutex();
 
+
+    [Header("Observers")]
+    UIFungusCounter counterFungus;
+    UISticksCounter counterSticks;
     public Faction GetFaction() => this.faction;
     public int GetFungus() => this.resources[0].cantidad;
     public int  GetSticks() => this.resources[1].cantidad;
@@ -49,6 +53,8 @@ public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<Gam
         {
             case Faction.ALLY:
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
+                counterFungus = FindFirstObjectByType<UIFungusCounter>();
+                counterSticks = FindFirstObjectByType<UISticksCounter>();
 
                 if (generator == null)
                 {
@@ -57,6 +63,8 @@ public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<Gam
                 }
 
                 generator.AddObserver(this);
+                AddObserver(counterFungus);
+                AddObserver(counterSticks);
                 break;
 
             case Faction.ENEMY:
@@ -146,7 +154,7 @@ public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<Gam
             {
                 resources[0].cantidad--;
 
-                UpdateObservers(resources[0].cantidad);
+                UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1 ,new ResourceSlot(Resource.FUNGUS,resources[0].cantidad)));
 
                 Debug.Log(
                     $"Tropa creada: {troop.GetDefinition().Name}. " +
@@ -186,6 +194,7 @@ public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<Gam
         {
             int pos = (int)data.data.res;
             resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]); // out of bounds
+            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[pos].cantidad)));
             Debug.Log($"Ahora tengo {resources[pos].cantidad} del recurso {resources[pos].res}");
         }
     }
