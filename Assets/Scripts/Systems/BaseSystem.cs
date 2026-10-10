@@ -27,7 +27,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     [Header("Recursos")]
     [SerializeField] private ResourceSlot[] resources;
     [SerializeField] private int[] maxResources;
-    
+
 
     [Header("Lógica de Spawner")]
     [SerializeField] private GameObject prefab;
@@ -38,13 +38,13 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     public int GetFungus() => this.resources[0].cantidad;
 
     public bool IsDestroyed() => health.IsDead();
-    
+
     private void Start()
     {
         health = gameObject.GetComponent<HealthComponent>();
         health?.Initialize(HP);
 
-        switch(faction)
+        switch (faction)
         {
             case Faction.ALLY:
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
@@ -56,17 +56,17 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
                 }
 
                 generator.AddObserver(this);
-            break;
+                break;
 
             case Faction.ENEMY:
                 StartCoroutine(SpawnCoroutine());
-            break;
+                break;
         }
     }
 
     private void Update()
     {
-        if(IsDestroyed())
+        if (IsDestroyed())
         {
             GameFlowController gfc = GameObject.FindGameObjectWithTag("GameFlowController").GetComponent<GameFlowController>();
             if (gfc != null)
@@ -75,12 +75,12 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
                 {
                     case Faction.ALLY:
                         gfc.TriggerDefeat();
-                    break;
-                    
+                        break;
+
                     case Faction.ENEMY:
                         StopCoroutine(SpawnCoroutine());
                         gfc.TriggerVictory();
-                    break;
+                        break;
                 }
             }
             else
@@ -90,12 +90,12 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
             health.Die();
         }
-        
-        if(faction == Faction.ALLY)
+
+        if (faction == Faction.ALLY)
         {
-            for(int i = 0; i < towerSummons.Count; i++)
+            for (int i = 0; i < towerSummons.Count; i++)
             {
-                if (Utils.KeyPressed(towerSummons[i].key)) SpawnUnit(i);   
+                if (Utils.KeyPressed(towerSummons[i].key)) SpawnUnit(i);
             }
         }
     }
@@ -121,11 +121,14 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
             TroopDefinition definition = towerSummons[id].towerInfo;
 
-            GameObject instance = Instantiate(
-                prefab,
-                transform.position,
-                Quaternion.identity
-            );
+            // Provisional: Las tropas aliadas necesitan al menos un fungus, luego haremos que compruebe el numerod e recursos necesarios para generarla
+            if (faction == Faction.ALLY && GetFungus() <= 0)
+            {
+                Debug.LogWarning($"No se puede crear {definition.Name}: " + "no hay suficientes hongos.");
+                return;
+            }
+
+            GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
 
             Troop troop = instance.GetComponent<Troop>();
 
@@ -138,7 +141,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
             troop.Initialize(definition, GetFaction());
 
-            if(faction == Faction.ALLY)
+            if (faction == Faction.ALLY)
             {
                 resources[0].cantidad--;
 
@@ -156,18 +159,18 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
     private IEnumerator SpawnCoroutine()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(10f);
 
-            SpawnUnit();   
+            SpawnUnit();
         }
     }
 
     #region PATRÓN OBSERVER
     public void UpdateObserver(GameEvent<int> data)
     {
-        if(data.logicEvent == LogicEvent.TROOP_PLACED && faction == Faction.ALLY)
+        if (data.logicEvent == LogicEvent.TROOP_PLACED && faction == Faction.ALLY)
         {
             SpawnUnit(data.data);
         }
@@ -176,11 +179,11 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
         Debug.Log("Info de recurso recibida!");
-        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && faction == Faction.ALLY)
+        if (data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && faction == Faction.ALLY)
         {
-            int pos = (int) data.data.res;
+            int pos = (int)data.data.res;
             resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]); // out of bounds
-            Debug.Log($"Ahora tengo { resources[pos].cantidad } del recurso { resources[pos].res }");
+            Debug.Log($"Ahora tengo {resources[pos].cantidad} del recurso {resources[pos].res}");
         }
     }
     #endregion

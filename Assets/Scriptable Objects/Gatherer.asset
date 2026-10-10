@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 1
   Name: GATHERER
-  faction: 0
   type: 1
   maxHealth: 100
   speed: 1
   strength: 0
   attackReach: 0
-  recursos: []
+  recursos:
+  - res: 0
+    cantidad: 1
   capacity: []
   _prefab: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
   _sprites: []

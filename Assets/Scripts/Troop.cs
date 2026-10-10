@@ -19,6 +19,12 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     private Transform allyBaseTransform;
     private Transform gatherPointTransform;
 
+    /// <summary>
+    /// Provisional para el ataque cuando hay colision hasta que usemos los scriptable objects como tal
+    /// </summary>
+    [Header("Combate melee")]
+    [SerializeField] private int meleeCollisionDamage = 9999;
+
     public TroopDefinition GetDefinition() => definition;
 
     private void Awake()
@@ -28,10 +34,10 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         bases = GameObject.FindGameObjectsWithTag("Base");
         Debug.Log(bases.Length);
-        foreach(GameObject obj in bases)
+        foreach (GameObject obj in bases)
         {
             BaseSystem bs = obj.GetComponent<BaseSystem>();
-            if(bs.GetFaction() == Faction.ALLY)
+            if (bs.GetFaction() == Faction.ALLY)
             {
                 this.AddObserver(bs);
                 break;
@@ -87,12 +93,12 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (TroopsManager.Instance != null)
         {
-            if(f == Faction.ALLY)
+            if (f == Faction.ALLY)
             {
                 GameEvent<ResourceSlot> placementEvent = new GameEvent<ResourceSlot>(LogicEvent.TROOP_PLACED, new ResourceSlot(Resource.FUNGUS, 1));
                 UpdateObservers(placementEvent);
             }
-            
+
             TroopsManager.Instance.AddTroop(gameObject);
         }
     }
@@ -122,9 +128,33 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     }
 
     // Cuando entra en colisión con otro enemigo.
+    // Provisional de momento hasta que haya comportamientos de peleas en el juego
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (definition == null || (definition.type != TroopType.MELEE_ATTACKER))
+            return;
 
+        Troop otherTroop = col.gameObject.GetComponent<Troop>();
+        if (otherTroop == null)
+            return;
+
+        TroopDefinition otherDefinition = otherTroop.GetDefinition();
+        if (otherDefinition == null || otherDefinition.type != TroopType.MELEE_ATTACKER || otherTroop.faction == faction)
+            return;
+
+        HealthComponent otherHealth = col.gameObject.GetComponent<HealthComponent>();
+
+        if (otherHealth == null || otherHealth.IsDead())
+            return;
+
+        otherHealth.TakeDamage(meleeCollisionDamage);
+
+        Debug.Log($"{definition.Name} ({faction}) ha golpeado a " + $"{otherDefinition.Name} ({otherTroop.faction}). " + $"Daño: {meleeCollisionDamage}. " + $"Vida restante: {otherHealth.Health}.");
+
+        if (otherHealth.IsDead())
+        {
+            otherHealth.Die();
+        }
     }
 
     // Cuando entra en el trigger de una base.
@@ -157,8 +187,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                     SetTarget(gatherPointTransform);
                 }
             }
-            else if (faction == Faction.ALLY && baseCol.GetFaction() == Faction.ENEMY ||
-                            faction == Faction.ENEMY && baseCol.GetFaction() == Faction.ALLY)
+            else if (faction == Faction.ALLY && baseCol.GetFaction() == Faction.ENEMY || faction == Faction.ENEMY && baseCol.GetFaction() == Faction.ALLY)
             {
                 baseHealth.TakeDamage();
                 Destroy(this.gameObject);
@@ -166,12 +195,15 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         }
     }
 
-   private IEnumerator GatherRoutine()
+    private IEnumerator GatherRoutine()
     {
         isGathering = true;
 
         if (agent != null)
+        {
             agent.isStopped = true;
+            agent.enabled = false;
+        }
 
         SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
         Collider2D collider = this.GetComponent<Collider2D>();
@@ -179,11 +211,12 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         // Entra en la cueva.
         spr.enabled = false;
         collider.enabled = false;
-        
+
         yield return new WaitForSeconds(5f);
 
         if (agent != null)
         {
+            agent.enabled = true;
             agent.isStopped = false;
             spr.enabled = true;
             collider.enabled = true;

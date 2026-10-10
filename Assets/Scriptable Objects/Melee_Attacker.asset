@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 0
   Name: MELEE
-  faction: 0
   type: 0
   maxHealth: 200
   speed: 3
   strength: 30
   attackReach: 2
-  recursos: []
+  recursos:
+  - res: 0
+    cantidad: 1
   capacity: []
   _prefab: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
   _sprites: []
