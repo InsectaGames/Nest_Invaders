@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +33,7 @@ public class DayNightSystem : MonoBehaviour
     [SerializeField] private Image fillTime;
     [SerializeField] private Image fillTimeBG;
     public Color imageFillBGColor;
-   public Color imageFillColor;
+    public Color imageFillColor;
 
     private void Start()
     {

@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 508426599}
   - component: {fileID: 508426601}
   m_Layer: 5
-  m_Name: LeafsRemainingText
+  m_Name: FungusRemainingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -953,7 +953,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Fungus: 0'
+  m_text: 'Fungus: 5'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6765,6 +6765,10 @@ PrefabInstance:
     - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
       propertyPath: resources.Array.data[1].res
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+      propertyPath: resources.Array.data[0].cantidad
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
       propertyPath: m_Name

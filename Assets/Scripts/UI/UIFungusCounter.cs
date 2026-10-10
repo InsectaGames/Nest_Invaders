@@ -1,28 +1,36 @@
 using TMPro;
 using UnityEngine;
 
-public class UIFungusCounter : MonoBehaviour ,IObserver<GameEvent<ResourceSlot>>
+public class UIFungusCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private TextMeshProUGUI text;
-    private int UIresources = 0;
+    private int UIresources;
 
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
         if (data.logicEvent == LogicEvent.RESOURCE_GATHER_1)
-            text.text = "Fungus: " + (UIresources + data.data.cantidad).ToString();
+        {
+            UIresources += data.data.cantidad;
+            text.text = "Fungus: " + UIresources.ToString();
+        }
+        else if (data.logicEvent == LogicEvent.TROOP_PLACED)
+        {
+            UIresources -= data.data.cantidad;
+            text.text = "Fungus: " + UIresources.ToString();
+        }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-
-       
-
         text = this.GetComponent<TextMeshProUGUI>();
-        text.text = "Fungus: " + UIresources.ToString();
-    }
 
-   
-  
-  
+        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Base"))
+        {
+            BaseSystem bs = obj.GetComponent<BaseSystem>();
+            if(bs.GetFaction() == Faction.ALLY)
+            {
+                UIresources = bs.GetFungus();
+            }
+        }
+    }
 }

@@ -1,10 +1,8 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-public class UISticksCounter : MonoBehaviour , IObserver<GameEvent<ResourceSlot>> {
-
-
+public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
+{
     private TextMeshProUGUI text;
     private int UIresources = 0;
 
@@ -14,11 +12,9 @@ public class UISticksCounter : MonoBehaviour , IObserver<GameEvent<ResourceSlot>
         text.text = "Sticks: " + (UIresources + data.data.cantidad).ToString();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-     text = this.GetComponent<TextMeshProUGUI>();
+        text = this.GetComponent<TextMeshProUGUI>();
         text.text = "Sticks: " + UIresources.ToString();
     }
-
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class Troop : ASubject<GameEvent<ResourceSlot>>
 {
     // Tipo de tropa.
     [SerializeField] private TroopDefinition definition;
+    private Faction faction;
 
     // Componentes de vida y navmesh.
     private NavMeshAgent agent;
@@ -25,6 +25,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     {
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
+
         bases = GameObject.FindGameObjectsWithTag("Base");
         Debug.Log(bases.Length);
         foreach(GameObject obj in bases)
@@ -36,27 +37,28 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                 break;
             }
         }
- 
-      
+
+        this.AddObserver(GameObject.FindAnyObjectByType<UIFungusCounter>());
 
         //agent.updateUpAxis = false;
         Debug.Log("Se ha girado correctamente");
     }
 
-    public void Initialize(TroopDefinition troopDefinition)
+    public void Initialize(TroopDefinition troopDefinition, Faction f)
     {
         definition = troopDefinition;
+        faction = f;
 
         if (agent != null)
         {
             agent.speed = definition.speed;
-            FindAllyBase();
+            FindAllyBase(f);
 
             if (definition.type != TroopType.GATHERER)
             {
                 foreach (GameObject _base in bases)
                 {
-                    if (definition.faction != _base.GetComponent<BaseSystem>().GetFaction())
+                    if (faction != _base.GetComponent<BaseSystem>().GetFaction())
                     {
                         SetTarget(_base.transform);
                         break;
@@ -85,19 +87,26 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (TroopsManager.Instance != null)
         {
+            if(f == Faction.ALLY)
+            {
+                GameEvent<ResourceSlot> placementEvent = new GameEvent<ResourceSlot>(LogicEvent.TROOP_PLACED, new ResourceSlot(Resource.FUNGUS, 1));
+                UpdateObservers(placementEvent);
+            }
+            
             TroopsManager.Instance.AddTroop(gameObject);
         }
     }
 
-    private void FindAllyBase()
+    private void FindAllyBase(Faction f = Faction.ALLY)
     {
         if (bases == null) return;
 
         foreach (GameObject _base in bases)
         {
             BaseSystem baseSystem = _base.GetComponent<BaseSystem>();
-            if (baseSystem != null && baseSystem.GetFaction() == this.definition.faction)
+            if (baseSystem != null && baseSystem.GetFaction() == f)
             {
+                faction = baseSystem.GetFaction();
                 allyBaseTransform = _base.transform;
                 break;
             }
@@ -135,7 +144,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             BaseSystem baseCol = baseObj.GetComponent<BaseSystem>();
             HealthComponent baseHealth = baseObj.GetComponent<HealthComponent>();
 
-            if (definition.type == TroopType.GATHERER && isGathering && baseCol.GetFaction() == this.definition.faction)
+            if (definition.type == TroopType.GATHERER && isGathering && baseCol.GetFaction() == faction)
             {
                 GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, 1));
                 UpdateObservers(resourceEvent);
@@ -148,8 +157,8 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                     SetTarget(gatherPointTransform);
                 }
             }
-            else if (this.definition.faction == Faction.ALLY && baseCol.GetFaction() == Faction.ENEMY ||
-                            this.definition.faction == Faction.ENEMY && baseCol.GetFaction() == Faction.ALLY)
+            else if (faction == Faction.ALLY && baseCol.GetFaction() == Faction.ENEMY ||
+                            faction == Faction.ENEMY && baseCol.GetFaction() == Faction.ALLY)
             {
                 baseHealth.TakeDamage();
                 Destroy(this.gameObject);
@@ -157,8 +166,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         }
     }
 
-   // [System.Obsolete]
-   IEnumerator GatherRoutine()
+   private IEnumerator GatherRoutine()
     {
         isGathering = true;
 
@@ -168,7 +176,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
         Collider2D collider = this.GetComponent<Collider2D>();
 
-        //Hacemos como que entra en la cueva ,  en ese momento , no es interactuable
+        // Entra en la cueva.
         spr.enabled = false;
         collider.enabled = false;
         
@@ -176,8 +184,6 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (agent != null)
         {
-         
-
             agent.isStopped = false;
             spr.enabled = true;
             collider.enabled = true;

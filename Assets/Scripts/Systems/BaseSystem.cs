@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 [System.Serializable]
 public struct TowerSummon
@@ -35,9 +34,13 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     [SerializeField] private List<TowerSummon> towerSummons;
     private Mutex spawnerMutex = new Mutex();
 
+    public Faction GetFaction() => this.faction;
+    public int GetFungus() => this.resources[0].cantidad;
+
+    public bool IsDestroyed() => health.IsDead();
+    
     private void Start()
     {
-        
         health = gameObject.GetComponent<HealthComponent>();
         health?.Initialize(HP);
 
@@ -56,14 +59,14 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
             break;
 
             case Faction.ENEMY:
-                // StartCoroutine(SpawnCoroutine());
+                StartCoroutine(SpawnCoroutine());
             break;
         }
     }
 
     private void Update()
     {
-        if(health.IsDead())
+        if(IsDestroyed())
         {
             GameFlowController gfc = GameObject.FindGameObjectWithTag("GameFlowController").GetComponent<GameFlowController>();
             if (gfc != null)
@@ -133,14 +136,17 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
                 return;
             }
 
-            troop.Initialize(definition);
+            troop.Initialize(definition, GetFaction());
 
-            resources[0].cantidad--;
+            if(faction == Faction.ALLY)
+            {
+                resources[0].cantidad--;
 
-            Debug.Log(
-                $"Tropa creada: {troop.GetDefinition().Name}. " +
-                $"Hojas restantes: {resources[0].cantidad}"
-            );
+                Debug.Log(
+                    $"Tropa creada: {troop.GetDefinition().Name}. " +
+                    $"Hongos restantes: {resources[0].cantidad}"
+                );
+            }
         }
         finally
         {
@@ -152,15 +158,11 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
     {
         while(true)
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
 
             SpawnUnit();   
         }
     }
-
-    public Faction GetFaction() { return this.faction; }
-
-    public bool IsDestroyed() => health.IsDead();
 
     #region PATRÓN OBSERVER
     public void UpdateObserver(GameEvent<int> data)
