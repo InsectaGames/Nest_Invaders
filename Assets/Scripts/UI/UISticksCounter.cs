@@ -5,7 +5,7 @@ public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private TextMeshProUGUI text;
 
-    void Start()
+    void Awake()
     {
 
         text = GetComponent<TextMeshProUGUI>();

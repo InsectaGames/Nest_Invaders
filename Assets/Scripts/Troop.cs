@@ -140,7 +140,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             return;
 
         TroopDefinition otherDefinition = otherTroop.GetDefinition();
-        if (otherDefinition == null || otherDefinition.type != TroopType.MELEE_ATTACKER || otherTroop.faction == faction)
+        if (otherDefinition == null || otherTroop.faction == faction)
             return;
 
         HealthComponent otherHealth = col.gameObject.GetComponent<HealthComponent>();

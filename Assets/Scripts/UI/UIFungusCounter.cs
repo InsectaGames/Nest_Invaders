@@ -5,7 +5,7 @@ public class UIFungusCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private TextMeshProUGUI text;
 
-  void Start()
+  void Awake()
     {
 
         text = GetComponent<TextMeshProUGUI>();
