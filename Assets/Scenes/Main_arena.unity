@@ -6001,55 +6001,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899917306}
   m_CullTransparentMesh: 1
---- !u!1 &1958315046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1958315048}
-  - component: {fileID: 1958315047}
-  m_Layer: 0
-  m_Name: OperativeCentral
-  m_TagString: TPM
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1958315047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958315046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd4ace8a2f72e6e479bd7fcd8b86b906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TroopsManager
-  EntityList: []
-  ObserversList: []
-  UIResources:
-  - {fileID: 508426597}
-  - {fileID: 780767297}
---- !u!4 &1958315048
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958315046}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 663.02673, y: 905.3821, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989630517
 GameObject:
   m_ObjectHideFlags: 0
@@ -6800,4 +6751,3 @@ SceneRoots:
   - {fileID: 5942374194791214339}
   - {fileID: 2149373601266188016}
   - {fileID: 1381670540}
-  - {fileID: 1958315048}

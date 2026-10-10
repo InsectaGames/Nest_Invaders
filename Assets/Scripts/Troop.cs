@@ -44,7 +44,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             }
         }
 
-        this.AddObserver(GameObject.FindAnyObjectByType<UIFungusCounter>());
+        //this.AddObserver(GameObject.FindAnyObjectByType<UIFungusCounter>());
 
         //agent.updateUpAxis = false;
         Debug.Log("Se ha girado correctamente");
@@ -90,7 +90,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (health != null)
             health.Initialize(definition.maxHealth);
-
+        /*
         if (TroopsManager.Instance != null)
         {
             if (f == Faction.ALLY)
@@ -101,6 +101,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
             TroopsManager.Instance.AddTroop(gameObject);
         }
+        */
     }
 
     private void FindAllyBase(Faction f = Faction.ALLY)
@@ -228,11 +229,5 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         }
     }
 
-    private void OnDisable()
-    {
-        if (TroopsManager.Instance != null)
-        {
-            TroopsManager.Instance.RemoveTroop(gameObject);
-        }
-    }
+    
 }

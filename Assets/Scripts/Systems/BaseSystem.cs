@@ -17,7 +17,7 @@ public struct TroopInstance
     public int id;
 }
 
-public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
+public class BaseSystem :ASubject<int> ,IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -36,6 +36,7 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
 
     public Faction GetFaction() => this.faction;
     public int GetFungus() => this.resources[0].cantidad;
+    public int  GetSticks() => this.resources[1].cantidad;
 
     public bool IsDestroyed() => health.IsDead();
 
@@ -144,6 +145,8 @@ public class BaseSystem : MonoBehaviour, IObserver<GameEvent<int>>, IObserver<Ga
             if (faction == Faction.ALLY)
             {
                 resources[0].cantidad--;
+
+                UpdateObservers(resources[0].cantidad);
 
                 Debug.Log(
                     $"Tropa creada: {troop.GetDefinition().Name}. " +

@@ -1,20 +1,26 @@
 using UnityEngine;
 using TMPro;
 
-public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
+public class UISticksCounter : MonoBehaviour, IObserver<int>
 {
     private TextMeshProUGUI text;
-    private int UIresources = 0;
+    BaseSystem bs;
 
-    public void UpdateObserver(GameEvent<ResourceSlot> data)
+
+    public void UpdateObserver(int data)
     {
-        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_2)
-        text.text = "Sticks: " + (UIresources + data.data.cantidad).ToString();
+        text.text = "Sticks: " + data.ToString();
     }
 
     private void Start()
     {
-        text = this.GetComponent<TextMeshProUGUI>();
-        text.text = "Sticks: " + UIresources.ToString();
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Base"))
+        {
+            bs = obj.GetComponent<BaseSystem>();
+            if (bs.GetFaction() == Faction.ALLY)
+            {
+              bs.AddObserver(this);
+            }
+        }
     }
 }
