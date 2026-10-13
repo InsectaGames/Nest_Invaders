@@ -137,7 +137,19 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
                 return;
             }
 
+             
+
+            if (faction == Faction.ALLY)
+                definition.FactionColor = Color.white;
+                
+            else
+                definition.FactionColor = Color.red;
+
             GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
+
+            instance.GetComponent<SpriteRenderer>().sprite = definition._sprites[0];
+
+            instance.GetComponent<SpriteRenderer>().color = definition.FactionColor;
 
             Troop troop = instance.GetComponent<Troop>();
 

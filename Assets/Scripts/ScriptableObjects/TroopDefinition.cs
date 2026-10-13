@@ -17,6 +17,8 @@ public class TroopDefinition : ScriptableObject
     public ResourceSlot[] capacity;  // <Resource, int>
 
     public GameObject _prefab;
+
+    public Color FactionColor;
     public Sprite[] _sprites;
     public Animator _animator;
 }
