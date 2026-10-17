@@ -24,5 +24,7 @@ MonoBehaviour:
     cantidad: 1
   capacity: []
   _prefab: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-  _sprites: []
+  FactionColor: {r: 1, g: 0, b: 0, a: 1}
+  _sprites:
+  - {fileID: 2495449760416904266, guid: 5cd475f0ed94c70498f1b96ee345c050, type: 3}
   _animator: {fileID: 0}
