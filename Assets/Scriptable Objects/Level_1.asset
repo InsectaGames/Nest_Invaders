@@ -20,3 +20,4 @@ MonoBehaviour:
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
   allyBase: {fileID: 0}
   enemyBase: {fileID: 0}
+  obstacleNumber: 3

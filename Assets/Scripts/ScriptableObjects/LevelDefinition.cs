@@ -13,4 +13,6 @@ public class LevelDefinition : ScriptableObject
     public Sprite Map;
     public GameObject allyBase;
     public GameObject enemyBase;
+
+    public int obstacleNumber;
 }

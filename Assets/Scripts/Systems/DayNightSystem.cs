@@ -114,4 +114,6 @@ public class DayNightSystem : MonoBehaviour
 
         UpdateFillTime();
     }
+
+    public LevelDefinition getLvlDef() { return this.levelInfo; }
 }
