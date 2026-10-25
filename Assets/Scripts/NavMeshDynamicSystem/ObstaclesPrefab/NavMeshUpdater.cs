@@ -15,9 +15,7 @@ public class NavMeshUpdater : MonoBehaviour
     [Header("Navigation")]
     [SerializeField] NavMeshSurface surface;
 
-
-
-    IEnumerator Start()
+    private IEnumerator Start()
     {
         // Obtener el NavMeshSurface
         if (surface == null)
@@ -37,7 +35,7 @@ public class NavMeshUpdater : MonoBehaviour
             yield break;
         }
 
-        // Generar los obst·culos indicados por el nivel
+        // Generar los obst√°culos indicados por el nivel.
         for (int i = 0; i < levelDefinition.obstacleNumber; i++)
         {
             GameObject instance = Instantiate(
@@ -57,7 +55,7 @@ public class NavMeshUpdater : MonoBehaviour
 
             if (!obstacle.InitializePos(new Vector2(-5.7f, -5.2f), new Vector2(12.4f, 7.3f), pointsOfInterest))
             {
-                Debug.LogWarning("No se encontrÛ una posiciÛn v·lida para el obst·culo.");
+                Debug.LogWarning("No se encontrÔøΩ una posiciÔøΩn vÔøΩlida para el obstÔøΩculo.");
                 Destroy(instance);
             }
         }

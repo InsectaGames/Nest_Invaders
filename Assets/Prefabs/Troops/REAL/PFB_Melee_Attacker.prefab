@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 427625728622447473}
   - component: {fileID: -7611178479286851247}
   - component: {fileID: -1347686206798131840}
-  - component: {fileID: 8649274887878175340}
+  - component: {fileID: 8936193980275652991}
   m_Layer: 0
   m_Name: PFB_Melee_Attacker
   m_TagString: Untagged
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
---- !u!114 &8649274887878175340
+--- !u!114 &8936193980275652991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,8 +290,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9be797345cd4a9741b193ff05c8bb521, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Troop
-  definition: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::ATroop
+  definition: {fileID: 0}
+  meleeCollisionDamage: 9999
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public struct TroopInstance
     public int id;
 }
 
-public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
+public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -36,8 +36,8 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
 
 
     [Header("Observers")]
-    UIFungusCounter counterFungus;
-    UISticksCounter counterSticks;
+    private UIFungusCounter counterFungus;
+    private UISticksCounter counterSticks;
     public Faction GetFaction() => this.faction;
     public int GetFungus() => this.resources[0].cantidad;
     public int  GetSticks() => this.resources[1].cantidad;
@@ -53,18 +53,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
         {
             case Faction.ALLY:
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
-                counterFungus = FindFirstObjectByType<UIFungusCounter>();
-                counterSticks = FindFirstObjectByType<UISticksCounter>();
-
-                if (generator == null)
-                {
-                    Debug.LogError("No se encontró UITroopsGenerator en la escena.");
-                    return;
-                }
-
-                generator.AddObserver(this);
-                AddObserver(counterFungus);
-                AddObserver(counterSticks);
+                generator?.AddObserver(this);
                 break;
 
             case Faction.ENEMY:
@@ -130,14 +119,12 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
 
             TroopDefinition definition = towerSummons[id].towerInfo;
 
-            // Provisional: Las tropas aliadas necesitan al menos un fungus, luego haremos que compruebe el numerod e recursos necesarios para generarla
+            // Provisional: Las tropas aliadas necesitan al menos un fungus, luego haremos que compruebe el numero de recursos necesarios para generarla.
             if (faction == Faction.ALLY && GetFungus() <= 0)
             {
                 Debug.LogWarning($"No se puede crear {definition.Name}: " + "no hay suficientes hongos.");
                 return;
             }
-
-             
 
             if (faction == Faction.ALLY)
                 definition.FactionColor = Color.white;
@@ -146,9 +133,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
                 definition.FactionColor = Color.red;
 
             GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
-
             instance.GetComponent<SpriteRenderer>().sprite = definition._sprites[0];
-
             instance.GetComponent<SpriteRenderer>().color = definition.FactionColor;
 
             Troop troop = instance.GetComponent<Troop>();
@@ -202,11 +187,12 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>> ,IObserver<GameEvent<
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
         Debug.Log("Info de recurso recibida!");
-        if (data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && faction == Faction.ALLY)
+        
+        if ((data.logicEvent == LogicEvent.RESOURCE_GATHER_1 || data.logicEvent == LogicEvent.RESOURCE_GATHER_2) && faction == Faction.ALLY)
         {
             int pos = (int)data.data.res;
-            resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]); // out of bounds
-            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[pos].cantidad)));
+            resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]);
+            UpdateObservers(new GameEvent<ResourceSlot>(data.logicEvent, new ResourceSlot(data.data.res, resources[pos].cantidad)));
             Debug.Log($"Ahora tengo {resources[pos].cantidad} del recurso {resources[pos].res}");
         }
     }

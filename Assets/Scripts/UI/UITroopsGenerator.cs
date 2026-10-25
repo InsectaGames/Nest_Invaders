@@ -1,5 +1,7 @@
+using UnityEngine;
+
 public class UITroopsGenerator : ASubject<GameEvent<int>>
-{    
+{
     public void UIGenerateEntity(int id)
     {
         GameEvent<int> troopSummon;

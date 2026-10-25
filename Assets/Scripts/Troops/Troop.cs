@@ -8,7 +8,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     [SerializeField] private TroopDefinition definition;
     private Faction faction;
 
-    // Componentes de vida y navmesh.
+    // Componentes de vida y NavMesh.
     private NavMeshAgent agent;
     private HealthComponent health;
 
@@ -20,12 +20,13 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
     private Transform gatherPointTransform;
 
     /// <summary>
-    /// Provisional para el ataque cuando hay colision hasta que usemos los scriptable objects como tal
+    /// Provisional para el ataque cuando hay colision hasta que usemos los scriptable objects como tal.
     /// </summary>
     [Header("Combate melee")]
     [SerializeField] private int meleeCollisionDamage = 9999;
 
     public TroopDefinition GetDefinition() => definition;
+    public Faction GetFaction() => faction;
 
     private void Awake()
     {
@@ -43,10 +44,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                 break;
             }
         }
-
-        //this.AddObserver(GameObject.FindAnyObjectByType<UIFungusCounter>());
-
-        //agent.updateUpAxis = false;
+        
         Debug.Log("Se ha girado correctamente");
     }
 
@@ -154,15 +152,28 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
 
         if (otherHealth.IsDead())
         {
+            if(otherTroop.GetFaction() != Faction.ALLY)
+                GambleForSticks(otherDefinition);
+
             otherHealth.Die();
+        }
+    }
+
+    // Método para conseguir palos. De momento, simplemente será una tirada aleatoria en todos los enemigos.
+    // En el futuro, solo se debe aplicar a los bichos que suelten palos.
+    private void GambleForSticks(TroopDefinition def)
+    {
+        if(Utils.GetRandomInclusive(0, 100) > def.chanceToDropSticks)
+        {
+            GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_2, new ResourceSlot(Resource.STICK, 1));
+            UpdateObservers(resourceEvent);
         }
     }
 
     // Cuando entra en el trigger de una base.
     private void OnTriggerEnter2D(Collider2D col)
     {
-
-        // Detecta cuando el Gatherer llega al GatherPoint por primera vez
+        // Detecta cuando el Gatherer llega al GatherPoint por primera vez.
         if (definition.type == TroopType.GATHERER && !isGathering && col.CompareTag("GatherPoint"))
         {
             StartCoroutine(GatherRoutine());
@@ -227,7 +238,5 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                 SetTarget(allyBaseTransform);
             }
         }
-    }
-
-    
+    }   
 }

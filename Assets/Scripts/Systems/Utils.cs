@@ -8,6 +8,8 @@ public class Utils
     private static System.Random rnd = new System.Random();
 
     public static Func<int, int, int> GetRandom = (min, max) => rnd.Next(min, max);
+    public static Func<int, int, int> GetRandomExclusive = (min, max) => GetRandom(min, max);
+    public static Func<int, int, int> GetRandomInclusive = (min, max) => GetRandom(min, max + 1);
 
     public static Func<int, int, int, int> Clamp = (val, min, max) => val < min ? min : (val > max ? max : val);
 

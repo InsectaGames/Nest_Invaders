@@ -1,13 +1,10 @@
 using UnityEngine;
 
-
 public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajustarlo en funcion de la noche
 {
-
     public Sprite[] obstaclesSprites;
     SpriteRenderer spr;
     CircleCollider2D col;
-
 
     [SerializeField] float separation = 0.1f;
     [SerializeField] LayerMask obstacleLayer;
@@ -16,27 +13,22 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
     private void Awake()
     {
         spr = this.GetComponent<SpriteRenderer>();
-        col = this.GetComponent<CircleCollider2D>();
-
-  
+        col = this.GetComponent<CircleCollider2D>();  
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         int rnd = Random.Range(0, obstaclesSprites.Length);
 
         spr.sprite = obstaclesSprites[rnd];
-        AdjustCollider();
-        
+        AdjustCollider();  
     }
 
 
-    void AdjustCollider() { col.radius = Mathf.Max(spr.sprite.bounds.extents.x, spr.sprite.bounds.extents.y); }
+    private void AdjustCollider() { col.radius = Mathf.Max(spr.sprite.bounds.extents.x, spr.sprite.bounds.extents.y); }
 
-
-
-   public bool InitializePos(Vector2 areaMin , Vector2 areaMax , GameObject[] pois)
+    public bool InitializePos(Vector2 areaMin , Vector2 areaMax , GameObject[] pois)
     {
         int maxAttempts = 100;
 
@@ -61,7 +53,7 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
             }
 
            
-            // 1. Comprobar colisiones con otros obst·culos
+            // 1. Comprobar colisiones con otros obst√°culos.
             Collider2D[] hits = Physics2D.OverlapCircleAll(
                 candidate,
                 col.bounds.extents.x + separation,
@@ -82,7 +74,7 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
             if (!valid)
                 continue;
 
-            // 2. Comprobar distancia a los puntos de interÈs
+            // 2. Comprobar distancia a los puntos de inter√©s.
             foreach (GameObject go in pois)
             {
                 Transform poi = go.transform;
@@ -101,7 +93,7 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
             if (!valid)
                 continue;
 
-            // 3. La posiciÛn cumple todas las condiciones
+            // 3. La posici√≥n cumple todas las condiciones.
             transform.position = new Vector3(
                 candidate.x,
                 candidate.y,
@@ -112,7 +104,7 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
         }
 
         Debug.LogWarning(
-            "No se encontrÛ una posiciÛn v·lida para el obst·culo.",
+            "No se encontr√≥ una posici√≥n v√°lida para el obst√°culo.",
             this
         );
 
