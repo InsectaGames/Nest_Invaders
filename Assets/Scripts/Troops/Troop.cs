@@ -2,11 +2,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class Troop : ASubject<GameEvent<ResourceSlot>>
+public class Troop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 {
     // Tipo de tropa.
     [SerializeField] private TroopDefinition definition;
     private Faction faction;
+
+    private TroopPoolManager poolManager;
+    private bool returningToPool = true;
 
     // Componentes de vida y NavMesh.
     private NavMeshAgent agent;
@@ -48,23 +51,66 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
         Debug.Log("Se ha girado correctamente");
     }
 
-    public void Initialize(TroopDefinition troopDefinition, Faction f)
+    public void Initialize(TroopDefinition troopDefinition, Faction f, TroopPoolManager owner)
     {
+        if(troopDefinition == null) return;
+
         definition = troopDefinition;
         faction = f;
+        poolManager = owner;
+
+        returningToPool = false;
+        isGathering = false;
+
+        // Restaurar la apariencia de la tropa.
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            if (definition._sprites != null &&
+                definition._sprites.Length > 0)
+            {
+                spriteRenderer.sprite = definition._sprites[0];
+            }
+
+            spriteRenderer.color = (faction == Faction.ALLY) ? Color.white : Color.red;
+            spriteRenderer.enabled = true;
+        }
+
+        Collider2D troopCollider = GetComponent<Collider2D>();
+
+        if (troopCollider != null)
+            troopCollider.enabled = true;
 
         if (agent != null)
         {
+            if (!agent.enabled)
+                agent.enabled = true;
+
             agent.speed = definition.speed;
+            agent.isStopped = false;
+            agent.updateUpAxis = false;
+            Debug.Log("Se ha girado correctamente.");
+
             FindAllyBase(f);
+
+            if (agent.isOnNavMesh)
+                agent.ResetPath();
 
             if (definition.type != TroopType.GATHERER)
             {
-                foreach (GameObject _base in bases)
+                foreach (GameObject baseObject in bases)
                 {
-                    if (faction != _base.GetComponent<BaseSystem>().GetFaction())
+                    if (baseObject == null)
+                        continue;
+
+                    BaseSystem baseSystem =
+                        baseObject.GetComponent<BaseSystem>();
+
+                    if (baseSystem != null &&
+                        baseSystem.GetFaction() != faction)
                     {
-                        SetTarget(_base.transform);
+                        SetTarget(baseObject.transform);
                         break;
                     }
                 }
@@ -80,10 +126,6 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                     SetTarget(gatherPointTransform);
                 }
             }
-
-            // agent.updateRotation = false;
-            agent.updateUpAxis = false;
-            Debug.Log("Se ha girado correctamente.");
         }
 
         if (health != null)
@@ -202,7 +244,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
             else if (faction == Faction.ALLY && baseCol.GetFaction() == Faction.ENEMY || faction == Faction.ENEMY && baseCol.GetFaction() == Faction.ALLY)
             {
                 baseHealth.TakeDamage();
-                Destroy(this.gameObject);
+                ReturnToPool();
             }
         }
     }
@@ -238,5 +280,72 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>
                 SetTarget(allyBaseTransform);
             }
         }
-    }   
+    }
+
+    #region OBJECT POOL
+    public void OnSpawn()
+    {
+        // El objeto permanece inactivo hasta que TroopPoolManager lo coloque y lo inicialice.
+        returningToPool = true;
+    }
+
+    public void OnDespawn()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ResetState()
+    {
+        // Evitar que una recolección anterior continúe.
+        StopAllCoroutines();
+
+        isGathering = false;
+        returningToPool = true;
+
+        // Restaurar el NavMeshAgent por si la tropa fue devuelta mientras estaba recolectando.
+        if (agent != null)
+        {
+            if (!agent.enabled)
+                agent.enabled = true;
+
+            agent.isStopped = false;
+
+            if (agent.isOnNavMesh)
+                agent.ResetPath();
+        }
+
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
+
+        Collider2D troopCollider = GetComponent<Collider2D>();
+
+        if (troopCollider != null)
+            troopCollider.enabled = true;
+
+        allyBaseTransform = null;
+        gatherPointTransform = null;
+        definition = null;
+    }
+
+    public void ReturnToPool()
+    {
+        // Impedir que la misma tropa se devuelva varias veces.
+        if (returningToPool)
+            return;
+
+        returningToPool = true;
+
+        if (poolManager != null)
+        {
+            poolManager.Despawn(this);
+        }
+        else
+        {
+            // Respaldo por si la tropa no tiene gestor asignado.
+            Destroy(gameObject);
+        }
+    }
+    #endregion
 }

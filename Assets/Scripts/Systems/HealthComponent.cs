@@ -6,7 +6,6 @@ public class HealthComponent : MonoBehaviour
     public int MaxHealth { get; private set; }
     public GameObject obj { get; private set; }
 
-
     private void Awake()
     {
         Initialize(100);
@@ -33,5 +32,16 @@ public class HealthComponent : MonoBehaviour
 
     public bool IsDead() => Health == 0;
 
-    public void Die() => GameObject.Destroy(gameObject);
+    public void Die()
+    {
+        Troop troop = GetComponent<Troop>();
+
+        if(troop != null)
+        {
+            troop.ReturnToPool();
+            return;
+        }
+
+        Destroy(gameObject);
+    }
 }

@@ -24,6 +24,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
     [SerializeField] private int HP = 3;
     private HealthComponent health;
 
+
     [Header("Recursos")]
     [SerializeField] private ResourceSlot[] resources;
     [SerializeField] private int[] maxResources;
@@ -31,13 +32,11 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
     [Header("Lógica de Spawner")]
     [SerializeField] private GameObject prefab;
+    [SerializeField] private TroopPoolManager troopPoolManager;
     [SerializeField] private List<TowerSummon> towerSummons;
+
     private Mutex spawnerMutex = new Mutex();
 
-
-    [Header("Observers")]
-    private UIFungusCounter counterFungus;
-    private UISticksCounter counterSticks;
     public Faction GetFaction() => this.faction;
     public int GetFungus() => this.resources[0].cantidad;
     public int  GetSticks() => this.resources[1].cantidad;
@@ -46,6 +45,11 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
     private void Start()
     {
+        if(troopPoolManager == null)
+        {
+            troopPoolManager = FindFirstObjectByType<TroopPoolManager>();    
+        }
+
         health = gameObject.GetComponent<HealthComponent>();
         health?.Initialize(HP);
 
@@ -119,6 +123,24 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
             TroopDefinition definition = towerSummons[id].towerInfo;
 
+            if (definition == null)
+            {
+                Debug.LogWarning(
+                    $"No hay una definición asignada para la tropa {id}."
+                );
+
+                return;
+            }
+
+            if (troopPoolManager == null)
+            {
+                Debug.LogError(
+                    "No se ha encontrado TroopPoolManager."
+                );
+
+                return;
+            }
+
             // Provisional: Las tropas aliadas necesitan al menos un fungus, luego haremos que compruebe el numero de recursos necesarios para generarla.
             if (faction == Faction.ALLY && GetFungus() <= 0)
             {
@@ -126,26 +148,19 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
                 return;
             }
 
-            if (faction == Faction.ALLY)
-                definition.FactionColor = Color.white;
-                
-            else
-                definition.FactionColor = Color.red;
-
-            GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
-            instance.GetComponent<SpriteRenderer>().sprite = definition._sprites[0];
-            instance.GetComponent<SpriteRenderer>().color = definition.FactionColor;
-
-            Troop troop = instance.GetComponent<Troop>();
+            definition.FactionColor = (faction == Faction.ALLY) ? Color.white : Color.red;
+            
+            Troop troop = troopPoolManager.Spawn(definition, faction, transform.position);
 
             if (troop == null)
             {
-                Debug.LogError("El prefab no contiene el componente Troop.");
-                Destroy(instance);
+                Debug.LogWarning(
+                    "No se ha podido invocar la tropa. " +
+                    "Comprueba que el pool tenga objetos disponibles."
+                );
+
                 return;
             }
-
-            troop.Initialize(definition, GetFaction());
 
             if (faction == Faction.ALLY)
             {

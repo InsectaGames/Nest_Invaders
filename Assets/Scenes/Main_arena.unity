@@ -2257,6 +2257,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913188659}
   m_CullTransparentMesh: 1
+--- !u!1 &924418199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924418201}
+  - component: {fileID: 924418200}
+  m_Layer: 0
+  m_Name: TroopPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &924418200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924418199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49a7cb258f52fb4e83fcc137cc6775a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TroopPoolManager
+  prefab: {fileID: -6545023323818610595, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
+  initialSize: 20
+--- !u!4 &924418201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924418199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.45002, y: -3.76585, z: 3.38089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &934927632
 GameObject:
   m_ObjectHideFlags: 0
@@ -5333,6 +5379,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4515393678459361443, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
+      propertyPath: troopPoolManager
+      value: 
+      objectReference: {fileID: 924418200}
+    - target: {fileID: 4515393678459361443, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
       propertyPath: resources.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -5527,6 +5577,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+      propertyPath: troopPoolManager
+      value: 
+      objectReference: {fileID: 924418200}
+    - target: {fileID: 3868412425942461910, guid: 590e03311d085fe4383a3784076737ce, type: 3}
       propertyPath: resources.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -5572,3 +5626,4 @@ SceneRoots:
   - {fileID: 5942374194791214339}
   - {fileID: 2149373601266188016}
   - {fileID: 1381670540}
+  - {fileID: 924418201}
