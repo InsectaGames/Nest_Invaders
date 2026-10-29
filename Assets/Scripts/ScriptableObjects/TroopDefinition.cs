@@ -1,5 +1,6 @@
 using BehaviourAPI.UnityToolkit;
 using UnityEngine;
+using BehaviourAPI.Core;
 
 [CreateAssetMenu(fileName = "TroopDefinition", menuName = "Scriptable Objects/TroopDefinition")]
 public class TroopDefinition : ScriptableObject
@@ -26,4 +27,8 @@ public class TroopDefinition : ScriptableObject
     public Color FactionColor;
     public Sprite[] _sprites;
     public Animator _animator;
+
+
+    [Header("Comportamiento")]
+    public BehaviourRunner bhvRunner;
 }
