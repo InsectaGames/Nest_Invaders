@@ -34,7 +34,7 @@ public class HealthComponent : MonoBehaviour
 
     public void Die()
     {
-        Troop troop = GetComponent<Troop>();
+        ATroop troop = GetComponent<ATroop>();
 
         if(troop != null)
         {

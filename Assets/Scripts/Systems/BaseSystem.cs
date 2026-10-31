@@ -150,7 +150,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
             definition.FactionColor = (faction == Faction.ALLY) ? Color.white : Color.red;
             
-            Troop troop = troopPoolManager.Spawn(definition, faction, transform.position);
+            ATroop troop = troopPoolManager.Spawn(definition, faction, transform.position);
 
             if (troop == null)
             {

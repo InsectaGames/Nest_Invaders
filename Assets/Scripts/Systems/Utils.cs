@@ -14,7 +14,6 @@ public class Utils
     public static Func<int, int, int, int> Clamp = (val, min, max) => val < min ? min : (val > max ? max : val);
 
     public static Func<int, int, int> Max = (x, y) => (x > y) ? x : y;
-    
     public static Func<int, int, int> Min = (x, y) => (x < y) ? x : y;
     #endregion
 

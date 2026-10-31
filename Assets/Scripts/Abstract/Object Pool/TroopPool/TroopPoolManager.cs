@@ -3,10 +3,10 @@ using UnityEngine;
 public class TroopPoolManager : MonoBehaviour
 {
     [Header("Configuración del pool")]
-    [SerializeField] private Troop prefab;
+    [SerializeField] private ATroop prefab;
     [SerializeField, Min(1)] private int initialSize = 20;
 
-    private IObjectPool<Troop> pool;
+    private IObjectPool<ATroop> pool;
 
     private void Awake()
     {
@@ -18,10 +18,10 @@ public class TroopPoolManager : MonoBehaviour
             return;
         }
 
-        pool = new AObjectPool<Troop>(prefab, initialSize, transform);
+        pool = new AObjectPool<ATroop>(prefab, initialSize, transform);
     }
 
-    public Troop Spawn(TroopDefinition definition,Faction faction, Vector3 position)
+    public ATroop Spawn(TroopDefinition definition,Faction faction, Vector3 position)
     {
         if (pool == null || definition == null)
         {
@@ -32,7 +32,7 @@ public class TroopPoolManager : MonoBehaviour
             return null;
         }
 
-        Troop troop = pool.Get();
+        ATroop troop = pool.Get();
 
         // El pool puede quedarse sin objetos disponibles.
         if (troop == null)
@@ -48,7 +48,7 @@ public class TroopPoolManager : MonoBehaviour
         return troop;
     }
 
-    public void Despawn(Troop troop)
+    public void Despawn(ATroop troop)
     {
         if (pool == null || troop == null)
             return;

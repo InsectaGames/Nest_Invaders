@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49a7cb258f52fb4e83fcc137cc6775a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TroopPoolManager
-  prefab: {fileID: -6545023323818610595, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
+  prefab: {fileID: 6056719398558215712, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   initialSize: 20
 --- !u!4 &924418201
 Transform:

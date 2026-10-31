@@ -26,6 +26,6 @@ public class UIFungusCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
         if (data.logicEvent == LogicEvent.RESOURCE_GATHER_1 && data.data.res == Resource.FUNGUS)
-            text.text = "Fungus: " + data.data.cantidad.ToString();
+            text.text = data.data.cantidad.ToString();
     }
 }
