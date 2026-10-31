@@ -166,7 +166,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
             {
                 resources[0].cantidad--;
 
-                UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1 ,new ResourceSlot(Resource.FUNGUS,resources[0].cantidad)));
+                UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1 ,new ResourceSlot(Resource.LEAVES,resources[0].cantidad)));
 
                 Debug.Log(
                     $"Tropa creada: {troop.GetDefinition().Name}. " +

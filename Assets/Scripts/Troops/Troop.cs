@@ -230,7 +230,7 @@ public class Troop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
             if (definition.type == TroopType.GATHERER && isGathering && baseCol.GetFaction() == faction)
             {
-                GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, 1));
+                GameEvent<ResourceSlot> resourceEvent = new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, 1));
                 UpdateObservers(resourceEvent);
 
                 Debug.Log("Recursos entregados en la base. Volviendo a la mina...");

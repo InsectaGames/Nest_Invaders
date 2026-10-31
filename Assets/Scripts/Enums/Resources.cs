@@ -1,6 +1,6 @@
 public enum Resource
 {
-    FUNGUS,
+    LEAVES,
     STICK
 }
 
@@ -20,7 +20,7 @@ public struct ResourceSlot
     {
         return new ResourceSlot
         { 
-            res = Resource.FUNGUS,
+            res = Resource.LEAVES,
             cantidad = 1
         };
     }
