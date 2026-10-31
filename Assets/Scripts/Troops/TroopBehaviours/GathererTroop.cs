@@ -60,7 +60,7 @@ public class GathererTroop : MonoBehaviour, ITroop
             if (isGathering &&
                 baseCol.GetFaction() == troop.GetFaction())
             {
-                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, 1));
+                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, 1));
 
                 Debug.Log(
                     "Recursos entregados en la base. Volviendo a la mina..."

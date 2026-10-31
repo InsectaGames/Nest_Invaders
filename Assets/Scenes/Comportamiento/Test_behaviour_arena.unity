@@ -269,7 +269,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.83375, y: 0.022223327}
   m_AnchorMax: {x: 0.99749994, y: 0.44222334}
-  m_AnchoredPosition: {x: 0.10134888, y: 0.42930603}
+  m_AnchoredPosition: {x: 0.10134888, y: 0.4293213}
   m_SizeDelta: {x: 0.16339111, y: -0.2631073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &63660856
@@ -2245,7 +2245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49a7cb258f52fb4e83fcc137cc6775a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TroopPoolManager
-  prefab: {fileID: -6545023323818610595, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
+  prefab: {fileID: 6056719398558215712, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   initialSize: 20
 --- !u!4 &924418201
 Transform:
@@ -2607,7 +2607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0125, y: 0.84889334}
   m_AnchorMax: {x: 0.18375002, y: 0.97300005}
-  m_AnchoredPosition: {x: -0.031402588, y: -0.77389526}
+  m_AnchoredPosition: {x: -0.03137207, y: -0.77389526}
   m_SizeDelta: {x: 1.5973015, y: -0.44180012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1030341301
@@ -3308,7 +3308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0125, y: 0.71544665}
   m_AnchorMax: {x: 0.18750001, y: 0.84222335}
-  m_AnchoredPosition: {x: -0.86099243, y: 0.12799835}
+  m_AnchoredPosition: {x: -0.86099243, y: 0.12800598}
   m_SizeDelta: {x: -0.061000824, y: -0.90599823}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1286329202
