@@ -89,7 +89,9 @@ GameObject:
   - component: {fileID: 427625728622447473}
   - component: {fileID: -7611178479286851247}
   - component: {fileID: 6510354002243189156}
-  - component: {fileID: -6545023323818610595}
+  - component: {fileID: 6056719398558215712}
+  - component: {fileID: 2264519432635813725}
+  - component: {fileID: 227354602153264876}
   m_Layer: 0
   m_Name: PFB_Bug
   m_TagString: Untagged
@@ -280,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
---- !u!114 &-6545023323818610595
+--- !u!114 &6056719398558215712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,11 +291,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1358891150988844776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be797345cd4a9741b193ff05c8bb521, type: 3}
+  m_Script: {fileID: 11500000, guid: 538d757b0095156449498adba93ceae3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Troop
+  m_EditorClassIdentifier: Assembly-CSharp::ATroop
   definition: {fileID: 0}
+  availableBehaviours:
+  - {fileID: 2264519432635813725}
+  - {fileID: 227354602153264876}
+--- !u!114 &2264519432635813725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b6b7a4af709a704a90166f93b5d79f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeTroop
   meleeCollisionDamage: 9999
+--- !u!114 &227354602153264876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

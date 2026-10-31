@@ -15,10 +15,12 @@ MonoBehaviour:
   ID: 1
   Name: GATHERER
   type: 1
+  behaviour: {fileID: 0}
   maxHealth: 100
-  speed: 1
+  speed: 2
   strength: 0
   attackReach: 0
+  chanceToDropSticks: 0
   recursos:
   - res: 0
     cantidad: 1
@@ -28,3 +30,4 @@ MonoBehaviour:
   _sprites:
   - {fileID: 3644887743195993881, guid: 52c87bf0f7f551a42849f7215cdcee69, type: 3}
   _animator: {fileID: 0}
+  bhvRunner: {fileID: 0}
