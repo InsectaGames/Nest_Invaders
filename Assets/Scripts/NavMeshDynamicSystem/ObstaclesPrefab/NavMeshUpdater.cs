@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 using NavMeshPlus.Components;
@@ -22,27 +21,18 @@ public class NavMeshUpdater : MonoBehaviour
             surface = GetComponent<NavMeshSurface>();
 
         if(levelDefinition == null)
-        levelDefinition = GameObject.FindFirstObjectByType<DayNightSystem>().getLvlDef();
+            levelDefinition = GameObject.FindFirstObjectByType<DayNightSystem>().GetLvlDef();
 
-        if (levelDefinition == null ||
-            obstaclePrefab == null ||
-            surface == null)
+        if (levelDefinition == null || obstaclePrefab == null || surface == null)
         {
-            Debug.LogError(
-                "Falta asignar LevelDefinition, obstaclePrefab o NavMeshSurface.",
-                this
-            );
+            Debug.LogError("Falta asignar LevelDefinition, obstaclePrefab o NavMeshSurface.", this);
             yield break;
         }
 
         // Generar los obstáculos indicados por el nivel.
         for (int i = 0; i < levelDefinition.obstacleNumber; i++)
         {
-            GameObject instance = Instantiate(
-                obstaclePrefab,
-                Vector3.zero,
-                Quaternion.identity
-            );
+            GameObject instance = Instantiate(obstaclePrefab, Vector3.zero, Quaternion.identity);
 
             ObstacleScript obstacle = instance.GetComponent<ObstacleScript>();
 

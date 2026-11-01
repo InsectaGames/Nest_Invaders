@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajustarlo en funcion de la noche
+public class ObstacleScript : MonoBehaviour //, IObserver<Color> // para ajustarlo en funcion de la noche
 {
     public Sprite[] obstaclesSprites;
     SpriteRenderer spr;
@@ -40,7 +40,6 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
             );
             if (col == null)
             {
-              
                 return false;
             }
 
@@ -48,10 +47,8 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
 
             if (radius <= 0f)
             {
-               
                 return false;
             }
-
            
             // 1. Comprobar colisiones con otros obstáculos.
             Collider2D[] hits = Physics2D.OverlapCircleAll(
@@ -94,23 +91,13 @@ public class ObstacleScript : MonoBehaviour // , IObserver<Color> // para ajusta
                 continue;
 
             // 3. La posición cumple todas las condiciones.
-            transform.position = new Vector3(
-                candidate.x,
-                candidate.y,
-                0
-            );
+            transform.position = new Vector3(candidate.x, candidate.y, 0);
 
             return true;
         }
 
-        Debug.LogWarning(
-            "No se encontró una posición válida para el obstáculo.",
-            this
-        );
+        Debug.LogWarning("No se encontró una posición válida para el obstáculo.", this);
 
         return false;
     }
-
-
 }
-
