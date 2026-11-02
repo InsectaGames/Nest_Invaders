@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public enum DayTime
 {
@@ -8,13 +10,15 @@ public enum DayTime
     NIGHT
 }
 
-public class DayNightSystem : MonoBehaviour
+public class DayNightSystem : ASubject<Color>
 {
     [SerializeField] private LevelDefinition levelInfo;
 
     private SpriteRenderer gameBG;
     [SerializeField] private Color nightColour;
     [SerializeField] private Animator animator;
+
+   public bool _toggle;
 
     public float _timer { get; private set; }
 
@@ -29,12 +33,68 @@ public class DayNightSystem : MonoBehaviour
     {
         gameBG = GameObject.Find("BG").GetComponent<SpriteRenderer>();
         StartDay();
+        
+        StartCoroutine(DNChange());
+    }
+    private void Update()
+    {
+        //DEBUG ONLY
+        if (Utils.KeyPressed(UnityEngine.InputSystem.Key.Numpad8))
+        {
+            _toggle = !_toggle;
+
+        }
+
+       
+
     }
 
     private void SetVelocityAnim(float velocity) => animator.speed = velocity;
 
     // La state machine es todo lambda, asi que no hacen falta percepciones, todo ciclico.
-    public void StartDay() => SetVelocityAnim((float) 1 / levelInfo.dayLength);
+    public void StartDay() {
+
+
+        SetVelocityAnim((float)1 / levelInfo.dayLength);
+
+    }
+
+    public void StartNight() { 
+        
+        SetVelocityAnim((float) 1 / levelInfo.nightLength); 
     
-    public void StartNight() => SetVelocityAnim((float) 1 / levelInfo.nightLength);
+    }
+
+    IEnumerator DNChange()
+    {
+
+        //yield return null;
+
+        while (true) { 
+        DebugToggleNightDay(_toggle);
+        yield return new WaitForSeconds(1f);
+        }
+
+    }
+
+    public void DebugToggleNightDay(bool _toggleDN)
+    {
+
+        if (!_toggleDN)
+        {
+            Debug.Log("De dia");
+          //  UpdateObservers(Color.white);
+            UpdateObservers(new Color(1,1,1));
+        }
+        else
+        {
+            Debug.Log("De noche");
+            UpdateObservers(new Color(
+     77f / 255f,
+     122f / 255f,
+     143f / 255f,
+     1f
+ ));
+        }
+    }
 }

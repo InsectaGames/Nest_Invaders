@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour //, IObserver<Color> // para ajustarlo en funcion de la noche
+public class ObstacleScript : MonoBehaviour , IObserver<Color> // para ajustarlo en funcion de la noche
 {
     public Sprite[] obstaclesSprites;
     SpriteRenderer spr;
@@ -13,15 +13,20 @@ public class ObstacleScript : MonoBehaviour //, IObserver<Color> // para ajustar
     private void Awake()
     {
         spr = this.GetComponent<SpriteRenderer>();
-        col = this.GetComponent<CircleCollider2D>();  
+        col = this.GetComponent<CircleCollider2D>(); 
+        
+        int rnd = Random.Range(0, obstaclesSprites.Length);
+        spr.sprite = obstaclesSprites[rnd];
+
+        GameObject.FindGameObjectWithTag("DNSys").GetComponent<DayNightSystem>().AddObserver(this);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        int rnd = Random.Range(0, obstaclesSprites.Length);
+       
 
-        spr.sprite = obstaclesSprites[rnd];
+        
         AdjustCollider();  
     }
 
@@ -99,5 +104,10 @@ public class ObstacleScript : MonoBehaviour //, IObserver<Color> // para ajustar
         Debug.LogWarning("No se encontró una posición válida para el obstáculo.", this);
 
         return false;
+    }
+
+    public void UpdateObserver(Color data)
+    {
+        spr.color = data;
     }
 }
