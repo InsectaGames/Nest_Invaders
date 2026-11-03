@@ -44,7 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d928a92b4689ee549b03fc7afac30023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameFlowController
+  pauseMenu:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   victoryScene: VictoryScene
   defeatScene: DefeatScene
   gameLevels:
-  - Main_arena
+  - Main_arena_primavera

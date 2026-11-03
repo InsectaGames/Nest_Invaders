@@ -1,14 +1,15 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour , IObserver<Color> // para ajustarlo en funcion de la noche
+public class ObstacleScript : MonoBehaviour, IObserver<Color> // Para ajustarlo en función de la noche.
 {
     public Sprite[] obstaclesSprites;
-    SpriteRenderer spr;
-    CircleCollider2D col;
+    private SpriteRenderer spr;
+    private CircleCollider2D col;
 
-    [SerializeField] float separation = 0.1f;
-    [SerializeField] LayerMask obstacleLayer;
-    [SerializeField] float poiSafeDistance = 2f;
+    [SerializeField] private float separation = 0.1f;
+    [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private float poiSafeDistance = 2f;
 
     private void Awake()
     {
@@ -18,22 +19,30 @@ public class ObstacleScript : MonoBehaviour , IObserver<Color> // para ajustarlo
         int rnd = Random.Range(0, obstaclesSprites.Length);
         spr.sprite = obstaclesSprites[rnd];
 
-        GameObject.FindGameObjectWithTag("DNSys").GetComponent<DayNightSystem>().AddObserver(this);
+        GameObject obj = GameObject.FindGameObjectWithTag("DNSys");
+
+        if(obj != null)
+        {
+            DayNightSystem dns = obj.GetComponent<DayNightSystem>();
+            if(dns != null)
+                dns.AddObserver(this);
+            else
+                Debug.LogWarning("El objeto encontrado no tiene asignado un DayNightSystem.");
+        }
+        else
+        {
+            Debug.LogWarning("No se ha encontrado ningún objeto con el tag \"DNSys\".");
+        }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-       
-
-        
         AdjustCollider();  
     }
 
-
     private void AdjustCollider() { col.radius = Mathf.Max(spr.sprite.bounds.extents.x, spr.sprite.bounds.extents.y); }
 
-    public bool InitializePos(Vector2 areaMin , Vector2 areaMax , GameObject[] pois)
+    public bool InitializePos(Vector2 areaMin, Vector2 areaMax, GameObject[] pois)
     {
         int maxAttempts = 100;
 
@@ -43,6 +52,7 @@ public class ObstacleScript : MonoBehaviour , IObserver<Color> // para ajustarlo
                 Random.Range(areaMin.x, areaMax.x),
                 Random.Range(areaMin.y, areaMax.y)
             );
+
             if (col == null)
             {
                 return false;

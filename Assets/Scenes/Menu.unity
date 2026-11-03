@@ -124,7 +124,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4732532758180681498, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
   m_PrefabInstance: {fileID: 6458666521675776906}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1872204662}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d928a92b4689ee549b03fc7afac30023, type: 3}
@@ -647,7 +647,7 @@ GameObject:
   - component: {fileID: 1079687494}
   - component: {fileID: 1079687493}
   m_Layer: 5
-  m_Name: Start_button (1)
+  m_Name: Settings_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -716,13 +716,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 161436059}
-        m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
-        m_MethodName: StartGame
+      - m_Target: {fileID: 1872204662}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -854,7 +854,7 @@ GameObject:
   - component: {fileID: 1678066833}
   - component: {fileID: 1678066832}
   m_Layer: 5
-  m_Name: Start_button (2)
+  m_Name: Quit_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -925,7 +925,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 161436059}
         m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1105,6 +1105,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686275382}
   m_CullTransparentMesh: 1
+--- !u!1 &1872204662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9100054071727327056, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+  m_PrefabInstance: {fileID: 6458666521675776906}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6458666521675776906
 PrefabInstance:
   m_ObjectHideFlags: 0

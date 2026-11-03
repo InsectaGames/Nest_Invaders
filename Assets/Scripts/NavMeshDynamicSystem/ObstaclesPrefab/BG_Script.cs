@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class BG_Script : MonoBehaviour, IObserver<Color>
 {
-
-    SpriteRenderer spr;
-
-
+    private SpriteRenderer spr;
 
     private void Awake()
     {

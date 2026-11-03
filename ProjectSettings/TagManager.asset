@@ -9,6 +9,7 @@ TagManager:
   - GatherPoint
   - TPM
   - DNSys
+  - Pause
   layers:
   - Default
   - TransparentFX
