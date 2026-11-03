@@ -12,7 +12,6 @@ public class DayNightSystem : ASubject<Color>
     [SerializeField] private LevelDefinition levelInfo;
 
     private SpriteRenderer gameBG;
-    [SerializeField] private Color nightColour;
     [SerializeField] private Animator animator;
 
     public bool _toggle;
@@ -30,8 +29,7 @@ public class DayNightSystem : ASubject<Color>
     {
         gameBG = GameObject.Find("BG").GetComponent<SpriteRenderer>();
         StartDay();
-        
-        StartCoroutine(DNChange());
+       
     }
     private void Update()
     {
@@ -52,18 +50,25 @@ public class DayNightSystem : ASubject<Color>
 
     public void StartNight()
     { 
-        SetVelocityAnim((float) 1 / levelInfo.nightLength); 
+        SetVelocityAnim((float) 1 / levelInfo.nightLength);
     }
 
-    private IEnumerator DNChange()
-    {
-        // yield return null;
 
-        while (true)
-        { 
-            DebugToggleNightDay(_toggle);
-            yield return new WaitForSeconds(1f);
-        }
+    public void ResetVel()
+    {
+
+        SetVelocityAnim((float)1);
+    }
+    public void AnimUpdateDay()
+    {
+        UpdateObservers(new Color(1,1,1));
+    }
+    public void AnimUpdateNight()
+    {
+        UpdateObservers(new Color(77f / 255f,
+                122f / 255f,
+                143f / 255f,
+                1f));
     }
 
     public void DebugToggleNightDay(bool _toggleDN)
