@@ -11,14 +11,11 @@ public enum DayTime
 public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
 {
     [SerializeField] private LevelDefinition levelInfo;
-    [SerializeField] private GameObject fade;
 
     private DayTime daytime;
 
-    private SpriteRenderer gameBG;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private Animator animatorFade;
 
     public bool _toggle;
 
@@ -38,7 +35,19 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
     [Range(0f, 1f)]
     [SerializeField] private float inicioAmanecer = 0.75f;
 
+    [Header("Transición día / atardecer / noche")]
+    [Range(0f, 1f)]
+    [SerializeField] private float inicioAtardecer = 0.65f;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float inicioNoche = 0.85f;
+
     private ColorAdjustments colorAdjustments;
+
+
+    [Header("Particulas y efectos")]
+    [SerializeField] private ParticleSystem[] particleSystems;
+
 
     public float _timer { get; private set; }
 
@@ -47,7 +56,7 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        animatorFade = fade.GetComponent<Animator>();
+      
 
         if (volume == null ||
             !volume.profile.TryGet(out colorAdjustments))
@@ -63,8 +72,6 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
 
     private void Start()
     {
-        gameBG = GameObject.Find("BG").GetComponent<SpriteRenderer>();
-
         daytime = DayTime.DAY;
         StartDay();
     }
@@ -86,18 +93,42 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
     {
         if (daytime == DayTime.DAY)
         {
-            float t = Mathf.Clamp01(
-                _timer / levelInfo.dayLength
-            );
+            float t = Mathf.Clamp01(_timer / levelInfo.dayLength);
 
-            colorAdjustments.colorFilter.value =
-                Color.Lerp(colorDia, colorAtardecer, t);
+            if (t < inicioAtardecer)
+            {
+                // Día
+                colorAdjustments.colorFilter.value = colorDia;
+            }
+            else if (t < inicioNoche)
+            {
+                // Atardecer
+                float atardecerT = Mathf.InverseLerp(
+                    inicioAtardecer,
+                    inicioNoche,
+                    t
+                );
+
+                colorAdjustments.colorFilter.value =
+                    Color.Lerp(colorDia, colorAtardecer, atardecerT);
+            }
+            else
+            {
+                // Transición de atardecer a noche
+                float nocheT = Mathf.InverseLerp(
+                    inicioNoche,
+                    1f,
+                    t
+                );
+
+                colorAdjustments.colorFilter.value =
+                    Color.Lerp(colorAtardecer, colorNoche, nocheT);
+            }
         }
         else
         {
-            float t = Mathf.Clamp01(
-                _timer / levelInfo.nightLength
-            );
+            // Durante la noche mantenemos el color nocturno
+            float t = Mathf.Clamp01(_timer / levelInfo.nightLength);
 
             if (t < inicioAmanecer)
             {
@@ -106,7 +137,9 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
             else
             {
                 float amanecerT = Mathf.InverseLerp(
-                    inicioAmanecer, 1f, t
+                    inicioAmanecer,
+                    1f,
+                    t
                 );
 
                 colorAdjustments.colorFilter.value =
@@ -128,6 +161,10 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
         colorAdjustments.colorFilter.value = colorDia;
 
         SetVelocityAnim(1f / levelInfo.dayLength);
+
+
+        foreach(ParticleSystem p in particleSystems)
+            p.Play();
     }
 
     public void StartNight()
@@ -138,17 +175,11 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
         colorAdjustments.colorFilter.value = colorNoche;
 
         SetVelocityAnim(1f / levelInfo.nightLength);
+
+        foreach (ParticleSystem p in particleSystems)
+            p.Stop();
     }
 
-    public void CallFadeDay()
-    {
-        animatorFade.SetTrigger("trans_d");
-    }
-
-    public void CallFadeNight()
-    {
-        animatorFade.SetTrigger("trans_n");
-    }
 
 
     public void ResetVel()
