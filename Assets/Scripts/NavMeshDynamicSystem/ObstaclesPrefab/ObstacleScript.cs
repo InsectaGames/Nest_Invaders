@@ -1,7 +1,7 @@
 using UnityEditor.SearchService;
 using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour, IObserver<Color> // Para ajustarlo en función de la noche.
+public class ObstacleScript : MonoBehaviour //, IObserver<Color> // Para ajustarlo en función de la noche.
 {
     public Sprite[] obstaclesSprites;
     private SpriteRenderer spr;
@@ -20,12 +20,14 @@ public class ObstacleScript : MonoBehaviour, IObserver<Color> // Para ajustarlo 
         spr.sprite = obstaclesSprites[rnd];
 
         GameObject obj = GameObject.FindGameObjectWithTag("DNSys");
-
+       /*
         if(obj != null)
         {
             DayNightSystem dns = obj.GetComponent<DayNightSystem>();
+
+         
             if(dns != null)
-                dns.AddObserver(this);
+               dns.AddObserver(this);
             else
                 Debug.LogWarning("El objeto encontrado no tiene asignado un DayNightSystem.");
         }
@@ -33,6 +35,7 @@ public class ObstacleScript : MonoBehaviour, IObserver<Color> // Para ajustarlo 
         {
             Debug.LogWarning("No se ha encontrado ningún objeto con el tag \"DNSys\".");
         }
+         */
     }
 
     private void Start()
@@ -116,8 +119,11 @@ public class ObstacleScript : MonoBehaviour, IObserver<Color> // Para ajustarlo 
         return false;
     }
 
+
+/*
     public void UpdateObserver(Color data)
     {
         spr.color = data;
     }
+*/
 }

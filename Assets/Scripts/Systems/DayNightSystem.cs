@@ -8,7 +8,7 @@ public enum DayTime
     NIGHT
 }
 
-public class DayNightSystem : ASubject<Color>
+public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
 {
     [SerializeField] private LevelDefinition levelInfo;
     [SerializeField] private GameObject fade;
@@ -140,16 +140,22 @@ public class DayNightSystem : ASubject<Color>
         SetVelocityAnim(1f / levelInfo.nightLength);
     }
 
-    public void CallFade()
+    public void CallFadeDay()
     {
-        animatorFade.SetTrigger("trans");
+        animatorFade.SetTrigger("trans_d");
     }
+
+    public void CallFadeNight()
+    {
+        animatorFade.SetTrigger("trans_n");
+    }
+
 
     public void ResetVel()
     {
         SetVelocityAnim(1f);
     }
-
+    /*
     public void AnimUpdateDay()
     {
         UpdateObservers(new Color(1, 1, 1));
@@ -164,7 +170,8 @@ public class DayNightSystem : ASubject<Color>
             1f
         ));
     }
-
+    */
+    /*
     public void DebugToggleNightDay(bool _toggleDN)
     {
         if (!_toggleDN)
@@ -184,4 +191,5 @@ public class DayNightSystem : ASubject<Color>
             ));
         }
     }
+    */
 }
