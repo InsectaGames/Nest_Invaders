@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct AudioEntry
@@ -12,12 +14,21 @@ public struct AudioEntry
 
 public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
 {
-    [SerializeField]
-    private List<AudioEntry> audioEntries; // Lista configurable desde el inspector.
+    [Header("Sonidos y Música")]
+    [SerializeField] private List<AudioEntry> audioEntries; // Lista configurable desde el inspector.
 
     private Dictionary<string, AudioClip> audioClips; // Diccionario para buscar clips rápidamente.
+
+    [Header("AudioSources")]
     [SerializeField] private AudioSource audioSource; // AudioSource dedicado a los sonidos del juego.
     [SerializeField] private AudioSource musicSource; // AudioSource dedicado a la música de fondo.
+
+    [Header("Configuración de volumen")]
+    [SerializeField, Range(0f, 1f)] private float defaultSFXVolume = 0.5f;
+    [SerializeField, Range(0f, 1f)] private float defaultMusicVolume = 0.5f;
+
+    private Slider sfxSlider;
+    private Slider musicSlider;
 
     #region SETUP
 
@@ -28,8 +39,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
         if (Instance != this) return; // Si es duplicado, no seguir.
 
         InitAudioSystem();
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        LoadDefaultAudioSettings();
     }
 
     private void InitAudioSystem()
@@ -51,7 +61,69 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
     private void Start()
     {
         if (Instance != this) return;
-        PlayBackgroundMusic("Test");
+        
+        CheckReferences();
+    }
+
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    #endregion
+
+    #region CONFIGURACIÓN
+
+    private void CheckReferences()
+    {
+        sfxSlider = null;
+        musicSlider = null;
+
+        GameObject sfxSliderGO = GameObject.FindGameObjectWithTag("SFX_Slider");
+        GameObject musicSliderGO = GameObject.FindGameObjectWithTag("Music_Slider");
+
+        if (sfxSliderGO != null)
+        {
+            sfxSlider = sfxSliderGO.GetComponent<Slider>();
+
+            if (sfxSlider != null)
+            {
+                sfxSlider.SetValueWithoutNotify(audioSource.volume);
+                sfxSlider.onValueChanged.RemoveListener(OnSoundVolumeChange);
+                sfxSlider.onValueChanged.AddListener(OnSoundVolumeChange);
+            }
+        }
+
+        if (musicSliderGO != null)
+        {
+            musicSlider = musicSliderGO.GetComponent<Slider>();
+
+            if (musicSlider != null)
+            {
+                musicSlider.SetValueWithoutNotify(musicSource.volume);
+                musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+                musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            }
+        }
+
+        Debug.Log($"Slider SFX encontrado: {sfxSlider != null}");
+        Debug.Log($"Slider Music encontrado: {musicSlider != null}");
+    }
+
+    private void LoadDefaultAudioSettings()
+    {
+        audioSource.volume = defaultSFXVolume;
+        musicSource.volume = defaultMusicVolume;
+    }
+
+    public void OnSoundVolumeChange(float value)
+    {
+        audioSource.volume = value;
+        Debug.Log($"Volumen de sonidos: {value}");
+    }
+
+    public void OnMusicVolumeChanged(float value)
+    {
+        musicSource.volume = value;
+        Debug.Log($"Volumen de música: {value}");
     }
 
     #endregion
@@ -61,6 +133,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Añadir el AudioManager a lo que sea necesario según la escena.
+        CheckReferences();
     }
 
     public void UpdateObserver(GameEvent<int> data)

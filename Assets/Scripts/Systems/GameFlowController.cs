@@ -39,6 +39,11 @@ public class GameFlowController : MonoBehaviour
         LoadLevel(gameLevels[0]);
     }
 
+    public void GoToSettings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
     public void ExitGame()
     {
         #if UNITY_EDITOR

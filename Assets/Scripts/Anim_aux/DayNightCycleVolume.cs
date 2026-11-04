@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -10,28 +9,22 @@ public class DayNightCycleVolume : MonoBehaviour
 
     [Header("Colores")]
     [SerializeField] private Color dia = Color.white;
-    [SerializeField]
-    private Color atardecer =
-        new Color(1f, 0.65f, 0.4f);
-    [SerializeField]
-    private Color noche =
-        new Color(0.3f, 0.35f, 0.65f);
+    [SerializeField] private Color atardecer = new Color(1f, 0.65f, 0.4f);
+    [SerializeField] private Color noche = new Color(0.3f, 0.35f, 0.65f);
 
-    [Header("Duración de cada fase")]
+    [Header("DuraciÃ³n de cada fase")]
     [SerializeField] private float duracionFase = 20f;
 
     private ColorAdjustments colorAdjustments;
     private float tiempo;
 
-    void Awake()
+    private void Awake()
     {
-
         volume =this.GetComponent<Volume>();
 
-        if (volume == null ||
-            !volume.profile.TryGet(out colorAdjustments))
+        if (volume == null || !volume.profile.TryGet(out colorAdjustments))
         {
-            Debug.LogError("No se encontró Color Adjustments.");
+            Debug.LogError("No se encontrÃ³ Color Adjustments.");
             enabled = false;
             return;
         }
@@ -39,27 +32,22 @@ public class DayNightCycleVolume : MonoBehaviour
         colorAdjustments.colorFilter.overrideState = true;
     }
 
-    void Update()
+    private void Update()
     {
         tiempo += Time.deltaTime;
 
         float ciclo = tiempo / duracionFase;
-
         float fase = Mathf.PingPong(ciclo, 2f);
 
         Color colorActual;
 
         if (fase < 1f)
         {
-            colorActual = Color.Lerp(
-                dia, atardecer, fase
-            );
+            colorActual = Color.Lerp(dia, atardecer, fase);
         }
         else
         {
-            colorActual = Color.Lerp(
-                atardecer, noche, fase - 1f
-            );
+            colorActual = Color.Lerp(atardecer, noche, fase - 1f);
         }
 
         colorAdjustments.colorFilter.value = colorActual;

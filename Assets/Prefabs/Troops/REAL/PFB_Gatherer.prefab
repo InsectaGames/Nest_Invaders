@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 427625728622447473}
   - component: {fileID: -7611178479286851247}
   - component: {fileID: -7951847340890320296}
-  - component: {fileID: -4583443965418501906}
+  - component: {fileID: 1098445508956850911}
   m_Layer: 0
   m_Name: PFB_Gatherer
   m_TagString: Untagged
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
---- !u!114 &-4583443965418501906
+--- !u!114 &1098445508956850911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,10 +288,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1358891150988844776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be797345cd4a9741b193ff05c8bb521, type: 3}
+  m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Troop
-  definition: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
@@ -31,12 +29,10 @@ public class DayNightSystem : ASubject<Color>
     [SerializeField] private Color colorDia = Color.white;
 
     [SerializeField]
-    private Color colorAtardecer =
-        new Color(1f, 0.65f, 0.4f, 1f);
+    private Color colorAtardecer = new Color(1f, 0.65f, 0.4f, 1f);
 
     [SerializeField]
-    private Color colorNoche =
-        new Color(0.3f, 0.35f, 0.65f, 1f);
+    private Color colorNoche = new Color(0.3f, 0.35f, 0.65f, 1f);
 
     [Header("Amanecer")]
     [Range(0f, 1f)]
@@ -56,7 +52,7 @@ public class DayNightSystem : ASubject<Color>
         if (volume == null ||
             !volume.profile.TryGet(out colorAdjustments))
         {
-            Debug.LogError("No se encontró Color Adjustments en el Volume.");
+            Debug.LogError("No se encontrï¿½ Color Adjustments en el Volume.");
             enabled = false;
             return;
         }

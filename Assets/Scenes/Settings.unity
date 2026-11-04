@@ -200,7 +200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 268028883}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6458666521675776907}
+        m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
+        m_MethodName: ReturnToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &268028883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,7 +982,7 @@ GameObject:
   - component: {fileID: 1369989697}
   m_Layer: 5
   m_Name: Slider_musica
-  m_TagString: Untagged
+  m_TagString: Music_Slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1210,7 +1222,7 @@ GameObject:
   - component: {fileID: 1831845110}
   m_Layer: 5
   m_Name: Slider_efectos
-  m_TagString: Untagged
+  m_TagString: SFX_Slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1497,6 +1509,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+--- !u!114 &6458666521675776907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4732532758180681498, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+  m_PrefabInstance: {fileID: 6458666521675776906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d928a92b4689ee549b03fc7afac30023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameFlowController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

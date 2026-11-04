@@ -10,6 +10,8 @@ TagManager:
   - TPM
   - DNSys
   - Pause
+  - SFX_Slider
+  - Music_Slider
   layers:
   - Default
   - TransparentFX
