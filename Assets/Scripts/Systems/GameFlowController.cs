@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameFlowController : MonoBehaviour
 {
     [Header("Estado de juego")]
-    [SerializeField] private GameObject[] pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
@@ -81,12 +81,7 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        pauseMenu = Array.ConvertAll(FindObjectsByType<Transform>
-            (FindObjectsInactive.Include, FindObjectsSortMode.None), t => t.gameObject);
-
-        pauseMenu = Array.FindAll(pauseMenu, obj => obj.CompareTag("Pause"));
-
-        Debug.Log($"Elementos del menú de pausa encontrados: {pauseMenu.Length}");
+        Debug.Log($"Elementos del menú de pausa encontrados: {pauseMenu.name}");
     }
 
     private bool FindLevel(string name)
@@ -128,10 +123,7 @@ public class GameFlowController : MonoBehaviour
         if(!gamePaused)
         {
             gamePaused = true;
-            foreach(GameObject elem in pauseMenu ?? Array.Empty<GameObject>())
-            {
-                elem?.SetActive(true);
-            }
+            pauseMenu.SetActive(true);
             Time.timeScale = 0;
         }
     }
@@ -141,10 +133,7 @@ public class GameFlowController : MonoBehaviour
         if(gamePaused)
         {
             gamePaused = false;
-            foreach(GameObject elem in pauseMenu ?? Array.Empty<GameObject>())
-            {
-                elem?.SetActive(false);
-            }
+            pauseMenu.SetActive(false);
             Time.timeScale = 1;
         }
     }
