@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,12 +15,28 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private string victoryScene;
     [SerializeField] private string defeatScene;
 
+    [Header("Transicion")]
+    [SerializeField] private Animator animatorTrans; 
+
+
     [Header("Niveles")]
     [SerializeField] private List<string> gameLevels;
     private string currentLevel;
 
+    private void Awake()
+    {
+        animatorTrans = GameObject.FindGameObjectWithTag("Transition_canvas")
+            .GetComponent<Animator>();
+
+        Debug.Log("AWAKE - GameFlow ID: " + GetInstanceID());
+        Debug.Log("AWAKE - Animator: " + animatorTrans);
+    }
+
+
     private void Update()
     {
+
+        //Debug.Log("Estoy activo : " + this.isActiveAndEnabled);
         if(!gameLevels.Contains(SceneManager.GetActiveScene().name))
             return;
 
@@ -39,9 +56,15 @@ public class GameFlowController : MonoBehaviour
         LoadLevel(gameLevels[0]);
     }
 
+
+    public void ShopScene()
+    {
+        SceneManager.LoadScene("Shop");
+    }
     public void GoToSettings()
     {
         SceneManager.LoadScene("Settings");
+       // StartCoroutine(ChangeSceneTrans("Settings"));
     }
 
     public void ExitGame()
@@ -114,6 +137,24 @@ public class GameFlowController : MonoBehaviour
             SceneManager.LoadScene(gameLevels[pos + 1]);
         }
     }
+
+/*
+    IEnumerator ChangeSceneTrans(string SceneName)
+    {
+        Debug.Log("6. Dentro de la corrutina");
+
+        animatorTrans.ResetTrigger("change");
+        animatorTrans.SetTrigger("change");
+
+        Debug.Log("7. Trigger enviado");
+
+        yield return new WaitForSeconds(1.5f);
+
+        Debug.Log("8. Cambio de escena");
+
+        SceneManager.LoadScene(SceneName);
+    }
+*/
 
     #endregion
 

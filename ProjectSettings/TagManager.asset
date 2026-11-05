@@ -12,6 +12,7 @@ TagManager:
   - Pause
   - SFX_Slider
   - Music_Slider
+  - Transition_canvas
   layers:
   - Default
   - TransparentFX
