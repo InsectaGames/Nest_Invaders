@@ -81,7 +81,8 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        Debug.Log($"Elementos del menú de pausa encontrados: {pauseMenu.name}");
+        if(pauseMenu != null)
+            Debug.Log($"Elementos del menú de pausa encontrados: {pauseMenu.name}");
     }
 
     private bool FindLevel(string name)
@@ -140,6 +141,7 @@ public class GameFlowController : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        AudioManager.Instance?.StopBackgroundMusic();
         SceneManager.LoadScene("Menu");
     }
 

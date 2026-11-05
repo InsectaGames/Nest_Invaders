@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -77,8 +79,15 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
         sfxSlider = null;
         musicSlider = null;
 
-        GameObject sfxSliderGO = GameObject.FindGameObjectWithTag("SFX_Slider");
-        GameObject musicSliderGO = GameObject.FindGameObjectWithTag("Music_Slider");
+        GameObject sfxSliderGO = null, musicSliderGO = null;
+
+        foreach (GameObject go in FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (sfxSliderGO == null && go.CompareTag("SFX_Slider")) sfxSliderGO = go;
+            if (musicSliderGO == null && go.CompareTag("Music_Slider")) musicSliderGO = go;
+            
+            if (sfxSliderGO != null && musicSliderGO != null) break;
+        }
 
         if (sfxSliderGO != null)
         {
@@ -88,7 +97,19 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
             {
                 sfxSlider.SetValueWithoutNotify(audioSource.volume);
                 sfxSlider.onValueChanged.RemoveListener(OnSoundVolumeChange);
-                sfxSlider.onValueChanged.AddListener(OnSoundVolumeChange);
+                sfxSlider.onValueChanged.AddListener(ActualizarVolumenSFXSinSonido);
+
+                // Detector de "Fin de arrastre" (PointerUp / EndDrag)
+                EventTrigger trigger = sfxSliderGO.GetComponent<EventTrigger>();
+                if (trigger == null) trigger = sfxSliderGO.AddComponent<EventTrigger>();
+
+                // Limpieza de eventos previos para evitar duplicados.
+                trigger.triggers.Clear();
+
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = EventTriggerType.PointerUp; // Se dispara al soltar el slider.
+                entry.callback.AddListener((data) => { PlaySound("Test Sound"); });
+                trigger.triggers.Add(entry);
             }
         }
 
@@ -118,6 +139,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
     {
         audioSource.volume = value;
         Debug.Log($"Volumen de sonidos: {value}");
+        PlaySound("Test Sound");
     }
 
     public void OnMusicVolumeChanged(float value)
@@ -125,6 +147,12 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
         musicSource.volume = value;
         Debug.Log($"Volumen de música: {value}");
     }
+
+    // Este se ejecuta mientras se desliza (actualiza el volumen visual y del audio sin spamear el sonido).
+    private void ActualizarVolumenSFXSinSonido(float value) => audioSource.volume = value;
+
+    // Este método se llamará ÚNICAMENTE cuando el usuario suelte el slider.
+    private void OnSoundVolumeChange_OnRelease(float value) => PlaySound("Test Sound");
 
     #endregion
 
@@ -134,6 +162,11 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
     {
         // Añadir el AudioManager a lo que sea necesario según la escena.
         CheckReferences();
+
+        if(SceneManager.GetActiveScene().name == "Main_arena_primavera")
+        {
+            PlayBackgroundMusic("Test Music");
+        }
     }
 
     public void UpdateObserver(GameEvent<int> data)

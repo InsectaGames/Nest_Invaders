@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 413938209}
   m_Layer: 5
   m_Name: Slider_efectos (1)
-  m_TagString: SFX_Slider
+  m_TagString: Music_Slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
