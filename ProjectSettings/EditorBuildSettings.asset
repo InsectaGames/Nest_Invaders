@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SubLevelsScene.unity
     guid: bf9b1363bede1d947b0bc945df4edd31
   - enabled: 1
-    path: Assets/Scenes/Main_arena_primavera.unity
+    path: Assets/Scenes/Main_arena.unity
     guid: dcb0b5a510e284249971793e27dcbd64
   - enabled: 1
     path: Assets/Scenes/VictoryScene.unity

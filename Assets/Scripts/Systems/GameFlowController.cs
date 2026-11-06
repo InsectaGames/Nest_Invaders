@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,22 +9,17 @@ public class GameFlowController : MonoBehaviour
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
-    [Header("Victoria y Derrota")]
-    [SerializeField] private string victoryScene;
-    [SerializeField] private string defeatScene;
-
     [Header("Transicion")]
     [SerializeField] private Animator animatorTrans; 
 
-
-    [Header("Niveles")]
-    [SerializeField] private List<string> gameLevels;
-    private string currentLevel;
+    [Header("Escenas")]
+    [SerializeField] private string levelSelectionScene = "SubLevelsScene";
+    [SerializeField] private string gameplayScene = "Main_arena";
+    [SerializeField] private string defeatScene = "DefeatScene";
 
     private void Awake()
     {
-        animatorTrans = GameObject.FindGameObjectWithTag("Transition_canvas")
-            .GetComponent<Animator>();
+        animatorTrans = GameObject.FindGameObjectWithTag("Transition_canvas")?.GetComponent<Animator>();
 
         Debug.Log("AWAKE - GameFlow ID: " + GetInstanceID());
         Debug.Log("AWAKE - Animator: " + animatorTrans);
@@ -35,9 +28,8 @@ public class GameFlowController : MonoBehaviour
 
     private void Update()
     {
-
         //Debug.Log("Estoy activo : " + this.isActiveAndEnabled);
-        if(!gameLevels.Contains(SceneManager.GetActiveScene().name))
+        if(SceneManager.GetActiveScene().name != gameplayScene)
             return;
 
         if(Utils.KeyPressed(UnityEngine.InputSystem.Key.Escape))
@@ -53,14 +45,14 @@ public class GameFlowController : MonoBehaviour
 
     public void StartGame()
     {
-        LoadLevel(gameLevels[0]);
+        ReturnToLevelSelection();
     }
-
 
     public void ShopScene()
     {
         SceneManager.LoadScene("Shop");
     }
+    
     public void GoToSettings()
     {
         SceneManager.LoadScene("Settings");
@@ -80,13 +72,51 @@ public class GameFlowController : MonoBehaviour
 
     #region NIVELES
 
-    public void LoadLevel(string name)
+    public void LoadSelectedLevel(LevelDefinition level)
     {
-        if(FindLevel(name))
+        if (level == null)
         {
-            currentLevel = name;
-            SceneManager.LoadScene(name);
+            Debug.LogError("No se ha asignado una definición de nivel.");
+            return;
         }
+
+        if (string.IsNullOrEmpty(gameplayScene))
+        {
+            Debug.LogError("No se ha configurado la escena de Gameplay.");
+            return;
+        }
+
+        LevelSession.SelectLevel(level);
+
+        Time.timeScale = 1f;
+        gamePaused = false;
+
+        Debug.Log($"Cargando nivel: {level.Name} (ID: {level.ID})");
+
+        SceneManager.LoadScene(gameplayScene);
+    }
+
+    public void RestartLevel()
+    {
+        if (LevelSession.SelectedLevel == null)
+        {
+            Debug.LogWarning("No hay ningún nivel seleccionado para reiniciar.");
+            ReturnToLevelSelection();
+            return;
+        }
+
+        Time.timeScale = 1f;
+        gamePaused = false;
+
+        SceneManager.LoadScene(gameplayScene);
+    }
+
+    public void ReturnToLevelSelection()
+    {
+        Time.timeScale = 1f;
+        gamePaused = false;
+
+        SceneManager.LoadScene(levelSelectionScene);
     }
 
     private void OnEnable()
@@ -104,41 +134,15 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
+        GameObject[] objects = Array.ConvertAll(FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None), t => t.gameObject);
+        
+        pauseMenu = Array.Find(objects, obj => obj.CompareTag("Pause"));
+
         if(pauseMenu != null)
             Debug.Log($"Elementos del menú de pausa encontrados: {pauseMenu.name}");
     }
 
-    private bool FindLevel(string name)
-    {
-        foreach(string level in gameLevels)
-        {
-            if(level.Equals(name))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void RestartLevel()
-    {
-        if(!String.IsNullOrEmpty(currentLevel))
-        {
-            SceneManager.LoadScene(currentLevel);
-        }
-    }
-
-    public void LoadNextLevel()
-    {
-        int pos = gameLevels.IndexOf(currentLevel);
-        if(pos != -1 && pos < gameLevels.Count - 1)
-        {
-            SceneManager.LoadScene(gameLevels[pos + 1]);
-        }
-    }
-
-/*
+    /*
     IEnumerator ChangeSceneTrans(string SceneName)
     {
         Debug.Log("6. Dentro de la corrutina");
@@ -154,7 +158,7 @@ public class GameFlowController : MonoBehaviour
 
         SceneManager.LoadScene(SceneName);
     }
-*/
+    */
 
     #endregion
 
@@ -182,6 +186,8 @@ public class GameFlowController : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1f;
+        gamePaused = false;
         AudioManager.Instance?.StopBackgroundMusic();
         SceneManager.LoadScene("Menu");
     }
@@ -192,25 +198,25 @@ public class GameFlowController : MonoBehaviour
 
     public void TriggerVictory()
     {
-        if(victoryScene != null)
-        {
-            SceneManager.LoadScene(victoryScene);
-        }
-        else
-        {
-            Debug.LogWarning("No hay una escena de victoria asignada.");
-        }
+        Debug.Log("¡Nivel completado!");
+
+        // En la siguiente fase añadiremos aquí el registro de finalización y el desbloqueo del siguiente nivel.
+
+        ReturnToLevelSelection();
     }
 
     public void TriggerDefeat()
     {
-        if(defeatScene != null)
+        Time.timeScale = 1f;
+        gamePaused = false;
+
+        if (!string.IsNullOrEmpty(defeatScene))
         {
             SceneManager.LoadScene(defeatScene);
         }
         else
         {
-            Debug.LogWarning("No hay una escena de derrota asignada.");
+            ReturnToLevelSelection();
         }
     }
 
