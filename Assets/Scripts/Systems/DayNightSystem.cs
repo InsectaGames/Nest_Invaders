@@ -8,16 +8,15 @@ public enum DayTime
     NIGHT
 }
 
-public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
+public class DayNightSystem : MonoBehaviour//, ASubject<Color>
 {
-    [SerializeField] private LevelDefinition levelInfo;
-
+    private LevelDefinition levelInfo;
     private DayTime daytime;
 
+    [SerializeField] private bool _toggle;
 
+    [Header("Animator")]
     [SerializeField] private Animator animator;
-
-    public bool _toggle;
 
     [Header("Global Volume")]
     [SerializeField] private Volume volume;
@@ -25,29 +24,22 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
     [Header("Colores")]
     [SerializeField] private Color colorDia = Color.white;
 
-    [SerializeField]
-    private Color colorAtardecer = new Color(1f, 0.65f, 0.4f, 1f);
+    [SerializeField] private Color colorAtardecer = new Color(1f, 0.65f, 0.4f, 1f);
 
-    [SerializeField]
-    private Color colorNoche = new Color(0.3f, 0.35f, 0.65f, 1f);
+    [SerializeField] private Color colorNoche = new Color(0.3f, 0.35f, 0.65f, 1f);
 
     [Header("Amanecer")]
     [Range(0f, 1f)]
     [SerializeField] private float inicioAmanecer = 0.75f;
 
     [Header("Transición día / atardecer / noche")]
-    [Range(0f, 1f)]
-    [SerializeField] private float inicioAtardecer = 0.65f;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float inicioNoche = 0.85f;
+    [Range(0f, 1f)] [SerializeField] private float inicioAtardecer = 0.65f;
+    [Range(0f, 1f)] [SerializeField] private float inicioNoche = 0.85f;
 
     private ColorAdjustments colorAdjustments;
 
-
     [Header("Particulas y efectos")]
     [SerializeField] private ParticleSystem[] particleSystems;
-
 
     public float _timer { get; private set; }
 
@@ -55,13 +47,35 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-      
+        // Obtener la definición seleccionada en SubLevelsScene.
+        levelInfo = LevelSession.SelectedLevel;
 
-        if (volume == null ||
-            !volume.profile.TryGet(out colorAdjustments))
+        if (levelInfo == null)
         {
-            Debug.LogError("No se encontr� Color Adjustments en el Volume.");
+            Debug.LogError("DayNightSystem: No hay ningún LevelDefinition seleccionado en LevelSession.");
+            enabled = false;
+            return;
+        }
+
+        if (levelInfo.dayLength <= 0 || levelInfo.nightLength <= 0)
+        {
+            Debug.LogError($"DayNightSystem: La duración del día o de la noche no es válida en {levelInfo.Name}.");
+            enabled = false;
+            return;
+        }
+
+        animator = GetComponent<Animator>();
+
+        if (animator == null)
+        {
+            Debug.LogError("DayNightSystem: No se ha encontrado el Animator.", this);
+            enabled = false;
+            return;
+        }
+
+        if (volume == null || volume.profile == null || !volume.profile.TryGet(out colorAdjustments))
+        {
+            Debug.LogError("No se encontró Color Adjustments en el Volume.");
             enabled = false;
             return;
         }
@@ -164,7 +178,7 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
 
 
         foreach(ParticleSystem p in particleSystems)
-            p.Play();
+            p?.Play();
     }
 
     public void StartNight()
@@ -177,10 +191,8 @@ public class DayNightSystem : MonoBehaviour// ,ASubject<Color>
         SetVelocityAnim(1f / levelInfo.nightLength);
 
         foreach (ParticleSystem p in particleSystems)
-            p.Stop();
+            p?.Stop();
     }
-
-
 
     public void ResetVel()
     {

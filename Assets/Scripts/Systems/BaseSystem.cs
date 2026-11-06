@@ -38,10 +38,27 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
     private Mutex spawnerMutex = new Mutex();
 
     public Faction GetFaction() => this.faction;
-    public int GetFungus() => this.resources[0].cantidad;
-    public int  GetSticks() => this.resources[1].cantidad;
+
+    public int GetLeaves() => GetResourceAmount(Resource.LEAVES);
+    public int GetSticks() => GetResourceAmount(Resource.STICK);
+
+    private int GetResourceAmount(Resource resource)
+    {
+        int index = GetResourceIndex(resource);
+
+        if (index < 0)
+            return 0;
+
+        return resources[index].cantidad;
+    }
 
     public bool IsDestroyed() => health.IsDead();
+
+    private void Awake()
+    {
+        if (faction == Faction.ALLY)
+            ApplyInitialResources();
+    }
 
     private void Start()
     {
@@ -64,6 +81,61 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
                 StartCoroutine(SpawnCoroutine());
                 break;
         }
+    }
+
+    private void ApplyInitialResources()
+    {
+        if (faction != Faction.ALLY)
+            return;
+
+        LevelDefinition level = LevelSession.SelectedLevel;
+
+        if (level == null)
+        {
+            Debug.LogError("BaseSystem: No hay ningún nivel seleccionado.", this);
+            return;
+        }
+
+        if (level.initialResources == null)
+        {
+            Debug.LogWarning("BaseSystem: No hay recursos iniciales configurados.", this);
+            return;
+        }
+
+        if (resources == null)
+        {
+            Debug.LogError("BaseSystem: El array de recursos no está inicializado.");
+            return;
+        }
+
+        foreach (ResourceSlot initialResource in level.initialResources)
+        {
+            int index = GetResourceIndex(initialResource.res);
+
+            if (index < 0)
+            {
+                Debug.LogWarning($"BaseSystem: No se encuentra el recurso {initialResource.res}.");
+                continue;
+            }
+
+            int maximum = (maxResources != null && index < maxResources.Length) ? maxResources[index] : int.MaxValue;
+
+            resources[index].cantidad = Mathf.Clamp(initialResource.cantidad, 0, maximum);
+        }
+    }
+
+    private int GetResourceIndex(Resource resource)
+    {
+        if (resources == null)
+            return -1;
+
+        for (int i = 0; i < resources.Length; i++)
+        {
+            if (resources[i].res == resource)
+                return i;
+        }
+
+        return -1;
     }
 
     private void Update()
@@ -142,7 +214,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
             }
 
             // Provisional: Las tropas aliadas necesitan al menos un fungus, luego haremos que compruebe el numero de recursos necesarios para generarla.
-            if (faction == Faction.ALLY && GetFungus() <= 0)
+            if (faction == Faction.ALLY && GetLeaves() <= 0)
             {
                 Debug.LogWarning($"No se puede crear {definition.Name}: " + "no hay suficientes hongos.");
                 return;
@@ -154,10 +226,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
             if (troop == null)
             {
-                Debug.LogWarning(
-                    "No se ha podido invocar la tropa. " +
-                    "Comprueba que el pool tenga objetos disponibles."
-                );
+                Debug.LogWarning("No se ha podido invocar la tropa. Comprueba que el pool tenga objetos disponibles.");
 
                 return;
             }
@@ -168,10 +237,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
                 UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1 ,new ResourceSlot(Resource.LEAVES,resources[0].cantidad)));
 
-                Debug.Log(
-                    $"Tropa creada: {troop.GetDefinition().Name}. " +
-                    $"Hongos restantes: {resources[0].cantidad}"
-                );
+                Debug.Log($"Tropa creada: {troop.GetDefinition().Name}. Hongos restantes: {resources[0].cantidad}");
             }
         }
         finally
@@ -205,7 +271,7 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
         
         if ((data.logicEvent == LogicEvent.RESOURCE_GATHER_1 || data.logicEvent == LogicEvent.RESOURCE_GATHER_2) && faction == Faction.ALLY)
         {
-            int pos = (int)data.data.res;
+            int pos = GetResourceIndex(data.data.res);
             resources[pos].cantidad = Utils.Clamp(++resources[pos].cantidad, 0, maxResources[pos]);
             UpdateObservers(new GameEvent<ResourceSlot>(data.logicEvent, new ResourceSlot(data.data.res, resources[pos].cantidad)));
             Debug.Log($"Ahora tengo {resources[pos].cantidad} del recurso {resources[pos].res}");

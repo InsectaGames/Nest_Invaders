@@ -19,6 +19,8 @@ public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
             if(b.GetFaction() == Faction.ALLY)
             {
                 b.AddObserver(this);
+                text.text = b.GetSticks().ToString();
+                break;
             }
         }
     }

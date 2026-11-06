@@ -19,6 +19,8 @@ public class UILeavesCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
             if(b.GetFaction() == Faction.ALLY)
             {
                 b.AddObserver(this);
+                text.text = b.GetLeaves().ToString();
+                break;
             }
         }
     }
