@@ -1320,6 +1320,7 @@ GameObject:
   - component: {fileID: 999348505}
   - component: {fileID: 999348504}
   - component: {fileID: 999348507}
+  - component: {fileID: 999348508}
   m_Layer: 5
   m_Name: 1_1
   m_TagString: Untagged
@@ -1454,6 +1455,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSelectionButton
   levelDefinition: {fileID: 11400000, guid: a249ed31de429694abc49cdb3afe6d60, type: 2}
   unlockedAtStart: 1
+  buttonImage: {fileID: 999348505}
+  lockedSprite: {fileID: -134269651286768846, guid: 21c6f9194cfc2d34e9ae36f5369e4c95, type: 3}
+  unlockedSprite: {fileID: -134269651286768846, guid: 21c6f9194cfc2d34e9ae36f5369e4c95, type: 3}
+  button: {fileID: 999348504}
+  animator: {fileID: 999348508}
+  unlockAnimationState: Unlocking2_spring
+--- !u!95 &999348508
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999348502}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39e4d23c739bcd744b1e906794aac82d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1069638533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,6 +2069,8 @@ GameObject:
   - component: {fileID: 1524179809}
   - component: {fileID: 1524179808}
   - component: {fileID: 1524179807}
+  - component: {fileID: 1524179811}
+  - component: {fileID: 1524179810}
   m_Layer: 5
   m_Name: 1_2
   m_TagString: Untagged
@@ -2148,6 +2179,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524179805}
   m_CullTransparentMesh: 1
+--- !u!95 &1524179810
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524179805}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39e4d23c739bcd744b1e906794aac82d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1524179811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524179805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337c7f007288b7c4eaf823fcdca8162d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSelectionButton
+  levelDefinition: {fileID: 11400000, guid: c3e568ad52417aa498e26bc7ce132656, type: 2}
+  unlockedAtStart: 0
+  buttonImage: {fileID: 1524179808}
+  lockedSprite: {fileID: 8674748352566451224, guid: 1741a2b84dea8ba4b9dae39455adc798, type: 3}
+  unlockedSprite: {fileID: 8547770275125597227, guid: b1ff92d33ed043144bc95671d8aa830b, type: 3}
+  button: {fileID: 1524179807}
+  animator: {fileID: 1524179810}
+  unlockAnimationState: Unlocking2_spring
 --- !u!1 &1537825708
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,48 +1,54 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectionButton : MonoBehaviour
 {
-    [Header("Nivel asociado")]
+    [Header("Nivel")]
     [SerializeField] private LevelDefinition levelDefinition;
+    [SerializeField] private bool unlockedAtStart;
 
-    [Header("Disponibilidad temporal")]
-    [SerializeField] private bool unlockedAtStart = false;
+    [Header("Visual del botón")]
+    [SerializeField] private Image buttonImage;
+    [SerializeField] private Sprite lockedSprite;
+    [SerializeField] private Sprite unlockedSprite;
+    [SerializeField] private Button button;
 
-    private bool isLoading = false;
+    [Header("Animación de desbloqueo")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string unlockAnimationState;
+
+    private bool isUnlocked;
+
+    private void Start()
+    {
+        RefreshState();
+
+        if (LevelProgression.ConsumePendingAnimation(levelDefinition.ID))
+        {
+            if (animator != null && !string.IsNullOrEmpty(unlockAnimationState))
+                animator.Play(unlockAnimationState, 0, 0f);
+        }
+    }
+
+    public void RefreshState()
+    {
+        isUnlocked = LevelProgression.IsUnlocked(levelDefinition, unlockedAtStart);
+
+        if (button != null)
+            button.interactable = isUnlocked;
+
+        if (buttonImage != null)
+            buttonImage.sprite = isUnlocked ? unlockedSprite : lockedSprite;
+    }
 
     public void SelectLevel()
     {
-        if (isLoading)
+        if (!isUnlocked)
             return;
-
-        if (levelDefinition == null)
-        {
-            Debug.LogError($"No hay LevelDefinition asignado a {gameObject.name}.");
-            return;
-        }
-
-        if (!unlockedAtStart)
-        {
-            Debug.Log($"El nivel {levelDefinition.Name} está bloqueado.");
-            return;
-        }
 
         GameFlowController gameFlow = FindFirstObjectByType<GameFlowController>();
 
-        if (gameFlow == null)
-        {
-            Debug.LogError("No se ha encontrado GameFlowController en SubLevelsScene.");
-            return;
-        }
-
-        isLoading = true;
-
-        gameFlow.LoadSelectedLevel(levelDefinition);
-    }
-
-    // Alternativa para carteles que utilizan SpriteRenderer y Collider2D.
-    private void OnMouseDown()
-    {
-        SelectLevel();
+        if (gameFlow != null)
+            gameFlow.LoadSelectedLevel(levelDefinition);
     }
 }

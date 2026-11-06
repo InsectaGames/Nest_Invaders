@@ -27,3 +27,6 @@ MonoBehaviour:
   allyBase: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
   enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
   obstacleNumber: 10
+  enemySpawnInterval: 13
+  enemyTroops:
+  - {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}

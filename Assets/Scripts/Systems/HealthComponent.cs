@@ -9,10 +9,6 @@ public class HealthComponent : MonoBehaviour
 
     [SerializeField] private GameObject canv_health;
     [SerializeField] private Image fillbar;
-    private void Start()
-    {
-        Initialize(100);
-    }
 
     public void Initialize(int maxHealth = 100)
     {

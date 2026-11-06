@@ -9,15 +9,10 @@ public class GameFlowController : MonoBehaviour
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
-
-
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
     [SerializeField] private string defeatScene = "DefeatScene";
-
-
-
 
     private void Update()
     {
@@ -193,10 +188,30 @@ public class GameFlowController : MonoBehaviour
     {
         Debug.Log("¡Nivel completado!");
 
-        // En la siguiente fase añadiremos aquí el registro de finalización y el desbloqueo del siguiente nivel.
+        LevelDefinition completedLevel = LevelSession.SelectedLevel;
+
+        if (completedLevel == null)
+        {
+            Debug.LogError("No se puede registrar la victoria: no hay ningún nivel seleccionado.");
+            ReturnToLevelSelection();
+            return;
+        }
+
+        bool nextLevelUnlocked =
+            LevelProgression.CompleteLevel(completedLevel);
+
+        if (nextLevelUnlocked)
+        {
+            Debug.Log($"¡Nuevo nivel desbloqueado! {completedLevel.nextLevel.Name}");
+        }
+        else if (completedLevel.nextLevel != null)
+        {
+            Debug.Log($"El siguiente nivel ya estaba desbloqueado: {completedLevel.nextLevel.Name}");
+        }
 
         ReturnToLevelSelection();
     }
+
 
     public void TriggerDefeat()
     {

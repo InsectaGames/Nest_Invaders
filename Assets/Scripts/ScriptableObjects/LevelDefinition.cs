@@ -35,4 +35,8 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Obstáculos")]
     public int obstacleNumber;
+
+    [Header("Generación enemiga")]
+    [Min(0.1f)] public float enemySpawnInterval = 10f;
+    public TroopDefinition[] enemyTroops;
 }

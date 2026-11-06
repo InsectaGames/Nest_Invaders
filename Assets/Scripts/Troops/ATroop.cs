@@ -23,7 +23,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private ITroop troopBehaviour;
     private MonoBehaviour troopBehaviourComponent;
 
-    private static GameObject[] bases;
+    private GameObject[] bases;
+    private BaseSystem observedAllyBase;
 
     private Transform allyBaseTransform;
 
@@ -47,23 +48,6 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
-
-        bases = GameObject.FindGameObjectsWithTag("Base");
-
-        // Debug.Log(bases.Length);
-
-        foreach (GameObject obj in bases)
-        {
-            BaseSystem bs = obj.GetComponent<BaseSystem>();
-
-            if (bs != null && bs.GetFaction() == Faction.ALLY)
-            {
-                this.AddObserver(bs);
-                break;
-            }
-        }
-
-        // Debug.Log("Se ha girado correctamente");
     }
 
     private void ActivateTroopBehaviour(TroopType type)
@@ -108,6 +92,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         poolManager = owner;
 
         returningToPool = false;
+
+        RefreshBaseReferences();
 
         if (faction == Faction.ENEMY)
             infection.SetActive(false);
@@ -159,6 +145,41 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
             health.Initialize(definition.maxHealth);
     }
 
+    private void RefreshBaseReferences()
+    {
+        // Actualizar las bases existentes en la escena actual.
+        bases = GameObject.FindGameObjectsWithTag("Base");
+
+        BaseSystem currentAllyBase = null;
+
+        foreach (GameObject obj in bases)
+        {
+            if (obj == null)
+                continue;
+
+            BaseSystem baseSystem = obj.GetComponent<BaseSystem>();
+
+            if (baseSystem != null && baseSystem.GetFaction() == Faction.ALLY)
+            {
+                currentAllyBase = baseSystem;
+                break;
+            }
+        }
+
+        // Registrar el observer solo si ha cambiado la base aliada.
+        if (observedAllyBase != currentAllyBase)
+        {
+            if (observedAllyBase != null)
+                RemoveObserver(observedAllyBase);
+
+            observedAllyBase = currentAllyBase;
+
+            if (observedAllyBase != null)
+                AddObserver(observedAllyBase);
+        }
+    }
+
+
     // Busca una base perteneciente a la facción indicada.
     public Transform FindBaseTransform(Faction f)
     {
@@ -204,8 +225,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         }
     }
 
-    // Cuando entra en el trigger de una base.
-    // Es un comportamiento común a todas las tropas.
+    // Cuando entra en el trigger de una base. Es un comportamiento común a todas las tropas.
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag("Base"))
@@ -223,6 +243,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         if (baseCol.GetFaction() != faction)
         {
             baseHealth.TakeDamage();
+            Debug.Log($"Base dañada! Vida restante: { baseHealth.Health }");
             ReturnToPool();
         }
     }
