@@ -9,21 +9,14 @@ public class GameFlowController : MonoBehaviour
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
-    [Header("Transicion")]
-    [SerializeField] private Animator animatorTrans; 
+
 
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
     [SerializeField] private string defeatScene = "DefeatScene";
 
-    private void Awake()
-    {
-        animatorTrans = GameObject.FindGameObjectWithTag("Transition_canvas")?.GetComponent<Animator>();
 
-        Debug.Log("AWAKE - GameFlow ID: " + GetInstanceID());
-        Debug.Log("AWAKE - Animator: " + animatorTrans);
-    }
 
 
     private void Update()

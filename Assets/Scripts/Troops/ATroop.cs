@@ -27,6 +27,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
     private Transform allyBaseTransform;
 
+    [SerializeField]private GameObject infection;
+
     public TroopDefinition GetDefinition() => definition;
     public Faction GetFaction() => faction;
     public HealthComponent GetHealth() => health;
@@ -106,6 +108,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         poolManager = owner;
 
         returningToPool = false;
+
+        if (faction == Faction.ENEMY)
+            infection.SetActive(false);
 
         // Restaurar la apariencia de la tropa.
         if (spriteRenderer != null)

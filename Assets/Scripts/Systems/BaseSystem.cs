@@ -70,10 +70,12 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
         health = gameObject.GetComponent<HealthComponent>();
         health?.Initialize(HP);
 
+        Debug.Log("Soy el" + faction + "y entro en el switch");
         switch (faction)
         {
             case Faction.ALLY:
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
+                Debug.Log("REGISTRANDO OBSERVER EN: " + generator?.GetInstanceID());
                 generator?.AddObserver(this);
                 break;
 
@@ -177,6 +179,8 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
 
     public void SpawnUnit(int id = 0)
     {
+
+        Debug.Log("Tipo de tropa : "+ id);
         spawnerMutex.WaitOne();
 
         try
@@ -259,6 +263,8 @@ public class BaseSystem :ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<
     #region PATRÓN OBSERVER
     public void UpdateObserver(GameEvent<int> data)
     {
+        bool _cond = (data.logicEvent == LogicEvent.TROOP_PLACED && faction == Faction.ALLY);
+        Debug.Log("Spawneo?" + _cond);
         if (data.logicEvent == LogicEvent.TROOP_PLACED && faction == Faction.ALLY)
         {
             SpawnUnit(data.data);

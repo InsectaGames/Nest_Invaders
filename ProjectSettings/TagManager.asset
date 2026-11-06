@@ -13,6 +13,7 @@ TagManager:
   - SFX_Slider
   - Music_Slider
   - Transition_canvas
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -6,7 +7,9 @@ public class HealthComponent : MonoBehaviour
     public int MaxHealth { get; private set; }
     public GameObject obj { get; private set; }
 
-    private void Awake()
+    [SerializeField] private GameObject canv_health;
+    [SerializeField] private Image fillbar;
+    private void Start()
     {
         Initialize(100);
     }
@@ -15,12 +18,19 @@ public class HealthComponent : MonoBehaviour
     {
         Health = maxHealth;
         MaxHealth = maxHealth;
+
+        canv_health.SetActive(false);
+
+        UpdateHealthUI();
     }
 
     public void TakeDamage(int amount = 1)
     {
         int result = Health - amount;
         Health = (result < 0) ? 0 : result;
+     
+
+        UpdateHealthUI();
         // if(IsDead()) { Die(); }
     }
 
@@ -28,6 +38,30 @@ public class HealthComponent : MonoBehaviour
     {
         int result = Health + amount;
         Health = (result > MaxHealth) ? MaxHealth : result;
+        UpdateHealthUI();
+    }
+
+    private void UpdateHealthUI()
+    {
+        float healthPercent = (float)Health / MaxHealth;
+
+        // Actualizar relleno
+        fillbar.fillAmount = healthPercent;
+
+        // Interpolar colores
+        if (healthPercent >= 0.5f)
+        {
+            // De amarillo a verde (100% - 50%)
+            float t = (healthPercent - 0.5f) / 0.5f;
+            fillbar.color = Color.Lerp(Color.yellow, Color.green, t);
+        }
+        else
+        {
+            // De rojo a amarillo (0% - 50%)
+            float t = healthPercent / 0.5f;
+            fillbar.color = Color.Lerp(Color.red, Color.yellow, t);
+        }
+
     }
 
     public bool IsDead() => Health == 0;

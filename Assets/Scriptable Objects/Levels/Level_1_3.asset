@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 241a3cc0e382cbd4db5a04167c82d551, type: 3}
+  m_Name: Level_1_3
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
+  ID: 3
+  Name: Level_1_3
+  difficulty: 0
+  nextLevel: {fileID: 11400000, guid: 03e042a0638e5f74d8479341094a85bd, type: 2}
+  dayLength: 60
+  nightLength: 45
+  initialResources:
+  - res: 0
+    cantidad: 0
+  - res: 1
+    cantidad: 0
+  Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
+  allyBase: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+  enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
+  obstacleNumber: 15
