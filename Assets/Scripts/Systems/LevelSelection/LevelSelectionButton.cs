@@ -26,7 +26,9 @@ public class LevelSelectionButton : MonoBehaviour
         if (LevelProgression.ConsumePendingAnimation(levelDefinition.ID))
         {
             if (animator != null && !string.IsNullOrEmpty(unlockAnimationState))
+            {
                 animator.Play(unlockAnimationState, 0, 0f);
+            }
         }
     }
 

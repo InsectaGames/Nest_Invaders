@@ -97,4 +97,19 @@ public static class LevelProgression
 
         return true;
     }
+
+    public static void ResetProgress()
+    {
+        PlayerPrefs.DeleteKey(UNLOCKED_PREFIX + 1);
+        PlayerPrefs.DeleteKey(UNLOCKED_PREFIX + 2);
+
+        PlayerPrefs.DeleteKey(COMPLETED_PREFIX + 1);
+        PlayerPrefs.DeleteKey(COMPLETED_PREFIX + 2);
+
+        PlayerPrefs.DeleteKey(PENDING_ANIMATION_KEY);
+
+        PlayerPrefs.Save();
+
+        Debug.Log("Progreso de niveles reiniciado.");
+    }
 }
