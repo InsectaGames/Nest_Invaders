@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,21 +16,34 @@ public class LevelSelectionButton : MonoBehaviour
     [SerializeField] private Button button;
 
     [Header("Animación de desbloqueo")]
-    [SerializeField] private Animator animator;
+    [SerializeField] private LevelSelectionAnimator selectionAnimator;
     [SerializeField] private string unlockAnimationState;
 
+    [Header("Camino de desbloqueo")]
+    [SerializeField] private GameObject pathParent;
+    [SerializeField] private Sprite lockedPathSprite;
+    [SerializeField] private Sprite unlockedPathSprite;
+
+    private Image[] pathImages;
+
     private bool isUnlocked;
+
+    private void Awake()
+    {
+        if (pathParent != null)
+            pathImages = pathParent.GetComponentsInChildren<Image>(true);
+    }
 
     private void Start()
     {
         RefreshState();
 
-        if (LevelProgression.ConsumePendingAnimation(levelDefinition.ID))
+        bool pendingAnimation =
+            LevelProgression.ConsumePendingAnimation(levelDefinition.ID);
+
+        if (pendingAnimation && selectionAnimator != null)
         {
-            if (animator != null && !string.IsNullOrEmpty(unlockAnimationState))
-            {
-                animator.Play(unlockAnimationState, 0, 0f);
-            }
+            selectionAnimator.PlayUnlockAnimation(unlockAnimationState);
         }
     }
 
@@ -41,6 +56,14 @@ public class LevelSelectionButton : MonoBehaviour
 
         if (buttonImage != null)
             buttonImage.sprite = isUnlocked ? unlockedSprite : lockedSprite;
+
+        if (pathImages != null)
+        {
+            foreach (Image pathImage in pathImages)
+            {
+                pathImage.sprite = isUnlocked ? unlockedPathSprite : lockedPathSprite;
+            }
+        }
     }
 
     public void SelectLevel()

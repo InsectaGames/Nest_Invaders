@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241a3cc0e382cbd4db5a04167c82d551, type: 3}
   m_Name: Level_1_5
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
-  ID: 0
+  ID: 5
   Name: Level_1_5
   difficulty: 1
   nextLevel: {fileID: 0}
@@ -20,7 +20,7 @@ MonoBehaviour:
   nightLength: 45
   initialResources:
   - res: 0
-    cantidad: 0
+    cantidad: 5
   - res: 1
     cantidad: 0
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}

@@ -98,13 +98,19 @@ public static class LevelProgression
         return true;
     }
 
-    public static void ResetProgress()
+    public static void ResetProgress(LevelDefinition[] levels)
     {
-        PlayerPrefs.DeleteKey(UNLOCKED_PREFIX + 1);
-        PlayerPrefs.DeleteKey(UNLOCKED_PREFIX + 2);
+        if (levels != null)
+        {
+            foreach (LevelDefinition level in levels)
+            {
+                if (level == null)
+                    continue;
 
-        PlayerPrefs.DeleteKey(COMPLETED_PREFIX + 1);
-        PlayerPrefs.DeleteKey(COMPLETED_PREFIX + 2);
+                PlayerPrefs.DeleteKey(UNLOCKED_PREFIX + level.ID);
+                PlayerPrefs.DeleteKey(COMPLETED_PREFIX + level.ID);
+            }
+        }
 
         PlayerPrefs.DeleteKey(PENDING_ANIMATION_KEY);
 

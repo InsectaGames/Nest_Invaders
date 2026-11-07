@@ -60,8 +60,6 @@ public class GameFlowController : MonoBehaviour
 
     #region NIVELES
 
-    public void ResetLevelProgress() => LevelProgression.ResetProgress();
-
     public void LoadSelectedLevel(LevelDefinition level)
     {
         if (level == null)
