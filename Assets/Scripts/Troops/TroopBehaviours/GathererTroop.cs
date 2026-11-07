@@ -14,6 +14,11 @@ public class GathererTroop : MonoBehaviour, ITroop
     private SpriteRenderer spr;
     private NavMeshAgent nvm;
 
+    //Debug para ver radio en el que ve a los enemigos
+    [Header("Detección de tropas")]
+    [SerializeField] private float detectionRadius = 5f;
+    [SerializeField] private bool showDetectionRadius = true;
+
     private void Awake()
     {
         troop = GetComponent<ATroop>();
@@ -145,4 +150,25 @@ public class GathererTroop : MonoBehaviour, ITroop
         isGathering = false;
         gatherPointTransform = null;
     }
+
+    //Region para debug de mostrar el radio del gizmo
+    #region 
+    private void OnDrawGizmos()
+    {
+        if (!showDetectionRadius) return;
+
+        // Cambia el color dependiendo de si está recolectando o moviéndose
+        if (isGathering)
+        {
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.4f); // Naranja semi-transparente en la cueva
+        }
+        else
+        {
+            Gizmos.color = new Color(0f, 1f, 0f, 0.4f); // Verde semi-transparente en movimiento
+        }
+
+        // Dibuja el radio utilizando la variable original de tu script
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+    #endregion
 }

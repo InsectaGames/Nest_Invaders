@@ -398,7 +398,100 @@ MonoBehaviour:
       id: 87482d26-e161-4b31-86f6-b30b2cae8da4
       graph:
         rid: 8232782582069592133
-      nodes: []
+      nodes:
+      - name: Root
+        id: fec5d7a7-d335-42dc-a604-8ea316b0739d
+        position: {x: 0, y: 0}
+        node:
+          rid: 8232782601208987648
+        references: []
+        parentIds: []
+        childIds:
+        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
+      - name: Main sequence
+        id: 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
+        position: {x: 0, y: 200}
+        node:
+          rid: 8232782601208987650
+        references: []
+        parentIds:
+        - fec5d7a7-d335-42dc-a604-8ea316b0739d
+        childIds:
+        - 679bd0ef-c339-46de-ba0c-6a787f7996a1
+        - a3fbf54b-7cb0-4b81-83dd-cf9d1d273975
+      - name: Get out from hide
+        id: 679bd0ef-c339-46de-ba0c-6a787f7996a1
+        position: {x: -150, y: 400}
+        node:
+          rid: 8232782601208987651
+        references: []
+        parentIds:
+        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
+        childIds:
+        - 751a78a3-e294-478e-8ec9-27ee09213c90
+      - name: Are there enemies and allies
+        id: 751a78a3-e294-478e-8ec9-27ee09213c90
+        position: {x: -150, y: 600}
+        node:
+          rid: 8232782601208987652
+        references: []
+        parentIds:
+        - 679bd0ef-c339-46de-ba0c-6a787f7996a1
+        childIds:
+        - e8ba827a-4ccb-4541-bd47-55a904b74c51
+        - 6cb8f1ed-36d7-48ca-8350-b4a6f2e1329a
+      - name: More enemies than allies
+        id: a3fbf54b-7cb0-4b81-83dd-cf9d1d273975
+        position: {x: 150, y: 400}
+        node:
+          rid: 8232782601208987653
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782601208987655
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
+        childIds: []
+      - name: Enemies near
+        id: fc50b180-ce27-4ffc-a8af-7059aab2dfba
+        position: {x: -300, y: 1000}
+        node:
+          rid: 8232782601208987656
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782601208987659
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - e8ba827a-4ccb-4541-bd47-55a904b74c51
+        childIds: []
+      - name: Allies near
+        id: 6cb8f1ed-36d7-48ca-8350-b4a6f2e1329a
+        position: {x: 0, y: 800}
+        node:
+          rid: 8232782601208987657
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782601208987660
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 751a78a3-e294-478e-8ec9-27ee09213c90
+        childIds: []
+      - name: Enemies inversor
+        id: e8ba827a-4ccb-4541-bd47-55a904b74c51
+        position: {x: -300, y: 800}
+        node:
+          rid: 8232782601208987658
+        references: []
+        parentIds:
+        - 751a78a3-e294-478e-8ec9-27ee09213c90
+        childIds:
+        - fc50b180-ce27-4ffc-a8af-7059aab2dfba
     pushPerceptions: []
   references:
     version: 2
@@ -406,6 +499,52 @@ MonoBehaviour:
     - rid: 8232782582069592133
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
+    - rid: 8232782601208987648
+      type: {class: LoopNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        Iterations: -1
+    - rid: 8232782601208987650
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782601208987651
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782601208987652
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782601208987653
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782601208987655
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroop
+          methodName: 
+    - rid: 8232782601208987656
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782601208987657
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782601208987658
+      type: {class: InverterNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782601208987659
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroop
+          methodName: 
+    - rid: 8232782601208987660
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroop
+          methodName: 
 --- !u!1 &173790356
 GameObject:
   m_ObjectHideFlags: 0
