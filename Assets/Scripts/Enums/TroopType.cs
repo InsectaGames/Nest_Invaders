@@ -3,5 +3,8 @@ public enum TroopType
     MELEE_ATTACKER,
     GATHERER,
     DISTANT_ATTACKER,
-    TANK
+    TANK, 
+    THIEF,
+    NIGHT_CREATURE,
+    SPRING_MINIBOSS
 }

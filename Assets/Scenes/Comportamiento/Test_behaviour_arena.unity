@@ -310,241 +310,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63660854}
   m_CullTransparentMesh: 1
---- !u!1001 &95830085
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_Name
-      value: PFB_Gatherer
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 347.47714
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 202.66733
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 95830087}
-  m_SourcePrefab: {fileID: 100100000, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
---- !u!1 &95830086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-  m_PrefabInstance: {fileID: 95830085}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &95830087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 95830086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: BehaviourAPI.UnityToolkit.GUIDesigner.Runtime::BehaviourAPI.UnityToolkit.GUIDesigner.Runtime.EditorBehaviourRunner
-  executeOnLoop: 0
-  interruptOptions: 0
-  _eventHandler:
-    debugStatusChanges: 0
-    identifier: 
-  data:
-    graphs:
-    - name: Gatherer_BehaviourRunner
-      id: 87482d26-e161-4b31-86f6-b30b2cae8da4
-      graph:
-        rid: 8232782582069592133
-      nodes:
-      - name: Root
-        id: fec5d7a7-d335-42dc-a604-8ea316b0739d
-        position: {x: 0, y: 0}
-        node:
-          rid: 8232782601208987648
-        references: []
-        parentIds: []
-        childIds:
-        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
-      - name: Main sequence
-        id: 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
-        position: {x: 0, y: 200}
-        node:
-          rid: 8232782601208987650
-        references: []
-        parentIds:
-        - fec5d7a7-d335-42dc-a604-8ea316b0739d
-        childIds:
-        - 679bd0ef-c339-46de-ba0c-6a787f7996a1
-        - a3fbf54b-7cb0-4b81-83dd-cf9d1d273975
-      - name: Get out from hide
-        id: 679bd0ef-c339-46de-ba0c-6a787f7996a1
-        position: {x: -150, y: 400}
-        node:
-          rid: 8232782601208987651
-        references: []
-        parentIds:
-        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
-        childIds:
-        - 751a78a3-e294-478e-8ec9-27ee09213c90
-      - name: Are there enemies and allies
-        id: 751a78a3-e294-478e-8ec9-27ee09213c90
-        position: {x: -150, y: 600}
-        node:
-          rid: 8232782601208987652
-        references: []
-        parentIds:
-        - 679bd0ef-c339-46de-ba0c-6a787f7996a1
-        childIds:
-        - e8ba827a-4ccb-4541-bd47-55a904b74c51
-        - 6cb8f1ed-36d7-48ca-8350-b4a6f2e1329a
-      - name: More enemies than allies
-        id: a3fbf54b-7cb0-4b81-83dd-cf9d1d273975
-        position: {x: 150, y: 400}
-        node:
-          rid: 8232782601208987653
-        references:
-        - fieldName: Action
-          value:
-            rid: 8232782601208987655
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 0369eb1c-4b75-4a0e-8f2f-b7611ab0882d
-        childIds: []
-      - name: Enemies near
-        id: fc50b180-ce27-4ffc-a8af-7059aab2dfba
-        position: {x: -300, y: 1000}
-        node:
-          rid: 8232782601208987656
-        references:
-        - fieldName: Action
-          value:
-            rid: 8232782601208987659
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e8ba827a-4ccb-4541-bd47-55a904b74c51
-        childIds: []
-      - name: Allies near
-        id: 6cb8f1ed-36d7-48ca-8350-b4a6f2e1329a
-        position: {x: 0, y: 800}
-        node:
-          rid: 8232782601208987657
-        references:
-        - fieldName: Action
-          value:
-            rid: 8232782601208987660
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 751a78a3-e294-478e-8ec9-27ee09213c90
-        childIds: []
-      - name: Enemies inversor
-        id: e8ba827a-4ccb-4541-bd47-55a904b74c51
-        position: {x: -300, y: 800}
-        node:
-          rid: 8232782601208987658
-        references: []
-        parentIds:
-        - 751a78a3-e294-478e-8ec9-27ee09213c90
-        childIds:
-        - fc50b180-ce27-4ffc-a8af-7059aab2dfba
-    pushPerceptions: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 8232782582069592133
-      type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 8232782601208987648
-      type: {class: LoopNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        Iterations: -1
-    - rid: 8232782601208987650
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 8232782601208987651
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 8232782601208987652
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 8232782601208987653
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 8232782601208987655
-      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        method:
-          componentName: GathererTroop
-          methodName: 
-    - rid: 8232782601208987656
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 8232782601208987657
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 8232782601208987658
-      type: {class: InverterNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 8232782601208987659
-      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        method:
-          componentName: GathererTroop
-          methodName: 
-    - rid: 8232782601208987660
-      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        method:
-          componentName: GathererTroop
-          methodName: 
 --- !u!1 &173790356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,102 +2572,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022239422}
   m_CullTransparentMesh: 1
---- !u!1001 &1023223212
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_Name
-      value: PFB_Melee_Attacker
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 347.47714
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 202.66733
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5837321875170479044, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1023223214}
-  m_SourcePrefab: {fileID: 100100000, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
---- !u!1 &1023223213 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
-  m_PrefabInstance: {fileID: 1023223212}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1023223214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1023223213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: BehaviourAPI.UnityToolkit.GUIDesigner.Runtime::BehaviourAPI.UnityToolkit.GUIDesigner.Runtime.EditorBehaviourRunner
-  executeOnLoop: 0
-  interruptOptions: 0
-  _eventHandler:
-    debugStatusChanges: 0
-    identifier: 
-  data:
-    graphs:
-    - name: Melee_Attacker_BehaviourRunner
-      id: a0198962-19b4-4604-a984-9ccc739c3a4b
-      graph:
-        rid: 8232782582069592132
-      nodes: []
-    pushPerceptions: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 8232782582069592132
-      type: {class: StackFSM, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
-      data: 
 --- !u!1 &1030341299
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,6 +4114,79 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667027220}
   m_CullTransparentMesh: 1
+--- !u!1001 &1740667346
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 101.57719
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 114.19847
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2418883545078003629, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792772327332405801, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: managedReferences[8232782601208987655].method.methodName
+      value: ComparteAlliesToEnemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792772327332405801, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: managedReferences[8232782601208987659].method.methodName
+      value: AreEnemiesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792772327332405801, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: managedReferences[8232782601208987660].method.methodName
+      value: AreAlliesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792772327332405801, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: managedReferences[8232782601208987677].method.methodName
+      value: AreEnemiesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 5855722490672712513, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
+      propertyPath: m_Name
+      value: Gatherer prefab testing
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd0d5b06968e69049bbe00503bca7f0e, type: 3}
 --- !u!1 &1785866772
 GameObject:
   m_ObjectHideFlags: 0
@@ -10895,5 +10637,4 @@ SceneRoots:
   - {fileID: 1381670540}
   - {fileID: 924418201}
   - {fileID: 1874662290}
-  - {fileID: 1023223212}
-  - {fileID: 95830085}
+  - {fileID: 1740667346}

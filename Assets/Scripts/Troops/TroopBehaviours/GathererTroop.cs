@@ -1,5 +1,7 @@
-using UnityEngine;
+using BehaviourAPI.Core;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class GathererTroop : MonoBehaviour, ITroop
@@ -16,7 +18,7 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     //Debug para ver radio en el que ve a los enemigos
     [Header("Detección de tropas")]
-    [SerializeField] private float detectionRadius = 5f;
+    [SerializeField] private float detectionRadius = 8.5f;
     [SerializeField] private bool showDetectionRadius = true;
 
     private void Awake()
@@ -26,9 +28,119 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     void Update()
     {
-        UpdateSpriteVisuals();    
+        //UpdateSpriteVisuals();
+        //OnDrawGizmos();
     }
 
+    //Metodos que usa el Behaviour Tree de la API
+    #region
+
+    //Hay aliados en el area de vision de la tropa
+    public Status AreAlliesNearby()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+
+        foreach (Collider2D collider in detectedObjects)
+        {
+            if (collider == null) continue;
+
+            ATroop otherTroop = collider.GetComponentInParent<ATroop>();
+
+            //Ignorar la propia tropa.
+            if (otherTroop == null || otherTroop == troop) continue;
+
+            //Comprobar que sea un aliado.
+            if (otherTroop.CompareTag("Ally") || otherTroop.gameObject.CompareTag("Ally"))
+            {
+                HealthComponent health = otherTroop.GetHealth();
+
+                if (health != null && !health.IsDead())
+                    return Status.Success;
+            }
+        }
+
+        return Status.Failure;
+    }
+
+    //Hay enemigos en el area de visión de la tropa
+    public Status AreEnemiesNearby()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+
+        foreach (Collider2D collider in detectedObjects)
+        {
+            if (collider == null)
+                continue;
+
+            ATroop otherTroop = collider.GetComponentInParent<ATroop>();
+
+
+            //Ignorarse a si mismo
+            if (otherTroop == null || otherTroop == troop) continue;
+
+            //Comprobar que sea un enemigo
+            if (otherTroop.gameObject.CompareTag("Enemy") || otherTroop.gameObject.CompareTag("Enemy"))
+            {
+                TroopDefinition otherTroopDefinition = otherTroop.GetDefinition();
+
+                //Ignorar ladrones o tropas sin definición. Luego habria que ver que no ignore a ladrones descamuflados, de momento lo dejamos asi
+                if (otherTroopDefinition == null || otherTroopDefinition.type == TroopType.THIEF) continue;
+
+                HealthComponent health = otherTroop.GetHealth();
+
+                if (health != null && !health.IsDead())
+                    return Status.Success;
+            }
+        }
+        return Status.Failure;
+    }
+
+    //Compara si hay mayor o igual numero de aliados cercanos que de enemigos
+    public Status ComparteAlliesToEnemies()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+
+        int alliesCount = 0;
+        int enemiesCount = 0;
+
+        foreach (Collider2D collider in detectedObjects)
+        {
+            if (collider == null) continue;
+
+            ATroop otherTroop = collider.GetComponentInParent<ATroop>();
+            if (otherTroop == null || otherTroop == troop) continue;
+
+            HealthComponent health = otherTroop.GetHealth();
+            if (health == null || health.IsDead()) continue;
+
+            // Contar aliados.
+            if (otherTroop.gameObject.CompareTag("Ally"))
+                alliesCount++;
+
+            // Contar enemigos, ignorando a los ladrones, luego se mirara si estan invisibles o no para contarlos.
+            else if (otherTroop.gameObject.CompareTag("Enemy"))
+            {
+                TroopDefinition definition = otherTroop.GetDefinition();
+
+                if (definition == null || definition.type == TroopType.THIEF)
+                    continue;
+
+                enemiesCount++;
+            }
+        }
+        if (alliesCount >= enemiesCount)
+            return Status.Success;
+
+        return Status.Failure;
+    }
+
+
+    #endregion
+
+
+    
+    //Inicialisar y resetear el comportamiento al spawnear y volver al pool
+    #region
     public void InitializeBehaviour()
     {
         if (troop == null)
@@ -57,6 +169,22 @@ public class GathererTroop : MonoBehaviour, ITroop
         spr = this.GetComponent<SpriteRenderer>();
         nvm = this.GetComponent<NavMeshAgent>();
     }
+
+    public void ResetBehaviour()
+    {
+        // Evitar que una recolección anterior continúe.
+        StopAllCoroutines();
+
+        isGathering = false;
+        gatherPointTransform = null;
+    }
+
+    #endregion
+
+
+    
+    //Metodos antiguos para calcular posiciones y demas
+    #region
 
     // Cuando entra en el trigger del GatherPoint o de la base aliada.
     private void OnTriggerEnter2D(Collider2D col)
@@ -134,25 +262,22 @@ public class GathererTroop : MonoBehaviour, ITroop
         }
     }
 
+    #endregion
+
+    
+    //Metodos auxiliares
+    #region 
     public void UpdateSpriteVisuals()
     {
 
         spr.flipX = (nvm.velocity.x < 0);
 
-        spr.flipY = (nvm.velocity.y > 0);
+        //spr.flipY = (nvm.velocity.y > 0);
 
     }
-    public void ResetBehaviour()
-    {
-        // Evitar que una recolección anterior continúe.
-        StopAllCoroutines();
 
-        isGathering = false;
-        gatherPointTransform = null;
-    }
 
-    //Region para debug de mostrar el radio del gizmo
-    #region 
+
     private void OnDrawGizmos()
     {
         if (!showDetectionRadius) return;
