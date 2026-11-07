@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class GathererTroop : MonoBehaviour, ITroop
 {
@@ -10,9 +11,17 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     private Transform gatherPointTransform;
 
+    private SpriteRenderer spr;
+    private NavMeshAgent nvm;
+
     private void Awake()
     {
         troop = GetComponent<ATroop>();
+    }
+
+    void Update()
+    {
+        UpdateSpriteVisuals();    
     }
 
     public void InitializeBehaviour()
@@ -38,6 +47,10 @@ public class GathererTroop : MonoBehaviour, ITroop
         {
             Debug.LogWarning("No se ha encontrado ningún objeto con el tag GatherPoint.");
         }
+
+
+        spr = this.GetComponent<SpriteRenderer>();
+        nvm = this.GetComponent<NavMeshAgent>();
     }
 
     // Cuando entra en el trigger del GatherPoint o de la base aliada.
@@ -116,6 +129,14 @@ public class GathererTroop : MonoBehaviour, ITroop
         }
     }
 
+    public void UpdateSpriteVisuals()
+    {
+
+        spr.flipX = (nvm.velocity.x < 0);
+
+        spr.flipY = (nvm.velocity.y > 0);
+
+    }
     public void ResetBehaviour()
     {
         // Evitar que una recolección anterior continúe.

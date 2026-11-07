@@ -14,6 +14,8 @@ TagManager:
   - Music_Slider
   - Transition_canvas
   - UI
+  - Ally
+  - Enemy
   layers:
   - Default
   - TransparentFX

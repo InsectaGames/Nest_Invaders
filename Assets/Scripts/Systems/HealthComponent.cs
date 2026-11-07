@@ -39,10 +39,12 @@ public class HealthComponent : MonoBehaviour
 
     private void UpdateHealthUI()
     {
+        canv_health.SetActive(Health < MaxHealth);
         float healthPercent = (float)Health / MaxHealth;
 
         // Actualizar relleno
         fillbar.fillAmount = healthPercent;
+       
 
         // Interpolar colores
         if (healthPercent >= 0.5f)
