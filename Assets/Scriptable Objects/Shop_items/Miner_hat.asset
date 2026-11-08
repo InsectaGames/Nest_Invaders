@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359314acd45fcd844a2b7681687b6f1b, type: 3}
+  m_Name: Miner_hat
+  m_EditorClassIdentifier: Assembly-CSharp::Shop_item
+  tagItemID: 0_gatherer_miner_hat
+  shop_skin_img: {fileID: 3644887743195993881, guid: 52c87bf0f7f551a42849f7215cdcee69, type: 3}
+  skin_name: Miner
+  price: 1.99
