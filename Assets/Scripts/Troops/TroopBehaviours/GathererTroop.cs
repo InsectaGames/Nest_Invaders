@@ -31,8 +31,7 @@ public class GathererTroop : MonoBehaviour, ITroop
         // OnDrawGizmos();
     }
 
-    // Métodos que usa el Behaviour Tree de la API.
-    #region
+    #region BEHAVIOUR TREE (API)
 
     // Hay aliados en el area de vision de la tropa.
 
@@ -216,7 +215,8 @@ public class GathererTroop : MonoBehaviour, ITroop
     #endregion
 
     // Inicializar y resetear el comportamiento al spawnear y volver al pool.
-    #region
+    #region INIT Y RESET
+
     public void InitializeBehaviour()
     {
         if (troop == null)
@@ -256,7 +256,7 @@ public class GathererTroop : MonoBehaviour, ITroop
     #endregion
 
     // Métodos antiguos para calcular posiciones y demás.
-    #region
+    #region TRIGGER Y GATHER
 
     // Cuando entra en el trigger del GatherPoint o de la base aliada.
     private void OnTriggerEnter2D(Collider2D col)
@@ -338,17 +338,13 @@ public class GathererTroop : MonoBehaviour, ITroop
 
 
     //Metodos auxiliares
-    #region 
+    #region MÉTODOS AUXILIARES
+
     public void UpdateSpriteVisuals()
     {
-
         spr.flipX = (nvm.velocity.x < 0);
-
         //spr.flipY = (nvm.velocity.y > 0);
-
     }
-
-
 
     private void OnDrawGizmos()
     {
@@ -367,5 +363,6 @@ public class GathererTroop : MonoBehaviour, ITroop
         // Dibuja el radio utilizando la variable original de tu script
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
+
     #endregion
 }

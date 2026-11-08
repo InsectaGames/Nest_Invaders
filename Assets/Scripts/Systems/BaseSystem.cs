@@ -21,7 +21,6 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
-    [SerializeField] private int HP = 10;
     private HealthComponent health;
 
     [Header("Recursos")]
@@ -77,9 +76,14 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         health = GetComponent<HealthComponent>();
 
         if (health != null)
-            health.Initialize(HP);
+        {
+            LevelDefinition level = LevelSession.SelectedLevel;
+            health.Initialize(GetFaction() == Faction.ALLY ? level.allyBaseHealth : level.enemyBaseHealth);
+        }
         else
+        {
             Debug.LogError("BaseSystem: No se ha encontrado HealthComponent.", this);
+        }
 
         switch (faction)
         {

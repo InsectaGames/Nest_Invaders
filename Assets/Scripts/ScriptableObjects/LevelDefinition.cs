@@ -26,9 +26,13 @@ public class LevelDefinition : ScriptableObject
     [Header("Mapa")]
     public Sprite Map;
 
-    [Header("Bases")]
+    [Header("Base Aliada")]
     public GameObject allyBase;
+    public int allyBaseHealth = 10;
+
+    [Header("Base Enemiga")]
     public GameObject enemyBase;
+    public int enemyBaseHealth = 10;
 
     [Header("Obstáculos")]
     public int obstacleNumber;

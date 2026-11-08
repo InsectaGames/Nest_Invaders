@@ -106,7 +106,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
 
                 EventTrigger.Entry entry = new EventTrigger.Entry();
                 entry.eventID = EventTriggerType.PointerUp; // Se dispara al soltar el slider.
-                entry.callback.AddListener((data) => { PlaySound("Test Sound"); });
+                entry.callback.AddListener((data) => OnSoundVolumeChange_OnRelease());
                 trigger.triggers.Add(entry);
             }
         }
@@ -150,7 +150,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
     private void ActualizarVolumenSFXSinSonido(float value) => audioSource.volume = value;
 
     // Este método se llamará ÚNICAMENTE cuando el usuario suelte el slider.
-    private void OnSoundVolumeChange_OnRelease(float value) => PlaySound("Test Sound");
+    private void OnSoundVolumeChange_OnRelease() => PlaySound("Test Sound");
 
     #endregion
 
@@ -161,9 +161,13 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
         // Añadir el AudioManager a lo que sea necesario según la escena.
         CheckReferences();
 
-        if(SceneManager.GetActiveScene().name == "Main_arena_primavera")
+        if(SceneManager.GetActiveScene().name == "Main_arena")
         {
             PlayBackgroundMusic("Test Music");
+        }
+        else if(IsBackgroundMusicPlaying())
+        {
+            StopBackgroundMusic();
         }
     }
 
