@@ -3080,6 +3080,10 @@ PrefabInstance:
       value: BehaviourAPI.UnityToolkit.GUIDesigner.Framework BehaviourAPI.UnityToolkit.GUIDesigner.Framework.CustomAction
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: 'managedReferences[8232782618998079607]'
+      value: BehaviourAPI.UnityToolkit.GUIDesigner.Framework BehaviourAPI.UnityToolkit.GUIDesigner.Framework.CustomAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.size
       value: 26
       objectReference: {fileID: 0}
@@ -3377,7 +3381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.data[22].name
-      value: More enemies than allies
+      value: More allies than enemies
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.data[22].node
@@ -3476,6 +3480,10 @@ PrefabInstance:
       value: EndB
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].stop.methodName
+      value: EndB
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079598].pause.methodName
       value: 
       objectReference: {fileID: 0}
@@ -3529,6 +3537,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079606].start.methodName
+      value: InitB
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].pause.methodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].start.methodName
       value: InitB
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
@@ -3678,6 +3694,10 @@ PrefabInstance:
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079606].update.methodName
       value: AreAlliesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].update.methodName
+      value: CompareAlliesToEnemies
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.data[10].position.x
@@ -3872,6 +3892,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].stop.componentName
+      value: GathererTroop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].unpause.methodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079598].pause.componentName
       value: 
       objectReference: {fileID: 0}
@@ -3925,6 +3953,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079606].start.componentName
+      value: GathererTroop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].pause.componentName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].start.componentName
       value: GathererTroop
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
@@ -3996,6 +4032,10 @@ PrefabInstance:
       value: GathererTroop
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].update.componentName
+      value: GathererTroop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079598].unpause.componentName
       value: 
       objectReference: {fileID: 0}
@@ -4017,6 +4057,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: managedReferences[8232782618998079606].unpause.componentName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
+      propertyPath: managedReferences[8232782618998079607].unpause.componentName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
@@ -4581,7 +4625,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.data[22].references.Array.data[0].value
-      value: 8232782618998079591
+      value: 8232782618998079607
       objectReference: {fileID: 0}
     - target: {fileID: 4512434040347789589, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
       propertyPath: data.graphs.Array.data[0].nodes.Array.data[23].references.Array.data[0].value
@@ -5396,6 +5440,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286329200}
   m_CullTransparentMesh: 1
+--- !u!1001 &1292875295
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1358891150988844776, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_Name
+      value: PFB_Thief_Troop
+      objectReference: {fileID: 0}
+    - target: {fileID: 1358891150988844776, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.72365
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.3389862
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837321875170479044, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f03d87df458e9c041924d8c8a53fdebe, type: 3}
 --- !u!1 &1318919939
 GameObject:
   m_ObjectHideFlags: 0
@@ -12634,3 +12739,4 @@ SceneRoots:
   - {fileID: 1874662290}
   - {fileID: 1044916715}
   - {fileID: 288709934}
+  - {fileID: 1292875295}

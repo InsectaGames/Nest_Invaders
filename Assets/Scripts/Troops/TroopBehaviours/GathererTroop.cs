@@ -110,9 +110,11 @@ public class GathererTroop : MonoBehaviour, ITroop
     }
 
     // Compara si hay mayor o igual numero de aliados cercanos que de enemigos.
-    public Status ComparteAlliesToEnemies()
+    public Status CompareAlliesToEnemies()
     {
+        Debug.LogWarning("Entro a comprobar entidades en el radio");
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+        Debug.Log("Tamaño del array del collider: " + detectedObjects.Length);
 
         int alliesCount = 0;
         int enemiesCount = 0;
@@ -147,6 +149,58 @@ public class GathererTroop : MonoBehaviour, ITroop
         if (alliesCount >= enemiesCount)
             return Status.Success;
 
+        return Status.Failure;
+    }
+
+    // 1. Calcular el punto de interés más adecuado.
+    public Status CalculateInterestPoint()
+    {
+        return Status.Failure;
+    }
+
+    // 2. Comprobar si existe un punto de interés válido.
+    public Status InterestPointExists()
+    {
+        return Status.Failure;
+    }
+
+    // 3. Aumentar la velocidad de movimiento de la tropa
+    //    estableciendo un límite máximo.
+    public Status IncreaseMovementSpeed()
+    {
+        return Status.Failure;
+    }
+
+    // 4. Desplazarse hacia un objetivo evitando al enemigo
+    //    más cercano mediante un rodeo.
+    public Status MoveTowardsTargetAvoidingEnemy()
+    {
+        return Status.Failure;
+    }
+
+    // 5. Desplazarse hacia el punto de interés utilizando NavMesh.
+    public Status MoveTowardsInterestPoint()
+    {
+        return Status.Failure;
+    }
+
+    // 6. Comprobar si se ha llegado al punto de interés.
+    public Status HasReachedInterestPoint()
+    {
+        return Status.Failure;
+    }
+
+    // 7. Ejecutar la acción correspondiente al punto de interés:
+    // recoger materiales, depositarlos en la base, etc.
+    public Status PerformInterestPointAction()
+    {
+        return Status.Failure;
+    }
+
+    // 8. Comprobar si la tropa está en la base aliada
+    // o en una cueva de recolección.
+    public Status IsAtBaseOrCollectionCave()
+    {
         return Status.Failure;
     }
 
