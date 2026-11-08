@@ -214,14 +214,30 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         // Buscar un punto válido del NavMesh cerca del objetivo.
         if (NavMesh.SamplePosition(target.position, out NavMeshHit hit, 10f, agent.areaMask))
         {
+            agent.isStopped = false;
             agent.SetDestination(hit.position);
         }
         else
         {
-            Debug.LogWarning(
-                $"{name}: no se ha encontrado un punto válido del NavMesh " +
-                $"cerca de {target.name}."
-            );
+            Debug.LogWarning($"{name}: no se ha encontrado un punto válido del NavMesh cerca de {target.name}.");
+        }
+    }
+
+    // Paralizar o reanudar el movimiento del agente, para el combate.
+    public void SetMovementStopped(bool stopped)
+    {
+        if (definition != null && definition.type == TroopType.GATHERER)
+            return;
+
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        agent.isStopped = stopped;
+
+        // Al detenerse, eliminar el camino anterior.
+        if (stopped)
+        {
+            agent.ResetPath();
         }
     }
 

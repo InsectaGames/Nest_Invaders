@@ -11,6 +11,7 @@ public class GathererTroop : MonoBehaviour, ITroop
     private bool isGathering = false;
 
     private Transform gatherPointTransform;
+    private Transform currentTarget;
 
     private SpriteRenderer spr;
     private NavMeshAgent nvm;
@@ -29,6 +30,32 @@ public class GathererTroop : MonoBehaviour, ITroop
     {
         // UpdateSpriteVisuals();
         // OnDrawGizmos();
+
+        if (troop == null || troop.GetDefinition() == null)
+            return;
+
+        if (isGathering)
+            return;
+
+        NavMeshAgent agent = troop.GetAgent();
+
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        if (currentTarget == null || agent.pathPending)
+            return;
+
+        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
+
+        // Si ya hemos llegado, no necesitamos recuperar el destino.
+        if (distanceToTarget <= agent.stoppingDistance + 0.2f)
+            return;
+
+        // Recuperar el camino si se ha perdido o es inválido.
+        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            troop.SetTarget(currentTarget);
+        }
     }
 
     #region BEHAVIOUR TREE (API)
@@ -233,7 +260,9 @@ public class GathererTroop : MonoBehaviour, ITroop
         if (gatherPoint != null)
         {
             gatherPointTransform = gatherPoint.transform;
-            troop.SetTarget(gatherPointTransform);
+            currentTarget = gatherPointTransform;
+
+            troop.SetTarget(currentTarget);
         }
         else
         {
@@ -251,6 +280,7 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         isGathering = false;
         gatherPointTransform = null;
+        currentTarget = null;
     }
 
     #endregion
@@ -275,20 +305,18 @@ public class GathererTroop : MonoBehaviour, ITroop
             if (baseCol == null)
                 return;
 
-            if (isGathering &&
-                baseCol.GetFaction() == troop.GetFaction())
+            if (isGathering && baseCol.GetFaction() == troop.GetFaction())
             {
                 troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, 1));
 
-                Debug.Log(
-                    "Recursos entregados en la base. Volviendo a la mina..."
-                );
+                Debug.Log("Recursos entregados en la base. Volviendo a la mina...");
 
                 isGathering = false;
 
                 if (gatherPointTransform != null)
                 {
-                    troop.SetTarget(gatherPointTransform);
+                    currentTarget = gatherPointTransform;
+                    troop.SetTarget(currentTarget);
                 }
             }
         }
@@ -298,16 +326,19 @@ public class GathererTroop : MonoBehaviour, ITroop
     {
         isGathering = true;
 
-        if (troop.GetAgent() != null)
+        NavMeshAgent agent = troop.GetAgent();
+
+        // Detener el movimiento sin desactivar el agente.
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
         {
-            troop.GetAgent().isStopped = true;
-            troop.GetAgent().enabled = false;
+            agent.isStopped = true;
+            agent.ResetPath();
         }
 
         SpriteRenderer spr = troop.GetSpriteRenderer();
         Collider2D collider = troop.GetTroopCollider();
 
-        // Entra en la cueva.
+        // Ocultar la tropa mientras recolecta.
         if (spr != null)
             spr.enabled = false;
 
@@ -316,20 +347,29 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         yield return new WaitForSeconds(5f);
 
-        if (troop.GetAgent() != null)
+        // Restaurar la apariencia.
+        if (spr != null)
+            spr.enabled = true;
+
+        if (collider != null)
+            collider.enabled = true;
+
+        // Reanudar el movimiento.
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
         {
-            troop.GetAgent().enabled = true;
-            troop.GetAgent().isStopped = false;
+            agent.isStopped = false;
 
-            if (spr != null)
-                spr.enabled = true;
+            // Regresar a la base aliada.
+            Transform allyBase = troop.GetAllyBaseTransform();
 
-            if (collider != null)
-                collider.enabled = true;
-
-            if (troop.GetAllyBaseTransform() != null)
+            if (allyBase != null)
             {
-                troop.SetTarget(troop.GetAllyBaseTransform());
+                currentTarget = allyBase;
+                troop.SetTarget(currentTarget);
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: no se ha encontrado la base aliada.");
             }
         }
     }

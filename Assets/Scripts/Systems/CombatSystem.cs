@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class CombatSystem
 {
-    // Daño provisional para las tropas melee.
-    private const int meleeDamage = 9999;
+    #region ATAQUE
 
     // Por ahora a lo sencillo: Ataque de daño aleatorio.
     public static void PerformAttack(ATroop attacker, ATroop target)
@@ -14,12 +13,7 @@ public class CombatSystem
         if (attacker.GetFaction() == target.GetFaction())
             return;
 
-        HealthComponent health = target.GetHealth();
-
-        if (health == null || health.IsDead())
-            return;
-
-        health.TakeDamage(meleeDamage);
+        ApplyDamage(target.gameObject, attacker.GetDefinition().strength);
     }
     
     // Aplicar el daño.
@@ -33,39 +27,62 @@ public class CombatSystem
         health.TakeDamage(damage);
     }
 
-    // Comprobar si está lo suficientemente cerca para atacar, y devolver el enemigo más cercano.
-    public static bool CloseEnoughToAttack(ATroop obj, out ATroop closestEnemy)
-    {
-        closestEnemy = null;
+    #endregion
 
-        if (obj == null || obj.GetDefinition() == null)
+    #region ALCANCE
+
+    // Comprobar si una tropa es un enemigo válido.
+    public static bool IsValidEnemy(ATroop attacker, ATroop target)
+    {
+        if (attacker == null || target == null || attacker == target)
             return false;
 
-        float attackReach = obj.GetDefinition().attackReach;
+        if (attacker.GetFaction() == target.GetFaction())
+            return false;
 
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(obj.transform.position, attackReach);
+        if (target.GetDefinition() == null)
+            return false;
 
+        HealthComponent health = target.GetHealth();
+
+        return health != null && !health.IsDead();
+    }
+
+    // Comprobar si el objetivo está dentro del alcance de ataque.
+    public static bool CloseEnoughToAttack(ATroop attacker, ATroop target)
+    {
+        if (!IsValidEnemy(attacker, target))
+            return false;
+
+        float attackReach = attacker.GetDefinition().attackReach;
+
+        float sqrDistance = (target.transform.position - attacker.transform.position).sqrMagnitude;
+
+        return sqrDistance <= attackReach * attackReach;
+    }
+
+    // Buscar la tropa enemiga más cercana dentro del radio de detección.
+    public static ATroop FindClosestEnemy(ATroop attacker, float detectionRadius)
+    {
+        if (attacker == null || attacker.GetDefinition() == null)
+            return null;
+
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attacker.transform.position, detectionRadius);
+
+        ATroop closestEnemy = null;
         float shortestDistance = Mathf.Infinity;
-        Vector2 currentPosition = obj.transform.position;
 
         foreach (Collider2D collider in detectedObjects)
         {
             if (collider == null)
                 continue;
 
-            // Buscar ATroop también en los padres del collider.
             ATroop otherTroop = collider.GetComponentInParent<ATroop>();
 
-            if (otherTroop == null || otherTroop == obj || otherTroop.GetDefinition() == null || otherTroop.GetFaction() == obj.GetFaction())
+            if (!IsValidEnemy(attacker, otherTroop))
                 continue;
 
-            // Ignorar enemigos que ya estén muertos.
-            HealthComponent enemyHealth = otherTroop.GetHealth();
-
-            if (enemyHealth == null || enemyHealth.IsDead())
-                continue;
-
-            float distance = (otherTroop.transform.position - (Vector3) currentPosition).sqrMagnitude;
+            float distance = (otherTroop.transform.position - attacker.transform.position).sqrMagnitude;
 
             if (distance < shortestDistance)
             {
@@ -74,6 +91,8 @@ public class CombatSystem
             }
         }
 
-        return closestEnemy != null && shortestDistance <= attackReach * attackReach;
+        return closestEnemy;
     }
+
+    #endregion
 }

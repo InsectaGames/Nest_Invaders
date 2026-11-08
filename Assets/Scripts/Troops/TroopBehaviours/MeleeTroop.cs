@@ -9,35 +9,83 @@ public class MeleeTroop : MonoBehaviour, ITroop
     [SerializeField] private float attackCooldown = 1.5f;
     [SerializeField] private float enemyAttackPriorityDelay = 0.2f; // PRIORIDAD DE ATAQUE A ALIADOS.
 
+    [Header("Detección")]
+    [SerializeField] private float targetUpdateInterval = 0.2f;
+
+    private ATroop enemyToAttack;
+
     private float nextAttackTime = 0f;
     private float enemyStartTime;
+    private float nextTargetUpdateTime;
+
+    private bool returningToBase;
 
     private void Awake()
     {
         troop = GetComponent<ATroop>();
     }
 
+    #region ESTABLECER OBJETIVO
+
     private void Update()
     {
         if (troop == null || troop.GetDefinition() == null)
             return;
 
-         // Comprobar si ya puede volver a atacar.
-        if (Time.time < nextAttackTime)
-            return;
-
-        // Prioridad de ataque aliada, enemigos tardan más.
-        if (troop.GetFaction() == Faction.ENEMY && Time.time < enemyStartTime + enemyAttackPriorityDelay)
-            return;
-
-        if (CombatSystem.CloseEnoughToAttack(troop, out ATroop closestEnemy))
+        // Comprobar si el objetivo actual sigue siendo válido.
+        if (!HasValidTarget())
         {
-            Attack(closestEnemy);
+            enemyToAttack = null;
+            troop.SetMovementStopped(false);
+            returningToBase = false;
 
-            // Establecer el siguiente momento de ataque.
+            // Buscar un nuevo enemigo.
+            ATroop closestEnemy = CombatSystem.FindClosestEnemy(troop, troop.GetDefinition().attackReach);
+
+            if (closestEnemy != null)
+            {
+                SetCombatTarget(closestEnemy, true);
+            }
+            else
+            {
+                ReturnToEnemyBase();
+                return;
+            }
+        }
+
+        if (enemyToAttack == null)
+            return;
+
+        // Comprobar si el enemigo está dentro del alcance.
+        if (CombatSystem.CloseEnoughToAttack(troop, enemyToAttack))
+        {
+            // IMPORTANTE: detener completamente la navegación.
+            troop.SetMovementStopped(true);
+
+            // Atacar cuando corresponda.
+            if (Time.time >= nextAttackTime && CanAttackNow())
+            {
+                Attack(enemyToAttack);
                 nextAttackTime = Time.time + attackCooldown;
+            }
+        }
+        else
+        {
+            // El enemigo todavía está fuera del alcance.
+            troop.SetMovementStopped(false);
+
+            // Actualizar periódicamente su posición como destino.
+            if (Time.time >= nextTargetUpdateTime)
+            {
+                troop.SetTarget(enemyToAttack.transform);
+
+                nextTargetUpdateTime = Time.time + targetUpdateInterval;
+            }
         }
     }
+
+    private bool CanAttackNow() => 
+        (troop.GetFaction() == Faction.ENEMY && Time.time < enemyStartTime + enemyAttackPriorityDelay) ? false : true;
 
     public void InitializeBehaviour()
     {
@@ -49,13 +97,70 @@ public class MeleeTroop : MonoBehaviour, ITroop
 
         enemyStartTime = Time.time;
 
-        // Buscar la base enemiga y establecerla como destino.
-        Faction enemyFaction = (troop.GetFaction() == Faction.ALLY)? Faction.ENEMY : Faction.ALLY;
+        enemyToAttack = null;
+        nextAttackTime = 0f;
+        nextTargetUpdateTime = 0f;
+        returningToBase = false;
+
+        troop.SetMovementStopped(false);
+
+        ReturnToEnemyBase();
+    }
+
+    // Establecer un nuevo objetivo de combate.
+    private void SetCombatTarget(ATroop target, bool requestReciprocal)
+    {
+        if (!CombatSystem.IsValidEnemy(troop, target))
+            return;
+
+        enemyToAttack = target;
+        returningToBase = false;
+
+        nextTargetUpdateTime = Time.time + targetUpdateInterval;
+
+        // Cambiar el destino de movimiento hacia el enemigo.
+        troop.SetMovementStopped(false);
+        troop.SetTarget(target.transform);
+
+        // Solicitar que el enemigo también nos ataque.
+        if (requestReciprocal)
+        {
+            MeleeTroop enemyBehaviour = target.GetComponent<MeleeTroop>();
+
+            if (enemyBehaviour != null)
+            {
+                enemyBehaviour.TryAcceptAttacker(troop);
+            }
+        }
+    }
+
+    // Aceptar a una tropa que nos ha seleccionado como objetivo.
+    public void TryAcceptAttacker(ATroop attacker)
+    {
+        if (!CombatSystem.IsValidEnemy(troop, attacker))
+            return;
+
+        // No realizar otra solicitud recíproca: evita llamadas circulares entre las dos tropas.
+        SetCombatTarget(attacker, false);
+    }
+
+    // Comprobar si podemos mantener nuestro objetivo actual.
+    private bool HasValidTarget() => 
+        (enemyToAttack == null) ? false : CombatSystem.IsValidEnemy(troop, enemyToAttack);
+
+    // Volver a dirigirnos hacia la base enemiga.
+    private void ReturnToEnemyBase()
+    {
+        if (troop == null || returningToBase)
+            return;
+
+        Faction enemyFaction = troop.GetFaction() == Faction.ALLY ? Faction.ENEMY : Faction.ALLY;
 
         Transform enemyBase = troop.FindBaseTransform(enemyFaction);
 
         if (enemyBase != null)
         {
+            returningToBase = true;
             troop.SetTarget(enemyBase);
         }
         else
@@ -64,10 +169,12 @@ public class MeleeTroop : MonoBehaviour, ITroop
         }
     }
 
-    // Método provisional para atacar.
+    #endregion
+
+    // Ejecutar el ataque.
     private void Attack(ATroop target)
     {
-        if (target == null)
+        if (!CombatSystem.IsValidEnemy(troop, target))
             return;
 
         CombatSystem.PerformAttack(troop, target);
@@ -78,9 +185,17 @@ public class MeleeTroop : MonoBehaviour, ITroop
         {
             // Si el enemigo suelta recursos, realizar la tirada.
             if (target.GetFaction() != Faction.ALLY)
+            {
                 GambleForSticks(target.GetDefinition());
+            }
 
             targetHealth.Die();
+
+            // Liberar el objetivo para buscar otro enemigo.
+            enemyToAttack = null;
+
+            // Reanudar movimiento para buscar otro objetivo.
+            troop.SetMovementStopped(false);
         }
     }
 
@@ -96,7 +211,13 @@ public class MeleeTroop : MonoBehaviour, ITroop
 
     public void ResetBehaviour()
     {
-        // No hay ningún estado adicional que restablecer por ahora.
+        enemyToAttack = null;
         nextAttackTime = 0f;
+        enemyStartTime = 0f;
+
+        returningToBase = false;
+
+        if (troop != null)
+            troop.SetMovementStopped(false);
     }
 }
