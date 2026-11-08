@@ -35,9 +35,20 @@ public class GathererTroop : MonoBehaviour, ITroop
     #region
 
     // Hay aliados en el area de vision de la tropa.
+
+    public void InitB()
+    {
+        
+    }
+    public void EndB()
+    {
+
+    }
     public Status AreAlliesNearby()
     {
+        Debug.LogWarning("Entro a comprobar enemigos");
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+        Debug.Log("Tamaño del array del collider: " + detectedObjects.Length);
 
         foreach (Collider2D collider in detectedObjects)
         {
@@ -57,14 +68,17 @@ public class GathererTroop : MonoBehaviour, ITroop
                     return Status.Success;
             }
         }
-
+        //StartCoroutine(WaitOneSecond());
         return Status.Failure;
     }
 
     // Hay enemigos en el area de visión de la tropa.
     public Status AreEnemiesNearby()
     {
+        Debug.LogWarning("Entro a comprobar enemigos");
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+        Debug.Log("Tamaño del array del collider: " + detectedObjects.Length);
+
 
         foreach (Collider2D collider in detectedObjects)
         {
@@ -73,12 +87,12 @@ public class GathererTroop : MonoBehaviour, ITroop
 
             ATroop otherTroop = collider.GetComponentInParent<ATroop>();
 
-
+            //StartCoroutine(WaitOneSecond());
             //Ignorarse a si mismo
             if (otherTroop == null || otherTroop == troop) continue;
 
             //Comprobar que sea un enemigo
-            if (otherTroop.gameObject.CompareTag("Enemy") || otherTroop.gameObject.CompareTag("Enemy"))
+            if (otherTroop.CompareTag("Enemy") || otherTroop.gameObject.CompareTag("Enemy"))
             {
                 TroopDefinition otherTroopDefinition = otherTroop.GetDefinition();
 
@@ -86,6 +100,7 @@ public class GathererTroop : MonoBehaviour, ITroop
                 if (otherTroopDefinition == null || otherTroopDefinition.type == TroopType.THIEF) continue;
 
                 HealthComponent health = otherTroop.GetHealth();
+
 
                 if (health != null && !health.IsDead())
                     return Status.Success;
@@ -127,14 +142,25 @@ public class GathererTroop : MonoBehaviour, ITroop
                 enemiesCount++;
             }
         }
+
+        //StartCoroutine(WaitOneSecond());
         if (alliesCount >= enemiesCount)
             return Status.Success;
 
         return Status.Failure;
     }
 
+
+    // Solo para debbugear y que no pase todo rapidisimo.
+    IEnumerator WaitOneSecond()
+    {
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("Ha pasado un segundo");
+    }
+
     #endregion
-    
+
     // Inicializar y resetear el comportamiento al spawnear y volver al pool.
     #region
     public void InitializeBehaviour()
@@ -174,7 +200,7 @@ public class GathererTroop : MonoBehaviour, ITroop
     }
 
     #endregion
-    
+
     // Métodos antiguos para calcular posiciones y demás.
     #region
 
@@ -256,7 +282,7 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     #endregion
 
-    
+
     //Metodos auxiliares
     #region 
     public void UpdateSpriteVisuals()
