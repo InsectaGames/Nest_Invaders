@@ -42,20 +42,20 @@ public class HealthComponent : MonoBehaviour
         canv_health.SetActive(Health < MaxHealth);
         float healthPercent = (float)Health / MaxHealth;
 
-        // Actualizar relleno
+        // Actualizar relleno.
         fillbar.fillAmount = healthPercent;
        
 
-        // Interpolar colores
+        // Interpolar colores.
         if (healthPercent >= 0.5f)
         {
-            // De amarillo a verde (100% - 50%)
+            // De amarillo a verde (100% - 50%).
             float t = (healthPercent - 0.5f) / 0.5f;
             fillbar.color = Color.Lerp(Color.yellow, Color.green, t);
         }
         else
         {
-            // De rojo a amarillo (0% - 50%)
+            // De rojo a amarillo (0% - 50%).
             float t = healthPercent / 0.5f;
             fillbar.color = Color.Lerp(Color.red, Color.yellow, t);
         }

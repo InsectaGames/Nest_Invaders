@@ -111,37 +111,27 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
 
             if (t < inicioAtardecer)
             {
-                // Día
+                // Día.
                 colorAdjustments.colorFilter.value = colorDia;
             }
             else if (t < inicioNoche)
             {
-                // Atardecer
-                float atardecerT = Mathf.InverseLerp(
-                    inicioAtardecer,
-                    inicioNoche,
-                    t
-                );
+                // Atardecer.
+                float atardecerT = Mathf.InverseLerp(inicioAtardecer, inicioNoche, t);
 
-                colorAdjustments.colorFilter.value =
-                    Color.Lerp(colorDia, colorAtardecer, atardecerT);
+                colorAdjustments.colorFilter.value = Color.Lerp(colorDia, colorAtardecer, atardecerT);
             }
             else
             {
-                // Transición de atardecer a noche
-                float nocheT = Mathf.InverseLerp(
-                    inicioNoche,
-                    1f,
-                    t
-                );
+                // Transición de atardecer a noche.
+                float nocheT = Mathf.InverseLerp(inicioNoche, 1f, t);
 
-                colorAdjustments.colorFilter.value =
-                    Color.Lerp(colorAtardecer, colorNoche, nocheT);
+                colorAdjustments.colorFilter.value = Color.Lerp(colorAtardecer, colorNoche, nocheT);
             }
         }
         else
         {
-            // Durante la noche mantenemos el color nocturno
+            // Durante la noche mantenemos el color nocturno.
             float t = Mathf.Clamp01(_timer / levelInfo.nightLength);
 
             if (t < inicioAmanecer)
@@ -150,14 +140,9 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
             }
             else
             {
-                float amanecerT = Mathf.InverseLerp(
-                    inicioAmanecer,
-                    1f,
-                    t
-                );
+                float amanecerT = Mathf.InverseLerp(inicioAmanecer, 1f, t);
 
-                colorAdjustments.colorFilter.value =
-                    Color.Lerp(colorNoche, colorDia, amanecerT);
+                colorAdjustments.colorFilter.value = Color.Lerp(colorNoche, colorDia, amanecerT);
             }
         }
     }

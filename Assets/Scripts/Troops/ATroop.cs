@@ -28,7 +28,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
     private Transform allyBaseTransform;
 
-    [SerializeField]private GameObject infection;
+    [SerializeField] private GameObject infection;
 
     public TroopDefinition GetDefinition() => definition;
     public Faction GetFaction() => faction;

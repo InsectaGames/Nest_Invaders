@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5770246683901464396}
   - component: {fileID: 5547170987793883974}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: bg_fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,9 @@ GameObject:
   - component: {fileID: 427625728622447473}
   - component: {fileID: -7611178479286851247}
   - component: {fileID: -7951847340890320296}
+  - component: {fileID: 7410310999589047139}
   - component: {fileID: 1098445508956850911}
+  - component: {fileID: 4512434040347789589}
   m_Layer: 0
   m_Name: PFB_Gatherer
   m_TagString: Untagged
@@ -279,6 +281,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  canv_health: {fileID: 4054950483857702460}
+  fillbar: {fileID: 2194438035360904084}
+--- !u!114 &7410310999589047139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538d757b0095156449498adba93ceae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ATroop
+  definition: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
+  availableBehaviours:
+  - {fileID: 1098445508956850911}
+  infection: {fileID: 0}
 --- !u!114 &1098445508956850911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +311,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
+  detectionRadius: 8.5
+  showDetectionRadius: 1
+--- !u!114 &4512434040347789589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BehaviourAPI.UnityToolkit.GUIDesigner.Runtime::BehaviourAPI.UnityToolkit.GUIDesigner.Runtime.EditorBehaviourRunner
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs: []
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +348,7 @@ GameObject:
   - component: {fileID: 8140947763466841375}
   - component: {fileID: 2194438035360904084}
   m_Layer: 5
-  m_Name: Image
+  m_Name: fillbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

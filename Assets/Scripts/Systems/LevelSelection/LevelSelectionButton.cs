@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,8 +36,7 @@ public class LevelSelectionButton : MonoBehaviour
     {
         RefreshState();
 
-        bool pendingAnimation =
-            LevelProgression.ConsumePendingAnimation(levelDefinition.ID);
+        bool pendingAnimation = LevelProgression.ConsumePendingAnimation(levelDefinition.ID);
 
         if (pendingAnimation && selectionAnimator != null)
         {

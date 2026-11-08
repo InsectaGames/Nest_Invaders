@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad45e27b4cddd5a4b922829f5ef70b5e, type: 3}
+  m_Name: Thief
+  m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
+  ID: 2
+  Name: THIEF
+  type: 4
+  behaviour: {fileID: 0}
+  maxHealth: 200
+  speed: 3
+  strength: 30
+  attackReach: 2
+  chanceToDropSticks: 50
+  recursos:
+  - res: 0
+    cantidad: 1
+  capacity: []
+  _prefab: {fileID: 1358891150988844776, guid: 4746f2b6664afc149a03724c86ae284f, type: 3}
+  FactionColor: {r: 1, g: 0, b: 0, a: 1}
+  _sprites:
+  - {fileID: 2495449760416904266, guid: 5cd475f0ed94c70498f1b96ee345c050, type: 3}
+  _animator: {fileID: 0}
+  bhvRunner: {fileID: 0}

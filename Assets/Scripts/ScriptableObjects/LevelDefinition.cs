@@ -2,10 +2,7 @@ using UnityEngine;
 
 public enum LevelDifficulty
 {
-    EASY,
-    NORMAL,
-    HARD,
-    EXPERT
+    EASY, NORMAL, HARD, EXPERT
 }
 
 [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Scriptable Objects/LevelDefinition")]

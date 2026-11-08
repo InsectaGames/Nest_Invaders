@@ -16,7 +16,7 @@ public class GameFlowController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log("Estoy activo : " + this.isActiveAndEnabled);
+        // Debug.Log("Estoy activo : " + this.isActiveAndEnabled);
         if(SceneManager.GetActiveScene().name != gameplayScene)
             return;
 
@@ -131,7 +131,7 @@ public class GameFlowController : MonoBehaviour
     }
 
     /*
-    IEnumerator ChangeSceneTrans(string SceneName)
+    private IEnumerator ChangeSceneTrans(string SceneName)
     {
         Debug.Log("6. Dentro de la corrutina");
 

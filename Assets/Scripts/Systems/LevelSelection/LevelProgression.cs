@@ -5,8 +5,7 @@ public static class LevelProgression
     private const string UNLOCKED_PREFIX = "LEVEL_UNLOCKED_";
     private const string COMPLETED_PREFIX = "LEVEL_COMPLETED_";
 
-    private const string PENDING_ANIMATION_KEY =
-        "PENDING_UNLOCK_ANIMATION";
+    private const string PENDING_ANIMATION_KEY = "PENDING_UNLOCK_ANIMATION";
 
     // Comprueba si un nivel está desbloqueado.
     public static bool IsUnlocked(LevelDefinition level, bool unlockedByDefault = false)

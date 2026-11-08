@@ -14,7 +14,7 @@ public class NavMeshUpdater : MonoBehaviour
 
     private IEnumerator Start()
     {
-        // Obtener el NavMeshSurface
+        // Obtener el NavMeshSurface.
         if (surface == null)
             surface = GetComponent<NavMeshSurface>();
 
