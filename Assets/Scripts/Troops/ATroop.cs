@@ -132,18 +132,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         if (faction == Faction.ENEMY && infection != null)
             infection.SetActive(false);
 
-        // Restaurar la apariencia de la tropa.
-        if (spriteRenderer != null)
-        {
-            if (definition._sprites != null && definition._sprites.Length > 0)
-            {
-                spriteRenderer.sprite = definition._sprites[0];
-            }
-
-            spriteRenderer.color = (faction == Faction.ALLY) ? Color.white : Color.red;
-
-            spriteRenderer.enabled = true;
-        }
+      
 
         if (troopCollider != null)
             troopCollider.enabled = true;
