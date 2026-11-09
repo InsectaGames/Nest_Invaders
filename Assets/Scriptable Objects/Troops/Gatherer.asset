@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: GATHERER
   type: 1
   behaviour: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 99999999
   speed: 2
   strength: 0
   attackReach: 0

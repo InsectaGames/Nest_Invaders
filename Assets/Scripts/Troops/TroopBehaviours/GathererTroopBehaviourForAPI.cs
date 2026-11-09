@@ -25,6 +25,12 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
     private float maxSpeed;
     private float speedIncreaseAmount;
 
+    // Recoger y devolver recursos
+    [Header("Recolección de recursos")]
+    private float gatheringDuration = 5f;
+    private int resourcesPerGather = 1;
+    private int collectedResources = 0;
+
     // Debug para ver radio en el que ve a los enemigos.
     [Header("Detección de tropas")]
     [SerializeField] private float detectionRadius = 8.5f;
@@ -95,6 +101,16 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
         currentInterestPoint = null;
         gatherPointTransform = null;
 
+        collectedResources = 0;
+
+        if (spr != null)
+            spr.enabled = true;
+
+        Collider2D collider = troop.GetTroopCollider();
+
+        if (collider != null)
+            collider.enabled = true;
+
         if (nvm != null)
         {
             nvm.speed = normalSpeed;
@@ -144,19 +160,6 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
             }
         }
     }
-    */
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        // Comprobar si ha llegado al punto de interés actual.
-        if (currentInterestPoint != null && col.transform == currentInterestPoint)
-        {
-            hasReachedInterestPoint = true;
-            lastInterestPoint = currentInterestPoint;
-
-            ResetMovementSpeed();
-            Debug.Log("Punto de interés alcanzado: " + currentInterestPoint.name);
-        }
-    }
 
     private IEnumerator GatherRoutine()
     {
@@ -195,6 +198,19 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
             {
                 troop.SetTarget(troop.GetAllyBaseTransform());
             }
+        }
+    }
+    */
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        // Comprobar si ha llegado al punto de interés actual.
+        if (currentInterestPoint != null && col.transform == currentInterestPoint)
+        {
+            hasReachedInterestPoint = true;
+            lastInterestPoint = currentInterestPoint;
+
+            ResetMovementSpeed();
+            Debug.Log("Punto de interés alcanzado: " + currentInterestPoint.name);
         }
     }
 
@@ -326,13 +342,8 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
             return Status.Failure;
         }
 
-        //Si no ha visitado nada todavia
-        if (lastInterestPoint == null)
-        {
-            currentInterestPoint = gatherPointTransform;
-        }
-        // Si el último punto visitado fue la base, ir a la cueva.
-        else if (lastInterestPoint == allyBase)
+        //Si no ha visitado nada todavia o fue a la base
+        if (lastInterestPoint == null || lastInterestPoint == allyBase)
         {
             currentInterestPoint = gatherPointTransform;
         }
@@ -375,9 +386,9 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
 
     // 4. Desplazarse hacia un objetivo evitando al enemigo
     //    más cercano mediante un rodeo.
-    public Status MoveTowardsTargetAvoidingEnemy()
+    public void MoveTowardsTargetAvoidingEnemy()
     {
-        return Status.Failure;
+        return;
     }
 
     // 5. Desplazarse hacia el punto de interés utilizando NavMesh.
@@ -404,15 +415,46 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
         return hasReachedInterestPoint ? Status.Success : Status.Failure;
     }
 
-    // 7. Ejecutar la acción correspondiente al punto de interés:
-    // recoger materiales, depositarlos en la base, etc.
-    public Status PerformInterestPointAction()
+    // 7. Ejecutar la acción correspondiente al punto de interés.
+    public void PerformInterestPointAction()
     {
-        return Status.Failure;
+        if (!hasReachedInterestPoint || currentInterestPoint == null) return;
+
+        // CASO 1: Está en la cueva de recolección.
+        if (currentInterestPoint == gatherPointTransform)
+        {
+            StartCoroutine(GatherRoutine());
+        }
+
+        // CASO 2: Está en la base aliada.
+        else if (currentInterestPoint == troop.GetAllyBaseTransform())
+        {
+            BaseSystem allyBase = currentInterestPoint.GetComponent<BaseSystem>();
+
+            if (allyBase == null || allyBase.GetFaction() != troop.GetFaction())
+            {
+                Debug.LogWarning("No se ha encontrado una base aliada válida.");
+                return;
+            }
+
+            // Entregar los recursos recolectados.
+            if (collectedResources > 0)
+            {
+                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, collectedResources));
+
+                Debug.Log("Recursos entregados en la base: " + collectedResources);
+
+                // Vaciar el inventario del Gatherer.
+                collectedResources = 0;
+            }
+
+            return;
+        }
+
+        return;
     }
 
     // 8. Comprobar si la tropa está en la base aliada
-    // o en una cueva de recolección.
     public Status IsAtBaseOrCollectionCave()
     {
         if (hasReachedInterestPoint == false || currentInterestPoint == null) return Status.Failure;
@@ -430,6 +472,54 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
     // Metodos auxiliares.
     #region MÉTODOS AUXILIARES
 
+    private IEnumerator GatherRoutine()
+    {
+        isGathering = true;
+
+        // Detener el movimiento del agente.
+        if (nvm != null && nvm.enabled && nvm.isOnNavMesh)
+        {
+            nvm.isStopped = true;
+            nvm.ResetPath();
+        }
+
+        // Obtener los componentes.
+        SpriteRenderer sprite = troop.GetSpriteRenderer();
+        Collider2D collider = troop.GetTroopCollider();
+
+        // Ocultar al Gatherer mientras recolecta.
+        if (sprite != null)
+            sprite.enabled = false;
+
+        if (collider != null)
+            collider.enabled = false;
+
+        Debug.Log("Gatherer recolectando recursos...");
+
+        // Esperar el tiempo de recolección.
+        yield return new WaitForSeconds(gatheringDuration);
+
+        // Añadir los recursos recolectados al inventario.
+        collectedResources += resourcesPerGather;
+
+        Debug.Log("Recursos recolectados: " + collectedResources);
+
+        // Volver a hacer visible al Gatherer.
+        if (sprite != null)
+            sprite.enabled = true;
+
+        if (collider != null)
+            collider.enabled = true;
+
+        // Reactivar el movimiento.
+        if (nvm != null && nvm.enabled && nvm.isOnNavMesh)
+        {
+            nvm.isStopped = false;
+        }
+
+        isGathering = false;
+    }
+
     private void ResetMovementSpeed()
     {
         if (nvm == null)
@@ -440,6 +530,8 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
 
     public void UpdateSpriteVisuals()
     {
+        if (spr == null || nvm == null || !nvm.enabled)
+            return;
         spr.flipX = (nvm.velocity.x < 0);
         //spr.flipY = (nvm.velocity.y > 0);
     }
