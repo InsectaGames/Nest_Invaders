@@ -22,11 +22,6 @@ public class TroopDefinition : ScriptableObject
     public ResourceSlot[] recursos;  // <Resource, int>  ==== ResourceInventory   Cost[] cost;
     public ResourceSlot[] capacity;  // <Resource, int>
 
-    [Header("GameObject y Propiedades")]
-    public GameObject _prefab;
-    public Color FactionColor;
-    public Sprite[] _sprites;
-    public Animator _animator;
 
 
     [Header("Comportamiento")]

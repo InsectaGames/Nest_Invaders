@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MeleeTroop : MonoBehaviour, ITroop
 {
@@ -20,15 +21,24 @@ public class MeleeTroop : MonoBehaviour, ITroop
 
     private bool returningToBase;
 
+    private Animator _animator;
+    private SpriteRenderer spr;
+    private NavMeshAgent nvm;
+
     private void Awake()
     {
         troop = GetComponent<ATroop>();
+        _animator = GetComponent<Animator>();
+        spr = GetComponent<SpriteRenderer>();
+        nvm = GetComponent<NavMeshAgent>();
     }
 
     #region ESTABLECER OBJETIVO
 
     private void Update()
     {
+
+        UpdateSpriteVisuals();
         if (troop == null || troop.GetDefinition() == null)
             return;
 
@@ -48,6 +58,7 @@ public class MeleeTroop : MonoBehaviour, ITroop
             }
             else
             {
+                _animator.SetBool("melee_attacking", false);
                 ReturnToEnemyBase();
                 return;
             }
@@ -113,6 +124,8 @@ public class MeleeTroop : MonoBehaviour, ITroop
         if (!CombatSystem.IsValidEnemy(troop, target))
             return;
 
+        _animator.SetBool("melee_attacking", true);
+
         enemyToAttack = target;
         returningToBase = false;
 
@@ -142,6 +155,7 @@ public class MeleeTroop : MonoBehaviour, ITroop
 
         // No realizar otra solicitud recíproca: evita llamadas circulares entre las dos tropas.
         SetCombatTarget(attacker, false);
+        
     }
 
     // Comprobar si podemos mantener nuestro objetivo actual.
@@ -174,11 +188,16 @@ public class MeleeTroop : MonoBehaviour, ITroop
     // Ejecutar el ataque.
     private void Attack(ATroop target)
     {
-        if (!CombatSystem.IsValidEnemy(troop, target))
-            return;
+        
 
+        if (!CombatSystem.IsValidEnemy(troop, target)) { 
+        _animator.SetBool("melee_attacking", false);
+        return;
+          }
+
+        _animator.SetBool("melee_attacking", true);
         CombatSystem.PerformAttack(troop, target);
-
+        
         HealthComponent targetHealth = target.GetHealth();
 
         if (targetHealth != null && targetHealth.IsDead())
@@ -197,6 +216,8 @@ public class MeleeTroop : MonoBehaviour, ITroop
             // Reanudar movimiento para buscar otro objetivo.
             troop.SetMovementStopped(false);
         }
+
+        _animator.SetBool("melee_attacking", false);
     }
 
     // Método para conseguir palos. De momento, simplemente será una tirada aleatoria en todos los enemigos.
@@ -209,6 +230,11 @@ public class MeleeTroop : MonoBehaviour, ITroop
         }
     }
 
+    public void UpdateSpriteVisuals()
+    {
+        spr.flipX = (nvm.velocity.x < 0);
+        //spr.flipY = (nvm.velocity.y > 0);
+    }
     public void ResetBehaviour()
     {
         enemyToAttack = null;
