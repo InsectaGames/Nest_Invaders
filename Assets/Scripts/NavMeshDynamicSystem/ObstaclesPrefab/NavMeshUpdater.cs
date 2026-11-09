@@ -12,21 +12,25 @@ public class NavMeshUpdater : MonoBehaviour
     [Header("Navigation")]
     [SerializeField] NavMeshSurface surface;
 
+    [Header("Configuración independiente de nivel")]
+    [SerializeField] private int standaloneObstacleNumber = 0;
+
     private IEnumerator Start()
     {
         // Obtener el NavMeshSurface.
         if (surface == null)
             surface = GetComponent<NavMeshSurface>();
 
-        LevelDefinition levelDefinition = LevelSession.SelectedLevel;
+        LevelDefinition levelDefinition = GameTestMode.IsBehaviourTestScene ? null : LevelSession.SelectedLevel;
+        int obstacleNumber = levelDefinition != null ? levelDefinition.obstacleNumber : standaloneObstacleNumber;
 
-        if (levelDefinition == null)
+        if (levelDefinition == null && !GameTestMode.IsBehaviourTestScene)
         {
             Debug.LogError("NavMeshUpdater: No hay ningún nivel seleccionado en LevelSession.", this);
             yield break;
         }
 
-        if (obstaclePrefab == null || surface == null)
+        if (obstacleNumber > 0 && obstaclePrefab == null || surface == null)
         {
             Debug.LogError("Falta asignar obstaclePrefab o NavMeshSurface.", this);
             yield break;
@@ -36,7 +40,7 @@ public class NavMeshUpdater : MonoBehaviour
         GameObject[] pois = GetPointsOfInterest();
 
         // Generar los obstáculos indicados por el nivel.
-        for (int i = 0; i < levelDefinition.obstacleNumber; i++)
+        for (int i = 0; i < obstacleNumber; i++)
         {
             GameObject instance = Instantiate(obstaclePrefab, Vector3.zero, Quaternion.identity);
 
@@ -75,17 +79,31 @@ public class NavMeshUpdater : MonoBehaviour
             }
         }
 
-        // Añadir las bases instanciadas para este nivel.
-        LevelGameplayInitializer initializer = FindFirstObjectByType<LevelGameplayInitializer>();
-
-        if (initializer != null)
+        // Añadir las bases colocadas directamente en la escena.
+        if(GameTestMode.IsBehaviourTestScene)
         {
-            AddPointOfInterest(pois, initializer.AllyBaseInstance);
-            AddPointOfInterest(pois, initializer.EnemyBaseInstance);
+            GameObject[] sceneBases = GameObject.FindGameObjectsWithTag("Base");
+
+            foreach (GameObject baseObject in sceneBases)
+            {
+                if (baseObject != null && !pois.Contains(baseObject))
+                    pois.Add(baseObject);
+            }
         }
         else
         {
-            Debug.LogWarning("NavMeshUpdater: No se ha encontrado LevelGameplayInitializer.");
+            // Añadir las bases instanciadas para este nivel.
+            LevelGameplayInitializer initializer = FindFirstObjectByType<LevelGameplayInitializer>();
+
+            if (initializer != null)
+            {
+                AddPointOfInterest(pois, initializer.AllyBaseInstance);
+                AddPointOfInterest(pois, initializer.EnemyBaseInstance);
+            }
+            else
+            {
+                Debug.LogWarning("NavMeshUpdater: No se ha encontrado LevelGameplayInitializer.");
+            }
         }
 
         return pois.ToArray();

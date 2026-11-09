@@ -11,6 +11,12 @@ public class LevelGameplayInitializer : MonoBehaviour
 
     private void Awake()
     {
+        if (GameTestMode.IsBehaviourTestScene)
+        {
+            Debug.Log("Arena de pruebas: las bases se configuran manualmente desde el Editor.");
+            return;
+        }
+
         LevelDefinition level = LevelSession.SelectedLevel;
 
         if (level == null)

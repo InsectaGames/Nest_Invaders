@@ -1,10 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 {
     // Tipo de tropa.
     [SerializeField] private TroopDefinition definition;
+
+    // Facción utilizada cuando la tropa se coloca directamente en una escena.
+    [SerializeField] private Faction sceneFaction = Faction.ALLY;
+
     private Faction faction;
 
     private TroopPoolManager poolManager;
@@ -48,6 +53,29 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
+    }
+
+    private IEnumerator Start()
+    {
+        // Si ya ha sido inicializada por el pool, no hacer nada.
+        if (!returningToPool || definition == null)
+            yield break;
+
+        // Asegurar que el agente está activo.
+        if (agent != null && !agent.enabled)
+            agent.enabled = true;
+
+        // Esperar a que el NavMesh esté disponible.
+        while (agent != null && agent.enabled && !agent.isOnNavMesh)
+        {
+            yield return null;
+        }
+
+        // Comprobar de nuevo por si la tropa ha sido inicializada entretanto por otro sistema.
+        if (!returningToPool)
+            yield break;
+
+        Initialize(definition, sceneFaction, null);
     }
 
     private void ActivateTroopBehaviour(TroopType type)
@@ -95,7 +123,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         RefreshBaseReferences();
 
-        if (faction == Faction.ENEMY)
+        if (faction == Faction.ENEMY && infection != null)
             infection.SetActive(false);
 
         // Restaurar la apariencia de la tropa.
@@ -125,6 +153,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
             agent.speed = definition.speed;
             agent.isStopped = false;
             agent.updateUpAxis = false;
+            agent.updateRotation = false;
 
             if (!agent.isOnNavMesh)
             {

@@ -43,23 +43,27 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
 
     public float _timer { get; private set; }
 
+    [Header("Configuración independiente de nivel")]
+    [SerializeField] private float standaloneDayLength = 120f;
+    [SerializeField] private float standaloneNightLength = 60f;
+
+    private float dayLength;
+    private float nightLength;
+
     public LevelDefinition GetLvlDef() => this.levelInfo;
 
     private void Awake()
     {
         // Obtener la definición seleccionada en SubLevelsScene.
-        levelInfo = LevelSession.SelectedLevel;
+        levelInfo = GameTestMode.IsBehaviourTestScene ? null : LevelSession.SelectedLevel;
 
-        if (levelInfo == null)
-        {
-            Debug.LogError("DayNightSystem: No hay ningún LevelDefinition seleccionado en LevelSession.");
-            enabled = false;
-            return;
-        }
+        dayLength = levelInfo != null ? levelInfo.dayLength : standaloneDayLength;
 
-        if (levelInfo.dayLength <= 0 || levelInfo.nightLength <= 0)
+        nightLength = levelInfo != null ? levelInfo.nightLength : standaloneNightLength;
+
+        if (dayLength <= 0f || nightLength <= 0f)
         {
-            Debug.LogError($"DayNightSystem: La duración del día o de la noche no es válida en {levelInfo.Name}.");
+            Debug.LogError("DayNightSystem: Las duraciones del día y la noche no son válidas.");
             enabled = false;
             return;
         }
@@ -72,6 +76,9 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
             enabled = false;
             return;
         }
+
+        if(GameTestMode.IsBehaviourTestScene)
+            return;
 
         if (volume == null || volume.profile == null || !volume.profile.TryGet(out colorAdjustments))
         {
@@ -94,7 +101,8 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
     {
         _timer += Time.deltaTime;
 
-        UpdateVolumeColor();
+        if(!GameTestMode.IsBehaviourTestScene)
+            UpdateVolumeColor();
 
         // DEBUG ONLY.
         if (Utils.KeyPressed(UnityEngine.InputSystem.Key.N))
@@ -157,6 +165,9 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
         daytime = DayTime.DAY;
         _timer = 0f;
 
+        if(GameTestMode.IsBehaviourTestScene)
+            return;
+
         colorAdjustments.colorFilter.value = colorDia;
 
         SetVelocityAnim(1f / levelInfo.dayLength);
@@ -170,6 +181,9 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
     {
         daytime = DayTime.NIGHT;
         _timer = 0f;
+
+        if(GameTestMode.IsBehaviourTestScene)
+            return;
 
         colorAdjustments.colorFilter.value = colorNoche;
 

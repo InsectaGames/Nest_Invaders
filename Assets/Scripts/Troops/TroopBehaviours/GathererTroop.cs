@@ -17,9 +17,11 @@ public class GathererTroop : MonoBehaviour, ITroop
     private NavMeshAgent nvm;
 
     // Debug para ver radio en el que ve a los enemigos.
+    /*
     [Header("Detección de tropas")]
     [SerializeField] private float detectionRadius = 8.5f;
     [SerializeField] private bool showDetectionRadius = true;
+    */
 
     private void Awake()
     {

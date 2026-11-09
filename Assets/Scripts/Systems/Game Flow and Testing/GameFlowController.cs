@@ -17,7 +17,7 @@ public class GameFlowController : MonoBehaviour
     private void Update()
     {
         // Debug.Log("Estoy activo : " + this.isActiveAndEnabled);
-        if(SceneManager.GetActiveScene().name != gameplayScene)
+        if(SceneManager.GetActiveScene().name != gameplayScene && !GameTestMode.IsBehaviourTestScene)
             return;
 
         if(Utils.KeyPressed(UnityEngine.InputSystem.Key.Escape))
@@ -86,6 +86,15 @@ public class GameFlowController : MonoBehaviour
 
     public void RestartLevel()
     {
+        if (GameTestMode.IsBehaviourTestScene)
+        {
+            Time.timeScale = 1f;
+            gamePaused = false;
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            return;
+        }
+
         if (LevelSession.SelectedLevel == null)
         {
             Debug.LogWarning("No hay ningún nivel seleccionado para reiniciar.");
@@ -186,6 +195,13 @@ public class GameFlowController : MonoBehaviour
 
     public void TriggerVictory()
     {
+        // En la arena de pruebas no se cambia de escena.
+        if (GameTestMode.IsBehaviourTestScene)
+        {
+            Debug.Log("Victoria detectada en modo de pruebas. Permanecemos en la escena.");
+            return;
+        }
+
         Debug.Log("¡Nivel completado!");
 
         LevelDefinition completedLevel = LevelSession.SelectedLevel;
@@ -215,6 +231,12 @@ public class GameFlowController : MonoBehaviour
 
     public void TriggerDefeat()
     {
+        if (GameTestMode.IsBehaviourTestScene)
+        {
+            Debug.Log("Derrota detectada en modo de pruebas. Permanecemos en la escena.");
+            return;
+        }
+
         Time.timeScale = 1f;
         gamePaused = false;
 
