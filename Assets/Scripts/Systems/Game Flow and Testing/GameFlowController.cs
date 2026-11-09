@@ -26,7 +26,16 @@ public class GameFlowController : MonoBehaviour
                 ResumeGame();
             else
                 PauseGame();
-        }  
+        }
+
+
+        //DEBUG ONLY
+        /*
+        if (Utils.KeyPressed(UnityEngine.InputSystem.Key.V))
+        {
+            TriggerVictory();       
+        }
+        */
     }
 
     #region MENU
@@ -193,6 +202,8 @@ public class GameFlowController : MonoBehaviour
 
     #region VICTORIA Y DERROTA
 
+    
+
     public void TriggerVictory()
     {
         // En la arena de pruebas no se cambia de escena.
@@ -225,7 +236,9 @@ public class GameFlowController : MonoBehaviour
             Debug.Log($"El siguiente nivel ya estaba desbloqueado: {completedLevel.nextLevel.Name}");
         }
 
-        ReturnToLevelSelection();
+
+        SceneManager.LoadScene("VictoryScene", LoadSceneMode.Additive);
+       // ReturnToLevelSelection();
     }
 
 
@@ -242,7 +255,9 @@ public class GameFlowController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(defeatScene))
         {
-            SceneManager.LoadScene(defeatScene);
+
+
+            SceneManager.LoadScene(defeatScene , LoadSceneMode.Additive);
         }
         else
         {
