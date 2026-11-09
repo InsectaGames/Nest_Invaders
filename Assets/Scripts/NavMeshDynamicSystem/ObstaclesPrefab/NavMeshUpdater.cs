@@ -53,7 +53,7 @@ public class NavMeshUpdater : MonoBehaviour
                 continue;
             }
 
-            if (!obstacle.InitializePos(new Vector2(-5.7f, -5.2f), new Vector2(12.4f, 7.3f), pois))
+            if (!obstacle.InitializePos(new Vector2(-16.99f, -9.28f), new Vector2(15.96f, 7.86f), pois))
             {
                 Debug.LogWarning("No se encontró una posición válida para el obstáculo.");
                 Destroy(instance);

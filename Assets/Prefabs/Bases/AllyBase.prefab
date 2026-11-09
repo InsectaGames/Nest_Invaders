@@ -485,20 +485,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 0
-  HP: 20
+  standaloneBaseHealth: 100
   resources:
   - res: 0
     cantidad: 10
   - res: 1
     cantidad: 3
   maxResources: e7030000e7030000
-  prefab: {fileID: 1358891150988844776, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   troopPoolManager: {fileID: 0}
   towerSummons:
   - towerInfo: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
     key: 15
   - towerInfo: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
     key: 33
+  enemyTroops: []
+  enableDebugTroopSpawning: 0
+  debugSpawnKey: 34
+  debugTroops: []
+  debugSpawnPoint: {fileID: 0}
+  debugSpawnRadius: 2
 --- !u!114 &7740885051449163098
 MonoBehaviour:
   m_ObjectHideFlags: 0

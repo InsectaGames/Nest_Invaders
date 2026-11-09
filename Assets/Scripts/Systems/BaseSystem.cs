@@ -48,7 +48,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
     private Mutex spawnerMutex = new Mutex();
 
     // Configuración de generación enemiga.
-    private List<TroopDefinition> enemyTroops = new List<TroopDefinition>();
+    [SerializeField]private List<TroopDefinition> enemyTroops = new List<TroopDefinition>();
 
     private float enemySpawnInterval;
     private Coroutine enemySpawnCoroutine;

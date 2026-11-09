@@ -4543,6 +4543,7 @@ MonoBehaviour:
   pointsOfInterest:
   - {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   surface: {fileID: 1241456675}
+  standaloneObstacleNumber: 0
 --- !u!1 &1286329200
 GameObject:
   m_ObjectHideFlags: 0
@@ -6120,6 +6121,8 @@ MonoBehaviour:
   inicioNoche: 0.85
   particleSystems:
   - {fileID: 1874662289}
+  standaloneDayLength: 120
+  standaloneNightLength: 60
 --- !u!1 &1874662287
 GameObject:
   m_ObjectHideFlags: 0

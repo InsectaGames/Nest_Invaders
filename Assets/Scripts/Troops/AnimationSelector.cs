@@ -15,7 +15,7 @@ public class AnimationSelector : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         _troop = GetComponent<ATroop>();
         _troopDefinition = _troop.GetDefinition();
-        select = (int)_troopDefinition.type +1;
+        select = _troopDefinition.ID+1;
         m_Animator.SetInteger("Troop", select);
         
     }

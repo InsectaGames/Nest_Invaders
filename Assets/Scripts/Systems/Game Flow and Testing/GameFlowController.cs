@@ -12,6 +12,7 @@ public class GameFlowController : MonoBehaviour
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
+    [SerializeField] private string victoryScene = "VictoryScene";
     [SerializeField] private string defeatScene = "DefeatScene";
 
     private void Update()
@@ -28,13 +29,8 @@ public class GameFlowController : MonoBehaviour
                 PauseGame();
         }
 
-        //DEBUG ONLY
-        /*
-        if (Utils.KeyPressed(UnityEngine.InputSystem.Key.V))
-        {
-            TriggerVictory();       
-        }
-        */
+       
+        
     }
 
     #region MENU
@@ -233,7 +229,7 @@ public class GameFlowController : MonoBehaviour
         }
 
 
-        SceneManager.LoadScene("VictoryScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
        // ReturnToLevelSelection();
     }
 

@@ -280,11 +280,15 @@ MonoBehaviour:
   maxResources: 
   troopPoolManager: {fileID: 0}
   towerSummons:
-  - towerInfo: {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
+  - towerInfo: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
     key: 0
+  enemyTroops:
+  - {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
   enableDebugTroopSpawning: 0
   debugSpawnKey: 34
-  debugTroops: []
+  debugTroops:
+  - definition: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+    prefab: {fileID: 6056719398558215712, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
   debugSpawnPoint: {fileID: 0}
   debugSpawnRadius: 2
 --- !u!114 &7766060302503241086
