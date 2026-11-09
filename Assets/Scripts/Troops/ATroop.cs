@@ -20,6 +20,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private HealthComponent health;
     private SpriteRenderer spriteRenderer;
     private Collider2D troopCollider;
+    private TroopFlocking troopFlocking;
 
     // Componentes para el comportamiento de las tropas.
     [Header("Comportamientos disponibles")]
@@ -47,6 +48,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     {
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
+        troopFlocking = GetComponent<TroopFlocking>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         troopCollider = GetComponent<Collider2D>();
@@ -121,6 +123,10 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         returningToPool = false;
 
+        // Restablecer la vida para esta nueva utilización.
+        if (health != null)
+            health.Initialize(definition.maxHealth);
+
         RefreshBaseReferences();
 
         if (faction == Faction.ENEMY && infection != null)
@@ -129,14 +135,12 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         // Restaurar la apariencia de la tropa.
         if (spriteRenderer != null)
         {
-            if (definition._sprites != null &&
-                definition._sprites.Length > 0)
+            if (definition._sprites != null && definition._sprites.Length > 0)
             {
                 spriteRenderer.sprite = definition._sprites[0];
             }
 
-            spriteRenderer.color =
-                (faction == Faction.ALLY) ? Color.white : Color.red;
+            spriteRenderer.color = (faction == Faction.ALLY) ? Color.white : Color.red;
 
             spriteRenderer.enabled = true;
         }
@@ -169,9 +173,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         // Inicializar el comportamiento correspondiente al tipo de tropa.
         ActivateTroopBehaviour(definition.type);
 
-        // Restablecer la vida para esta nueva utilización.
-        if (health != null)
-            health.Initialize(definition.maxHealth);
+        troopFlocking?.Initialize();
     }
 
     private void RefreshBaseReferences()
@@ -319,6 +321,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
+
+        troopFlocking?.ResetFlocking();
 
         returningToPool = true;
 

@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: -7611178479286851247}
   - component: {fileID: 6510354002243189156}
   - component: {fileID: 6056719398558215712}
+  - component: {fileID: 6692132938675508249}
   - component: {fileID: 2264519432635813725}
   - component: {fileID: 227354602153264876}
   - component: {fileID: 5710064644136453479}
@@ -299,10 +300,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ATroop
   definition: {fileID: 0}
+  sceneFaction: 0
   availableBehaviours:
   - {fileID: 2264519432635813725}
   - {fileID: 227354602153264876}
   infection: {fileID: 7684181687583238368}
+--- !u!114 &6692132938675508249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92835702751b41348a915d601d1a6b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TroopFlocking
+  neighbourRadius: 3.5
+  separationRadius: 2
+  troopLayers:
+    serializedVersion: 2
+    m_Bits: 193
+  separationStrength: 3.5
+  alignmentStrength: 0
+  correctionDistance: 1.5
+  updateInterval: 0.1
 --- !u!114 &2264519432635813725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeTroop
   attackCooldown: 1.5
   enemyAttackPriorityDelay: 0.2
+  targetUpdateInterval: 0.2
 --- !u!114 &227354602153264876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,8 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
-  detectionRadius: 8.5
-  showDetectionRadius: 1
 --- !u!95 &5710064644136453479
 Animator:
   serializedVersion: 7

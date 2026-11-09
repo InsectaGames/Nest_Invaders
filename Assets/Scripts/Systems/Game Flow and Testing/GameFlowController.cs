@@ -28,7 +28,6 @@ public class GameFlowController : MonoBehaviour
                 PauseGame();
         }
 
-
         //DEBUG ONLY
         /*
         if (Utils.KeyPressed(UnityEngine.InputSystem.Key.V))
@@ -202,8 +201,6 @@ public class GameFlowController : MonoBehaviour
 
     #region VICTORIA Y DERROTA
 
-    
-
     public void TriggerVictory()
     {
         // En la arena de pruebas no se cambia de escena.
@@ -224,8 +221,7 @@ public class GameFlowController : MonoBehaviour
             return;
         }
 
-        bool nextLevelUnlocked =
-            LevelProgression.CompleteLevel(completedLevel);
+        bool nextLevelUnlocked = LevelProgression.CompleteLevel(completedLevel);
 
         if (nextLevelUnlocked)
         {
@@ -255,8 +251,6 @@ public class GameFlowController : MonoBehaviour
 
         if (!string.IsNullOrEmpty(defeatScene))
         {
-
-
             SceneManager.LoadScene(defeatScene , LoadSceneMode.Additive);
         }
         else
