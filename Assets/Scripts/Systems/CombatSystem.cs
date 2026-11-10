@@ -7,10 +7,7 @@ public class CombatSystem
     // Por ahora a lo sencillo: Ataque de daño aleatorio.
     public static void PerformAttack(ATroop attacker, ATroop target)
     {
-        if (attacker == null || target == null)
-            return;
-
-        if (attacker.GetFaction() == target.GetFaction())
+        if (!IsValidEnemy(attacker, target))
             return;
 
         ApplyDamage(target.gameObject, attacker.GetDefinition().strength);
@@ -37,10 +34,10 @@ public class CombatSystem
         if (attacker == null || target == null || attacker == target)
             return false;
 
-        if (attacker.GetFaction() == target.GetFaction())
+        if (attacker.GetDefinition() == null || target.GetDefinition() == null)
             return false;
 
-        if (target.GetDefinition() == null)
+        if (attacker.GetFaction() == target.GetFaction())
             return false;
 
         HealthComponent health = target.GetHealth();

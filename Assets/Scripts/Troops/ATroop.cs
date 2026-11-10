@@ -123,16 +123,20 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         returningToPool = false;
 
+        // Inicializar la selección de animación.
+        AnimationSelector animationSelector = GetComponent<AnimationSelector>();
+
+        if (animationSelector != null)
+            animationSelector.Initialize(definition);
+
         // Restablecer la vida para esta nueva utilización.
         if (health != null)
             health.Initialize(definition.maxHealth);
 
         RefreshBaseReferences();
 
-        if (faction == Faction.ENEMY && infection != null)
+        if (faction != Faction.ALLY && infection != null)
             infection.SetActive(false);
-
-      
 
         if (troopCollider != null)
             troopCollider.enabled = true;
@@ -264,6 +268,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Cuando entra en el trigger de una base. Es un comportamiento común a todas las tropas.
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if(faction == Faction.NEUTRAL)
+            return;
+
         if (!col.CompareTag("Base"))
             return;
 
@@ -310,6 +317,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
+
+        if(infection != null)
+            infection.SetActive(false);
 
         troopFlocking?.ResetFlocking();
 

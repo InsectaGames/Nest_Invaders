@@ -27,10 +27,7 @@ public class GameFlowController : MonoBehaviour
                 ResumeGame();
             else
                 PauseGame();
-        }
-
-       
-        
+        }     
     }
 
     #region MENU

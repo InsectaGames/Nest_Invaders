@@ -2,24 +2,30 @@ using UnityEngine;
 
 public class AnimationSelector : MonoBehaviour
 {
-
-    [SerializeField]private Animator m_Animator;
-    [SerializeField]private ATroop _troop;
-    [SerializeField]private TroopDefinition _troopDefinition;
-    public int select;
+    [Header("Referencias")]
+    [SerializeField] private Animator m_Animator;
     
+    [Header("Configuración visual")]
+    [SerializeField] private TroopDefinition _troopDefinition;
+    
+    private int select;
 
-    private void Start()
+    private void Awake()
     {
-
-        m_Animator = GetComponent<Animator>();
-        _troop = GetComponent<ATroop>();
-        _troopDefinition = _troop.GetDefinition();
-        select = _troopDefinition.ID+1;
-        m_Animator.SetInteger("Troop", select);
-        
+        if (m_Animator == null)
+            m_Animator = GetComponent<Animator>();
     }
 
+    public void Initialize(TroopDefinition definition)
+    {
+        if (definition == null || m_Animator == null)
+            return;
 
+        // Utilizar la definición alternativa si está configurada.
+        TroopDefinition visualDefinition = _troopDefinition != null ? _troopDefinition : definition;
 
+        select = visualDefinition.ID + 1;
+
+        m_Animator.SetInteger("Troop", select);
+    }
 }

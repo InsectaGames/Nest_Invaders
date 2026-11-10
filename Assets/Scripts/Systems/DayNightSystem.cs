@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
@@ -8,7 +9,7 @@ public enum DayTime
     NIGHT
 }
 
-public class DayNightSystem : MonoBehaviour//, ASubject<Color>
+public class DayNightSystem : ASubject<GameEvent<DayTime>>
 {
     private LevelDefinition levelInfo;
     private DayTime daytime;
@@ -165,6 +166,8 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
         daytime = DayTime.DAY;
         _timer = 0f;
 
+        UpdateObservers(new GameEvent<DayTime>(LogicEvent.TIME_CHANGE, daytime));
+
         if(GameTestMode.IsBehaviourTestScene)
             return;
 
@@ -181,6 +184,8 @@ public class DayNightSystem : MonoBehaviour//, ASubject<Color>
     {
         daytime = DayTime.NIGHT;
         _timer = 0f;
+
+        UpdateObservers(new GameEvent<DayTime>(LogicEvent.TIME_CHANGE, daytime));
 
         if(GameTestMode.IsBehaviourTestScene)
             return;

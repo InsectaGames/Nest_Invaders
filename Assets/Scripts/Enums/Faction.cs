@@ -1,5 +1,6 @@
 public enum Faction
 {
     ALLY,
-    ENEMY
+    ENEMY,
+    NEUTRAL
 }

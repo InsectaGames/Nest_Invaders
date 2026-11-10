@@ -1,6 +1,5 @@
 using BehaviourAPI.UnityToolkit;
 using UnityEngine;
-using BehaviourAPI.Core;
 
 [CreateAssetMenu(fileName = "TroopDefinition", menuName = "Scriptable Objects/TroopDefinition")]
 public class TroopDefinition : ScriptableObject
@@ -9,7 +8,6 @@ public class TroopDefinition : ScriptableObject
     public int ID;
     public string Name;
     public TroopType type;
-    public BehaviourRunner behaviour;
 
     [Header("Stats")]
     public int maxHealth;
@@ -21,8 +19,6 @@ public class TroopDefinition : ScriptableObject
     [Header("Recursos")]
     public ResourceSlot[] recursos;  // <Resource, int>  ==== ResourceInventory   Cost[] cost;
     public ResourceSlot[] capacity;  // <Resource, int>
-
-
 
     [Header("Comportamiento")]
     public BehaviourRunner bhvRunner;
