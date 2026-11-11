@@ -412,7 +412,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
             {
                 leavesIndex = GetResourceIndex(Resource.LEAVES);
 
-                if (leavesIndex < 0 || resources[leavesIndex].cantidad <= 0)
+                if (leavesIndex < 0 || resources[leavesIndex].cantidad < definition.recursos[0].cantidad)
                 {
                     Debug.LogWarning($"No se puede crear {definition.Name}: no hay suficientes hojas.");
                     return null;
@@ -429,7 +429,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
             if (consumeLeaves)
             {
-                resources[leavesIndex].cantidad--;
+                resources[leavesIndex].cantidad -= definition.recursos[0].cantidad;
 
                 UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, resources[leavesIndex].cantidad)));
 

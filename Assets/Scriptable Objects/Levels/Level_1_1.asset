@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Level_1_1
   difficulty: 0
   nextLevel: {fileID: 11400000, guid: c3e568ad52417aa498e26bc7ce132656, type: 2}
-  dayLength: 10
+  dayLength: 75
   nightLength: 45
   initialResources:
   - res: 0
@@ -31,4 +31,4 @@ MonoBehaviour:
   obstacleNumber: 6
   enemySpawnInterval: 15
   enemyTroops:
-  - {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
+  - {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}

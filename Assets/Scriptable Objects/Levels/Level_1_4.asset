@@ -25,8 +25,10 @@ MonoBehaviour:
     cantidad: 1
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
   allyBase: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
+  allyBaseHealth: 10
   enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
+  enemyBaseHealth: 10
   obstacleNumber: 15
   enemySpawnInterval: 10
   enemyTroops:
-  - {fileID: 11400000, guid: 1caf17b93b3bc7041b13753553578919, type: 2}
+  - {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}

@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2264519432635813725}
   - component: {fileID: 227354602153264876}
   - component: {fileID: 5710064644136453479}
+  - component: {fileID: 8904036214587931233}
   - component: {fileID: 2453348568739707454}
   - component: {fileID: 8870340171512564411}
   m_Layer: 0
@@ -305,6 +306,7 @@ MonoBehaviour:
   availableBehaviours:
   - {fileID: 2264519432635813725}
   - {fileID: 227354602153264876}
+  - {fileID: 8904036214587931233}
   - {fileID: 2453348568739707454}
   infection: {fileID: 7684181687583238368}
 --- !u!114 &6692132938675508249
@@ -377,6 +379,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8904036214587931233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8420292baf7e0bc4a89e2500af2179db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedTroop
+  detectionRadius: 8
+  dangerRadius: 3
+  targetUpdateInterval: 0.2
+  attackCooldown: 1.5
+  escapeSpeedMultiplier: 1.5
+  safeDistance: 7
+  escapeUpdateInterval: 0.3
+  navMeshSampleDistance: 3
 --- !u!114 &2453348568739707454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f33796bbde13514f8f1b64bbf37fe8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightTroop
+  nightTint: {r: 0.65, g: 0.35, b: 0.85, a: 1}
   detectionRadius: 6
   targetUpdateInterval: 0.25
   attackCooldown: 1.5
@@ -408,9 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationSelector
   m_Animator: {fileID: 0}
-  _troop: {fileID: 0}
   _troopDefinition: {fileID: 0}
-  select: 0
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

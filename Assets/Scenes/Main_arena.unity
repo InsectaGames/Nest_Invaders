@@ -3481,9 +3481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '10
-
-'
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4494,9 +4492,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshSurface
   m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_CollectObjects: 1
+  m_Size: {x: 36.62, y: 10, z: 20.2}
+  m_Center: {x: -1.09, y: 2, z: 0.57}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4742,7 +4740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1381670540}
   m_Layer: 0
-  m_Name: Navmesh
+  m_Name: NavigationArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4794,8 +4792,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightTroopSpawner
   nightTroopDefinition: {fileID: 11400000, guid: 7d396da2e6c1f3142999ee6b0de4e1bb, type: 2}
-  nightTroopPool: {fileID: 924418200}
-  dayNightSystem: {fileID: 0}
   spawnCenter: {fileID: 1418146240}
   spawnRadius: 20
   navMeshSampleDistance: 3
@@ -4873,9 +4869,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '10
-
-'
+  m_text: 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11152,7 +11146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '10
+  m_text: '-
 
 '
   m_isRightToLeft: 0
@@ -11317,7 +11311,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1949394341}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600037796}
+        m_TargetAssemblyTypeName: UITroopsGenerator, Assembly-CSharp
+        m_MethodName: UIGenerateEntity
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1949394341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11488,9 +11494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '10
-
-'
+  m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

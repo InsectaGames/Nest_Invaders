@@ -2,7 +2,7 @@ public enum TroopType
 {
     MELEE_ATTACKER,
     GATHERER,
-    DISTANT_ATTACKER,
+    RANGED_ATTACKER,
     TANK, 
     THIEF,
     NIGHT_CREATURE,
