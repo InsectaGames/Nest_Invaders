@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class LevelSelectionButton : MonoBehaviour
 {
@@ -26,10 +28,14 @@ public class LevelSelectionButton : MonoBehaviour
 
     private bool isUnlocked;
 
+
     private void Awake()
     {
         if (pathParent != null)
             pathImages = pathParent.GetComponentsInChildren<Image>(true);
+
+        
+
     }
 
     private void Start()
@@ -73,4 +79,5 @@ public class LevelSelectionButton : MonoBehaviour
         if (gameFlow != null)
             gameFlow.LoadSelectedLevel(levelDefinition);
     }
+
 }

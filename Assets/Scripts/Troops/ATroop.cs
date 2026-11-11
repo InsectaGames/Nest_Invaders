@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 {
@@ -93,6 +94,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
             // Desactivar todos los comportamientos encontrados.
             component.enabled = false;
+            
 
             // Seleccionar únicamente el que corresponda.
             if (troopBehaviour == null && behaviour.Type == type)

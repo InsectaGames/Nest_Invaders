@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,11 +10,25 @@ public class GameFlowController : MonoBehaviour
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
+    bool creditsPulsed = false;
+
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
     [SerializeField] private string victoryScene = "VictoryScene";
     [SerializeField] private string defeatScene = "DefeatScene";
+    [SerializeField] private string creditsScene = "Credits";
+    [SerializeField] private string shopScene = "Shop";
+
+
+    [Header("Transicion entre escenas")]
+    [SerializeField] private Animator transition;
+
+
+    private void Awake()
+    {
+        transition = GameObject.FindGameObjectWithTag("trans").GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -27,7 +42,8 @@ public class GameFlowController : MonoBehaviour
                 ResumeGame();
             else
                 PauseGame();
-        }     
+        }
+
     }
 
     #region MENU
@@ -39,13 +55,19 @@ public class GameFlowController : MonoBehaviour
 
     public void ShopScene()
     {
-        SceneManager.LoadScene("Shop");
+ 
+        StartCoroutine(LoadTransitionScene(shopScene));
     }
     
     public void GoToSettings()
     {
-        SceneManager.LoadScene("Settings");
-       // StartCoroutine(ChangeSceneTrans("Settings"));
+        Debug.Log("--- SETTINGS ---");
+        Debug.Log("Instance ID: " + GetInstanceID());
+        Debug.Log("Active In Hierarchy: " + gameObject.activeInHierarchy);
+        Debug.Log("Enabled: " + isActiveAndEnabled);
+
+        StartCoroutine(LoadTransitionScene("Settings"));
+      
     }
 
     public void ExitGame()
@@ -82,7 +104,7 @@ public class GameFlowController : MonoBehaviour
 
         Debug.Log($"Cargando nivel: {level.Name} (ID: {level.ID})");
 
-        SceneManager.LoadScene(gameplayScene);
+        StartCoroutine(LoadTransitionScene(gameplayScene));
     }
 
     public void RestartLevel()
@@ -106,7 +128,7 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        SceneManager.LoadScene(gameplayScene);
+        StartCoroutine(LoadTransitionScene(gameplayScene));
     }
 
     public void ReturnToLevelSelection()
@@ -114,7 +136,7 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        SceneManager.LoadScene(levelSelectionScene);
+        StartCoroutine(LoadTransitionScene(levelSelectionScene));
     }
 
     private void OnEnable()
@@ -131,6 +153,8 @@ public class GameFlowController : MonoBehaviour
     {
         Time.timeScale = 1f;
         gamePaused = false;
+
+        
 
         GameObject[] objects = Array.ConvertAll(FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None), t => t.gameObject);
         
@@ -187,7 +211,7 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
         AudioManager.Instance?.StopBackgroundMusic();
-        SceneManager.LoadScene("Menu");
+        StartCoroutine(LoadTransitionScene("Menu"));
     }
 
     #endregion
@@ -253,4 +277,22 @@ public class GameFlowController : MonoBehaviour
     }
 
     #endregion
+
+    #region CREDITOS
+
+    public void GoToCredits()
+    {
+        StartCoroutine(LoadTransitionScene(creditsScene));
+
+    }
+
+  
+    #endregion
+
+    IEnumerator LoadTransitionScene(string scene , LoadSceneMode mode = LoadSceneMode.Single)
+    {
+        transition.SetTrigger("in");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(scene , mode);
+    }
 }
