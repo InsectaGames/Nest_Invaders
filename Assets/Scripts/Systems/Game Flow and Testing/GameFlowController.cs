@@ -10,8 +10,6 @@ public class GameFlowController : MonoBehaviour
     private bool gamePaused = false;
     public bool GamePaused => gamePaused;
 
-    bool creditsPulsed = false;
-
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
