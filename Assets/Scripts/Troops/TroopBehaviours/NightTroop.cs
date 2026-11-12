@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NightTroop : MonoBehaviour, ITroop
+public class NightTroop : MonoBehaviour, ITroop, ICombatState
 {
     private ATroop troop;
 
@@ -18,6 +18,8 @@ public class NightTroop : MonoBehaviour, ITroop
 
     [Header("Combate")]
     [SerializeField, Min(0.1f)] private float attackCooldown = 1.5f;
+
+    public bool IsInCombat => CombatSystem.IsValidEnemy(troop, currentTarget);
 
     [Header("Merodeo")]
     [SerializeField, Min(1f)] private float wanderRadius = 5f;
@@ -163,7 +165,7 @@ public class NightTroop : MonoBehaviour, ITroop
 
     private void HandleCombat()
     {
-        if (!CombatSystem.IsValidEnemy(troop, currentTarget))
+        if (!IsInCombat)
         {
             currentTarget = null;
             isAttacking = false;
@@ -192,14 +194,15 @@ public class NightTroop : MonoBehaviour, ITroop
 
     private void AttackTarget()
     {
-        if (!CombatSystem.IsValidEnemy(troop, currentTarget))
+        if (!IsInCombat)
         {
             currentTarget = null;
             isAttacking = false;
             return;
         }
 
-        isAttacking = true;
+        if(!isAttacking)
+            isAttacking = true;
 
         CombatSystem.PerformAttack(troop, currentTarget);
 

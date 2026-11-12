@@ -1,5 +1,6 @@
 using BehaviourAPI.Core;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +16,10 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     private SpriteRenderer spr;
     private NavMeshAgent nvm;
+
+    [Header("Cantidad de recursos recolectados")]
+    [SerializeField] private int minAmount = 2;
+    [SerializeField] private int maxAmount = 4;
 
     // Debug para ver radio en el que ve a los enemigos.
     /*
@@ -125,7 +130,7 @@ public class GathererTroop : MonoBehaviour, ITroop
 
             if (isGathering && baseCol.GetFaction() == troop.GetFaction())
             {
-                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, 1));
+                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, Utils.GetRandomInclusive(minAmount, maxAmount)));
 
                 Debug.Log("Recursos entregados en la base. Volviendo a la mina...");
 

@@ -93,9 +93,10 @@ GameObject:
   - component: {fileID: 6692132938675508249}
   - component: {fileID: 2264519432635813725}
   - component: {fileID: 227354602153264876}
-  - component: {fileID: 5710064644136453479}
   - component: {fileID: 8904036214587931233}
   - component: {fileID: 2453348568739707454}
+  - component: {fileID: 5320904566057167363}
+  - component: {fileID: 5710064644136453479}
   - component: {fileID: 8870340171512564411}
   m_Layer: 0
   m_Name: PFB_Bug
@@ -188,7 +189,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358891150988844776}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -308,6 +309,7 @@ MonoBehaviour:
   - {fileID: 227354602153264876}
   - {fileID: 8904036214587931233}
   - {fileID: 2453348568739707454}
+  - {fileID: 5320904566057167363}
   infection: {fileID: 7684181687583238368}
 --- !u!114 &6692132938675508249
 MonoBehaviour:
@@ -357,28 +359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
---- !u!95 &5710064644136453479
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358891150988844776}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c4fd06572448ba842b3c4be0b0dbb8df, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  minAmount: 2
+  maxAmount: 4
 --- !u!114 &8904036214587931233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +400,48 @@ MonoBehaviour:
   wanderRadius: 5
   wanderInterval: 3
   navMeshSampleDistance: 3
+--- !u!114 &5320904566057167363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea331bf8ed9c654789b3f4bfae41324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankTroop
+  allyProtectionRadius: 8
+  defenseRadius: 10
+  guardWanderRadius: 4
+  enemyDetectionRadius: 8
+  attackCooldown: 1.5
+  targetUpdateInterval: 0.25
+  wanderInterval: 3
+  navMeshSampleDistance: 3
+--- !u!95 &5710064644136453479
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4fd06572448ba842b3c4be0b0dbb8df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8870340171512564411
 MonoBehaviour:
   m_ObjectHideFlags: 0

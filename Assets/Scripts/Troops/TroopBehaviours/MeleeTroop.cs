@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MeleeTroop : MonoBehaviour, ITroop
+public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 {
     private ATroop troop;
     public TroopType Type => TroopType.MELEE_ATTACKER;
@@ -9,6 +9,8 @@ public class MeleeTroop : MonoBehaviour, ITroop
     [Header("Combate")]
     [SerializeField] private float attackCooldown = 1.5f;
     [SerializeField] private float enemyAttackPriorityDelay = 0.2f; // PRIORIDAD DE ATAQUE A ALIADOS.
+
+    public bool IsInCombat => CombatSystem.IsValidEnemy(troop, enemyToAttack);
 
     [Header("Detección")]
     [SerializeField] private float targetUpdateInterval = 0.2f;
@@ -160,7 +162,7 @@ public class MeleeTroop : MonoBehaviour, ITroop
 
     // Comprobar si podemos mantener nuestro objetivo actual.
     private bool HasValidTarget() => 
-        (enemyToAttack == null) ? false : CombatSystem.IsValidEnemy(troop, enemyToAttack);
+        (enemyToAttack == null) ? false : IsInCombat;
 
     // Volver a dirigirnos hacia la base enemiga.
     private void ReturnToEnemyBase()
@@ -188,12 +190,11 @@ public class MeleeTroop : MonoBehaviour, ITroop
     // Ejecutar el ataque.
     private void Attack(ATroop target)
     {
-        
-
-        if (!CombatSystem.IsValidEnemy(troop, target)) { 
-        _animator.SetBool("melee_attacking", false);
-        return;
-          }
+        if (!CombatSystem.IsValidEnemy(troop, target))
+        { 
+            _animator.SetBool("melee_attacking", false);
+            return;
+        }
 
         _animator.SetBool("melee_attacking", true);
         CombatSystem.PerformAttack(troop, target);
@@ -235,6 +236,7 @@ public class MeleeTroop : MonoBehaviour, ITroop
         spr.flipX = (nvm.velocity.x < 0);
         //spr.flipY = (nvm.velocity.y > 0);
     }
+    
     public void ResetBehaviour()
     {
         enemyToAttack = null;
