@@ -340,7 +340,10 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         }
 
         if (spriteRenderer != null)
+        {
             spriteRenderer.enabled = true;
+            spriteRenderer.flipX = false;
+        }
 
         if (troopCollider != null)
             troopCollider.enabled = true;

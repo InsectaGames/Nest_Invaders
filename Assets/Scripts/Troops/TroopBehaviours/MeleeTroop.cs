@@ -245,6 +245,9 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
         returningToBase = false;
 
+        if (_animator != null)
+            _animator.SetBool("melee_attacking", false);
+
         if (troop != null)
             troop.SetMovementStopped(false);
     }

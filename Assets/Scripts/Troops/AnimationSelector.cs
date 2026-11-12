@@ -5,9 +5,6 @@ public class AnimationSelector : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private Animator m_Animator;
     
-    [Header("Configuración visual")]
-    [SerializeField] private TroopDefinition _troopDefinition;
-    
     private int select;
 
     private void Awake()
@@ -21,11 +18,10 @@ public class AnimationSelector : MonoBehaviour
         if (definition == null || m_Animator == null)
             return;
 
-        // Utilizar la definición alternativa si está configurada.
-        TroopDefinition visualDefinition = _troopDefinition != null ? _troopDefinition : definition;
+        select = definition.ID + 1;
 
-        select = visualDefinition.ID + 1;
-
+        m_Animator.Rebind();
         m_Animator.SetInteger("Troop", select);
+        m_Animator.Update(0f);
     }
 }
