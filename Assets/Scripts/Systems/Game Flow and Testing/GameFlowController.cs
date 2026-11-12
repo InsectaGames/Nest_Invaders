@@ -16,7 +16,10 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private string victoryScene = "VictoryScene";
     [SerializeField] private string defeatScene = "DefeatScene";
     [SerializeField] private string creditsScene = "Credits";
+    [SerializeField] private string settingsScene = "Settings";
     [SerializeField] private string shopScene = "Shop";
+
+    private string _TransSceneSetted;
 
 
     [Header("Transicion entre escenas")]
@@ -25,7 +28,7 @@ public class GameFlowController : MonoBehaviour
 
     private void Awake()
     {
-        transition = GameObject.FindGameObjectWithTag("trans").GetComponent<Animator>();
+        transition = this.GetComponent<Animator>();
     }
 
     private void Update()
@@ -53,8 +56,9 @@ public class GameFlowController : MonoBehaviour
 
     public void ShopScene()
     {
- 
-        StartCoroutine(LoadTransitionScene(shopScene));
+
+        CallSceneChange();
+        SetSceneChange(shopScene);
     }
     
     public void GoToSettings()
@@ -64,8 +68,10 @@ public class GameFlowController : MonoBehaviour
         Debug.Log("Active In Hierarchy: " + gameObject.activeInHierarchy);
         Debug.Log("Enabled: " + isActiveAndEnabled);
 
-        StartCoroutine(LoadTransitionScene("Settings"));
-      
+
+        CallSceneChange();
+        SetSceneChange(settingsScene);
+
     }
 
     public void ExitGame()
@@ -102,7 +108,8 @@ public class GameFlowController : MonoBehaviour
 
         Debug.Log($"Cargando nivel: {level.Name} (ID: {level.ID})");
 
-        StartCoroutine(LoadTransitionScene(gameplayScene));
+        CallSceneChange();
+        SetSceneChange(gameplayScene);
     }
 
     public void RestartLevel()
@@ -126,7 +133,8 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        StartCoroutine(LoadTransitionScene(gameplayScene));
+        CallSceneChange();
+        SetSceneChange(gameplayScene);
     }
 
     public void ReturnToLevelSelection()
@@ -134,7 +142,8 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        StartCoroutine(LoadTransitionScene(levelSelectionScene));
+        CallSceneChange();
+        SetSceneChange(levelSelectionScene);
     }
 
     private void OnEnable()
@@ -209,8 +218,10 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
         AudioManager.Instance?.StopBackgroundMusic();
-        StartCoroutine(LoadTransitionScene("Menu"));
+        CallSceneChange();
+        SetSceneChange("Menu");
     }
+       
 
     #endregion
 
@@ -280,17 +291,28 @@ public class GameFlowController : MonoBehaviour
 
     public void GoToCredits()
     {
-        StartCoroutine(LoadTransitionScene(creditsScene));
+        CallSceneChange();
+        SetSceneChange(creditsScene);
 
     }
 
   
     #endregion
 
-    IEnumerator LoadTransitionScene(string scene , LoadSceneMode mode = LoadSceneMode.Single)
+    public void CallSceneChange()
     {
+     
         transition.SetTrigger("in");
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(scene , mode);
+
+    }
+
+    private void SetSceneChange(string scene)
+    {
+        _TransSceneSetted = scene;
+    }
+    public void TransitionEnded()
+    {
+ 
+        SceneManager.LoadScene(_TransSceneSetted);
     }
 }
