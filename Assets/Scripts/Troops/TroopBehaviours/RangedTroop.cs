@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangedTroop : MonoBehaviour, ITroop
+public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 {
     private ATroop troop;
 
@@ -15,6 +15,8 @@ public class RangedTroop : MonoBehaviour, ITroop
 
     [Header("Combate")]
     [SerializeField, Min(0.1f)] private float attackCooldown = 1.5f;
+
+    public bool IsInCombat => CombatSystem.IsValidEnemy(troop, currentTarget);
 
     [Header("Huida")]
     [SerializeField, Min(1f)] private float escapeSpeedMultiplier = 1.5f;
@@ -62,7 +64,7 @@ public class RangedTroop : MonoBehaviour, ITroop
 
             dangerTarget = CombatSystem.FindClosestEnemy(troop, escapeDetectionRadius);
 
-            if (!CombatSystem.IsValidEnemy(troop, currentTarget))
+            if (!IsInCombat)
             {
                 currentTarget = CombatSystem.FindClosestEnemy(troop, detectionRadius);
 
@@ -84,7 +86,7 @@ public class RangedTroop : MonoBehaviour, ITroop
             StopEscaping();
 
         // Atacar si tiene un objetivo válido.
-        if (CombatSystem.IsValidEnemy(troop, currentTarget))
+        if (IsInCombat)
         {
             returningToBase = false;
             HandleCombat();
@@ -150,7 +152,7 @@ public class RangedTroop : MonoBehaviour, ITroop
 
     private void HandleCombat()
     {
-        if (!CombatSystem.IsValidEnemy(troop, currentTarget))
+        if (!IsInCombat)
         {
             currentTarget = null;
             return;

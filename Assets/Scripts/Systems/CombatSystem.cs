@@ -67,7 +67,10 @@ public class CombatSystem
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attacker.transform.position, detectionRadius);
 
         ATroop closestEnemy = null;
+        ATroop closestTank = null;
+
         float shortestDistance = Mathf.Infinity;
+        float shortestTankDistance = Mathf.Infinity;
 
         foreach (Collider2D collider in detectedObjects)
         {
@@ -81,14 +84,22 @@ public class CombatSystem
 
             float distance = (otherTroop.transform.position - attacker.transform.position).sqrMagnitude;
 
-            if (distance < shortestDistance)
+            if (otherTroop.GetDefinition().type == TroopType.TANK)
+            {
+                if (distance < shortestTankDistance)
+                {
+                    shortestTankDistance = distance;
+                    closestTank = otherTroop;
+                }
+            }
+            else if (distance < shortestDistance)
             {
                 shortestDistance = distance;
                 closestEnemy = otherTroop;
             }
         }
 
-        return closestEnemy;
+        return closestTank != null ? closestTank : closestEnemy;
     }
 
     #endregion

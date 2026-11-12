@@ -1,207 +1,247 @@
+
 using BehaviourAPI.Core;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class GathererTroop : MonoBehaviour, ITroop
 {
+    private enum GathererState
+    {
+        Inactive,
+        WaitingForTargets,
+        MovingToGatherPoint,
+        Gathering,
+        ReturningToBase
+    }
+
     private ATroop troop;
+    private NavMeshAgent agent;
+    private SpriteRenderer spriteRenderer;
+
     public TroopType Type => TroopType.GATHERER;
 
-    private bool isGathering = false;
+    private GathererState state = GathererState.Inactive;
 
     private Transform gatherPointTransform;
     private Transform currentTarget;
 
-    private SpriteRenderer spr;
-    private NavMeshAgent nvm;
+    [Header("Recolección")]
+    [SerializeField] private float gatheringDuration = 5f;
+    [SerializeField] private int minAmount = 2;
+    [SerializeField] private int maxAmount = 4;
 
-    // Debug para ver radio en el que ve a los enemigos.
-    /*
-    [Header("Detección de tropas")]
-    [SerializeField] private float detectionRadius = 8.5f;
-    [SerializeField] private bool showDetectionRadius = true;
-    */
+    [Header("Movimiento")]
+    [SerializeField] private float arrivalTolerance = 0.3f;
+    [SerializeField] private float movementRetryInterval = 1.5f;
+
+    private float gatheringTimer;
+    private float movementRetryTimer;
 
     private void Awake()
     {
         troop = GetComponent<ATroop>();
+        agent = GetComponent<NavMeshAgent>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        // UpdateSpriteVisuals();
-
         if (troop == null || troop.GetDefinition() == null)
             return;
 
-        if (isGathering)
+        if (state == GathererState.WaitingForTargets)
+        {
+            TryInitializeTargets();
             return;
+        }
 
-        NavMeshAgent agent = troop.GetAgent();
+        if (state == GathererState.Gathering)
+        {
+            UpdateGathering();
+            return;
+        }
+
+        if (state != GathererState.MovingToGatherPoint && state != GathererState.ReturningToBase)
+            return;
 
         if (agent == null || !agent.enabled || !agent.isOnNavMesh)
             return;
 
-        if (currentTarget == null || agent.pathPending)
-            return;
-
-        float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
-
-        // Si ya hemos llegado, no necesitamos recuperar el destino.
-        if (distanceToTarget <= agent.stoppingDistance + 0.2f)
-            return;
-
-        // Recuperar el camino si se ha perdido o es inválido.
-        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            troop.SetTarget(currentTarget);
-        }
+        UpdateMovement();
     }
 
-    // Inicializar y resetear el comportamiento al spawnear y volver al pool.
-    #region INIT Y RESET
+    #region INITIALIZATION
 
     public void InitializeBehaviour()
     {
         if (troop == null)
             troop = GetComponent<ATroop>();
 
-        if (troop == null)
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        state = GathererState.WaitingForTargets;
+
+        gatheringTimer = 0f;
+        movementRetryTimer = 0f;
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
+
+        TryInitializeTargets();
+    }
+
+    private void TryInitializeTargets()
+    {
+        if (gatherPointTransform == null)
+        {
+            GameObject gatherPoint = GameObject.FindGameObjectWithTag("GatherPoint");
+
+            if (gatherPoint != null)
+                gatherPointTransform = gatherPoint.transform;
+        }
+
+        Transform allyBase = troop.GetAllyBaseTransform();
+
+        if (gatherPointTransform == null || allyBase == null)
             return;
 
-        isGathering = false;
-
-        // Habría que establecer también para que regrese a la base, pille recursos...
-        GameObject gatherPoint = GameObject.FindGameObjectWithTag("GatherPoint");
-
-        if (gatherPoint != null)
-        {
-            gatherPointTransform = gatherPoint.transform;
-            currentTarget = gatherPointTransform;
-
-            troop.SetTarget(currentTarget);
-        }
-        else
-        {
-            Debug.LogWarning("No se ha encontrado ningún objeto con el tag GatherPoint.");
-        }
-
-        spr = this.GetComponent<SpriteRenderer>();
-        nvm = this.GetComponent<NavMeshAgent>();
+        BeginMovement(gatherPointTransform, GathererState.MovingToGatherPoint);
     }
 
     public void ResetBehaviour()
     {
-        // Evitar que una recolección anterior continúe.
-        StopAllCoroutines();
+        state = GathererState.Inactive;
 
-        isGathering = false;
+        gatheringTimer = 0f;
+        movementRetryTimer = 0f;
+
         gatherPointTransform = null;
         currentTarget = null;
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
     }
 
     #endregion
 
-    // Métodos antiguos para calcular posiciones y demás.
-    #region TRIGGER Y GATHER
+    #region MOVEMENT
 
-    // Cuando entra en el trigger del GatherPoint o de la base aliada.
-    private void OnTriggerEnter2D(Collider2D col)
+    private void BeginMovement(Transform target, GathererState newState)
     {
-        // Detecta cuando el Gatherer llega al GatherPoint por primera vez.
-        if (!isGathering && col.CompareTag("GatherPoint"))
-        {
-            StartCoroutine(GatherRoutine());
+        if (target == null)
             return;
-        }
 
-        if (col.CompareTag("Base"))
-        {
-            BaseSystem baseCol = col.GetComponent<BaseSystem>();
+        currentTarget = target;
+        state = newState;
 
-            if (baseCol == null)
-                return;
+        movementRetryTimer = 0f;
 
-            if (isGathering && baseCol.GetFaction() == troop.GetFaction())
-            {
-                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, 1));
-
-                Debug.Log("Recursos entregados en la base. Volviendo a la mina...");
-
-                isGathering = false;
-
-                if (gatherPointTransform != null)
-                {
-                    currentTarget = gatherPointTransform;
-                    troop.SetTarget(currentTarget);
-                }
-            }
-        }
-    }
-
-    private IEnumerator GatherRoutine()
-    {
-        isGathering = true;
-
-        NavMeshAgent agent = troop.GetAgent();
-
-        // Detener el movimiento sin desactivar el agente.
-        if (agent != null && agent.enabled && agent.isOnNavMesh)
-        {
-            agent.isStopped = true;
-            agent.ResetPath();
-        }
-
-        SpriteRenderer spr = troop.GetSpriteRenderer();
-        Collider2D collider = troop.GetTroopCollider();
-
-        // Ocultar la tropa mientras recolecta.
-        if (spr != null)
-            spr.enabled = false;
-
-        if (collider != null)
-            collider.enabled = false;
-
-        yield return new WaitForSeconds(5f);
-
-        // Restaurar la apariencia.
-        if (spr != null)
-            spr.enabled = true;
-
-        if (collider != null)
-            collider.enabled = true;
-
-        // Reanudar el movimiento.
         if (agent != null && agent.enabled && agent.isOnNavMesh)
         {
             agent.isStopped = false;
-
-            // Regresar a la base aliada.
-            Transform allyBase = troop.GetAllyBaseTransform();
-
-            if (allyBase != null)
-            {
-                currentTarget = allyBase;
-                troop.SetTarget(currentTarget);
-            }
-            else
-            {
-                Debug.LogWarning($"{name}: no se ha encontrado la base aliada.");
-            }
+            troop.SetTarget(currentTarget);
         }
+    }
+
+    private void UpdateMovement()
+    {
+        agent.isStopped = false;
+
+        if (currentTarget == null)
+        {
+            state = GathererState.WaitingForTargets;
+            return;
+        }
+
+        if (HasReachedTarget())
+        {
+            if (state == GathererState.MovingToGatherPoint)
+                BeginGathering();
+            else if (state == GathererState.ReturningToBase)
+                DeliverResources();
+
+            return;
+        }
+
+        movementRetryTimer -= Time.deltaTime;
+
+        if (movementRetryTimer > 0f || agent.pathPending)
+            return;
+
+        movementRetryTimer = movementRetryInterval;
+
+        bool invalidPath = !agent.hasPath || agent.pathStatus != NavMeshPathStatus.PathComplete;
+
+        bool stalled = agent.hasPath && agent.velocity.sqrMagnitude < 0.01f && agent.remainingDistance > agent.stoppingDistance + arrivalTolerance;
+
+        if (invalidPath || stalled)
+            troop.SetTarget(currentTarget);
+    }
+
+    private bool HasReachedTarget()
+    {
+        if (agent.pathPending)
+            return false;
+
+        if (agent.hasPath)
+        {
+            if (agent.pathStatus != NavMeshPathStatus.PathComplete)
+                return false;
+
+            return agent.remainingDistance <= agent.stoppingDistance + arrivalTolerance;
+        }
+
+        // Respaldo para destinos que coinciden prácticamente con la posición actual del agente.
+        return Vector3.Distance(transform.position, currentTarget.position) <= agent.stoppingDistance + arrivalTolerance;
     }
 
     #endregion
 
+    #region GATHERING
 
-    //Metodos auxiliares
-    #region MÉTODOS AUXILIARES
-
-    public void UpdateSpriteVisuals()
+    private void BeginGathering()
     {
-        spr.flipX = (nvm.velocity.x < 0);
-        //spr.flipY = (nvm.velocity.y > 0);
+        state = GathererState.Gathering;
+        gatheringTimer = gatheringDuration;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = false;
     }
+
+    private void UpdateGathering()
+    {
+        gatheringTimer -= Time.deltaTime;
+
+        if (gatheringTimer <= 0f)
+        {
+            if (spriteRenderer != null)
+                spriteRenderer.enabled = true;
+
+            Transform allyBase = troop.GetAllyBaseTransform();
+
+            if (allyBase == null)
+            {
+                state = GathererState.WaitingForTargets;
+                return;
+            }
+
+            BeginMovement(allyBase, GathererState.ReturningToBase);
+        }
+    }
+
+    private void DeliverResources()
+    {
+        troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, Utils.GetRandomInclusive(minAmount, maxAmount)));
+
+        BeginMovement(gatherPointTransform, GathererState.MovingToGatherPoint);
+    }
+
     #endregion
 }
