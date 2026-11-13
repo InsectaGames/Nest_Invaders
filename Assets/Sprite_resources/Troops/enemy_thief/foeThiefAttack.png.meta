@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 800eec7cca173e141a7690f73be82431
+guid: 8972b537b0d50dc4ba13acd60eabff59
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2588892753574126173
-    second: melee_but_0
+      213: -1564963981683614496
+    second: foeThiefAttack_0
+  - first:
+      213: 1416692182866510589
+    second: foeThiefAttack_1
+  - first:
+      213: -3617122215218562685
+    second: foeThiefAttack_2
+  - first:
+      213: -7449518812624326875
+    second: foeThiefAttack_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: melee_but_0
+      name: foeThiefAttack_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 544
-        width: 2970
-        height: 2455
+        x: 17
+        y: 14
+        width: 119
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d526e5a2e389de320800000000000000
-      internalID: 2588892753574126173
+      spriteID: 0ec9779dc81284ae0800000000000000
+      internalID: -1564963981683614496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: foeThiefAttack_1
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 13
+        width: 119
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df2c4dbc80a19a310800000000000000
+      internalID: 1416692182866510589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: foeThiefAttack_2
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 17
+        width: 119
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38939b472866dcdc0800000000000000
+      internalID: -3617122215218562685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: foeThiefAttack_3
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 16
+        width: 119
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52fefe1fb1efd9890800000000000000
+      internalID: -7449518812624326875
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e2c9877ee05b4bf47af76ed3850674b4
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      melee_but_0: 2588892753574126173
+      foeThiefAttack_0: -1564963981683614496
+      foeThiefAttack_1: 1416692182866510589
+      foeThiefAttack_2: -3617122215218562685
+      foeThiefAttack_3: -7449518812624326875
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

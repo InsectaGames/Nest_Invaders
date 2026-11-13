@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 1
   Name: GATHERER
-  type: 1
-  behaviour: {fileID: 0}
+  type: 2
   maxHealth: 100
   speed: 2
   strength: 0
@@ -25,9 +24,4 @@ MonoBehaviour:
   - res: 0
     cantidad: 1
   capacity: []
-  _prefab: {fileID: 1358891150988844776, guid: 017de79f9ce3f154d834e931066bad86, type: 3}
-  FactionColor: {r: 1, g: 1, b: 1, a: 1}
-  _sprites:
-  - {fileID: 3644887743195993881, guid: 52c87bf0f7f551a42849f7215cdcee69, type: 3}
-  _animator: {fileID: 0}
   bhvRunner: {fileID: 0}

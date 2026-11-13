@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 12ffaf24e63f3124f8a70dad7342f7bb
+guid: cedcfc8406204d446844b951ec518847
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2491990102349838951
-    second: gatherer_but_0
+      213: 6823410164195705921
+    second: foeThiefMovement_0
   - first:
-      213: 2174449534096330721
-    second: gatherer_but_1
+      213: -3880636205856129127
+    second: foeThiefMovement_1
+  - first:
+      213: 6734079469828944242
+    second: foeThiefMovement_2
+  - first:
+      213: 3218994615933631877
+    second: foeThiefMovement_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gatherer_but_0
+      name: foeThiefMovement_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 414
-        width: 2696
-        height: 2810
+        x: 17
+        y: 15
+        width: 119
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99506ad743caa6dd0800000000000000
-      internalID: -2491990102349838951
+      spriteID: 144cca1746f91be50800000000000000
+      internalID: 6823410164195705921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: gatherer_but_1
+      name: foeThiefMovement_1
       rect:
         serializedVersion: 2
-        x: 3500
-        y: 2984
-        width: 44
-        height: 213
+        x: 170
+        y: 16
+        width: 119
+        height: 105
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +146,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1ef43dd94523d2e10800000000000000
-      internalID: 2174449534096330721
+      spriteID: 99ffc676ee5352ac0800000000000000
+      internalID: -3880636205856129127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: foeThiefMovement_2
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 16
+        width: 119
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 271b7606991447d50800000000000000
+      internalID: 6734079469828944242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: foeThiefMovement_3
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 15
+        width: 119
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58d7e985c8a2cac20800000000000000
+      internalID: 3218994615933631877
       vertices: []
       indices: 
       edges: []
@@ -160,8 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gatherer_but_0: -2491990102349838951
-      gatherer_but_1: 2174449534096330721
+      foeThiefMovement_0: 6823410164195705921
+      foeThiefMovement_1: -3880636205856129127
+      foeThiefMovement_2: 6734079469828944242
+      foeThiefMovement_3: 3218994615933631877
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

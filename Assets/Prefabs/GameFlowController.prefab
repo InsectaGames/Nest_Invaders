@@ -52,6 +52,7 @@ MonoBehaviour:
   victoryScene: VictoryScene
   defeatScene: DefeatScene
   creditsScene: Credits
+  settingsScene: Settings
   shopScene: Shop
   transition: {fileID: 0}
 --- !u!95 &1728183604383839245
@@ -84,6 +85,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1803263382137227204}
     m_Modifications:
+    - target: {fileID: 4400782832288885434, guid: 0272fa9736de7cb419b5fd6b39336c07, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922440637059642887, guid: 0272fa9736de7cb419b5fd6b39336c07, type: 3}
       propertyPath: m_Pivot.x
       value: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 5
   Name: TANK
-  type: 3
+  type: 4
   maxHealth: 500
   speed: 2
   strength: 10

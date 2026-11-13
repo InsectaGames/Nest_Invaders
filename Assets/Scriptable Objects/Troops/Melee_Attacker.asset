@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 0
   Name: MELEE
-  type: 0
+  type: 1
   maxHealth: 200
   speed: 3
   strength: 30

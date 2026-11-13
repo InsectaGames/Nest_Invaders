@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2ff3ae357626241bcaf43da6b40258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
-  faction: 1
+  faction: 2
   standaloneBaseHealth: 100
   resources: []
   maxResources: 

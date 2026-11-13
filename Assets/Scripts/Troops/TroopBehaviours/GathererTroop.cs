@@ -17,6 +17,7 @@ public class GathererTroop : MonoBehaviour, ITroop
     private ATroop troop;
     private NavMeshAgent agent;
     private SpriteRenderer spriteRenderer;
+    private NavMeshAgent nvm;
 
     public TroopType Type => TroopType.GATHERER;
 
@@ -42,6 +43,7 @@ public class GathererTroop : MonoBehaviour, ITroop
         troop = GetComponent<ATroop>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        nvm = this.GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -68,6 +70,7 @@ public class GathererTroop : MonoBehaviour, ITroop
             return;
 
         UpdateMovement();
+        UpdateSpriteVisuals();
     }
 
     #region INITIALIZATION
@@ -180,8 +183,15 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         if (invalidPath || stalled)
             troop.SetTarget(currentTarget);
+
+
+        
     }
 
+    private void UpdateSpriteVisuals()
+    {
+        spriteRenderer.flipX = (nvm.velocity.x < 0);
+    }
     private bool HasReachedTarget()
     {
         if (agent.pathPending)

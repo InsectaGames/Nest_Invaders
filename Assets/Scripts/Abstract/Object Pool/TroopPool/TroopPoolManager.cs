@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TroopPoolManager : MonoBehaviour
+public class TroopPoolManager : ASubject<GameEvent<ATroop>>
 {
     [Header("Configuración del pool")]
     [SerializeField] private ATroop prefab;
@@ -45,6 +45,10 @@ public class TroopPoolManager : MonoBehaviour
         troop.gameObject.SetActive(true);
         troop.Initialize(definition, faction, this);
 
+        GameEvent<ATroop> eventTroop = new GameEvent<ATroop>(LogicEvent.TROOP_PLACED, troop);
+
+        UpdateObservers(eventTroop);
+
         return troop;
     }
 
@@ -53,6 +57,8 @@ public class TroopPoolManager : MonoBehaviour
         if (pool == null || troop == null)
             return;
 
+        GameEvent<ATroop> eventTroop = new GameEvent<ATroop>(LogicEvent.TROOP_DESPAWN, troop);
+        UpdateObservers(eventTroop);
         pool.Release(troop);
     }
 }

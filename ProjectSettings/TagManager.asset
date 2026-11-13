@@ -17,6 +17,7 @@ TagManager:
   - Ally
   - Enemy
   - trans
+  - pool
   layers:
   - Default
   - TransparentFX

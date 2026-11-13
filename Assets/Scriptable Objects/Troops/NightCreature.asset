@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 3
   Name: Night Creature
-  type: 5
+  type: 6
   maxHealth: 150
   speed: 4
   strength: 30

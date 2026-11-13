@@ -1,5 +1,6 @@
 public enum TroopType
 {
+    none,
     MELEE_ATTACKER,
     GATHERER,
     RANGED_ATTACKER,

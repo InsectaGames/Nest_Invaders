@@ -6,7 +6,8 @@ public enum LogicEvent
     TROOP_PLACED,
     RESOURCE_GATHER_1,
     RESOURCE_GATHER_2,
-    TIME_CHANGE
+    TIME_CHANGE,
+    TROOP_DESPAWN
 }
 
 [System.Serializable]
