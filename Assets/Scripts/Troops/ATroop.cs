@@ -45,6 +45,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     public Collider2D GetTroopCollider() => troopCollider;
     public Transform GetAllyBaseTransform() => allyBaseTransform;
 
+    #region INIT
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -171,6 +173,10 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         troopFlocking?.Initialize();
     }
 
+    #endregion
+
+    #region NAVMESH
+
     private void RefreshBaseReferences()
     {
         // Actualizar las bases existentes en la escena actual.
@@ -204,7 +210,6 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
                 AddObserver(observedAllyBase);
         }
     }
-
 
     // Busca una base perteneciente a la facción indicada.
     public Transform FindBaseTransform(Faction f)
@@ -267,6 +272,10 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         }
     }
 
+    #endregion
+
+    #region TRIGGER Y RESOURCE_EVENT
+
     // Cuando entra en el trigger de una base. Es un comportamiento común a todas las tropas.
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -296,6 +305,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Comunicar recursos a los observadores de la tropa.
     public void SendResourceEvent(LogicEvent logicEvent, ResourceSlot resourceSlot) =>
         UpdateObservers(new GameEvent<ResourceSlot>(logicEvent, resourceSlot));
+
+    #endregion
 
     #region OBJECT POOL
 

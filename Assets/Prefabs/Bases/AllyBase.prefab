@@ -498,11 +498,11 @@ MonoBehaviour:
     key: 15
   - towerInfo: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
     key: 33
-  - towerInfo: {fileID: 11400000, guid: 5d075c8ee38edbc4687906583d59d50b, type: 2}
-    key: 18
   - towerInfo: {fileID: 11400000, guid: ad7a12dfbcd06f74d8647c79ec8d25a6, type: 2}
+    key: 18
+  - towerInfo: {fileID: 11400000, guid: 5d075c8ee38edbc4687906583d59d50b, type: 2}
     key: 20
-  enemyTroops: []
+  buttons: []
   enableDebugTroopSpawning: 0
   debugSpawnKey: 34
   debugTroops: []

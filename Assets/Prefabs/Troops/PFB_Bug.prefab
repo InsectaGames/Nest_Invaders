@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 8904036214587931233}
   - component: {fileID: 2453348568739707454}
   - component: {fileID: 5320904566057167363}
+  - component: {fileID: 2223015878359088277}
   - component: {fileID: 5710064644136453479}
   - component: {fileID: 8870340171512564411}
   m_Layer: 0
@@ -310,6 +311,7 @@ MonoBehaviour:
   - {fileID: 8904036214587931233}
   - {fileID: 2453348568739707454}
   - {fileID: 5320904566057167363}
+  - {fileID: 2223015878359088277}
   infection: {fileID: 7684181687583238368}
 --- !u!114 &6692132938675508249
 MonoBehaviour:
@@ -421,6 +423,24 @@ MonoBehaviour:
   enemyDetectionRadius: 8
   attackCooldown: 1.5
   targetUpdateInterval: 0.25
+  wanderInterval: 3
+  navMeshSampleDistance: 3
+--- !u!114 &2223015878359088277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbf48c6eee8c4640933aa7fb7ec08ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThiefTroop
+  detectionRadius: 8
+  targetUpdateInterval: 0.25
+  attackCooldown: 1.5
+  wanderRadius: 5
   wanderInterval: 3
   navMeshSampleDistance: 3
 --- !u!95 &5710064644136453479

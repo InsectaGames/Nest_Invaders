@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: -3
   Name: THIEF
-  type: 1
+  type: 5
   maxHealth: 200
   speed: 3
   strength: 30
