@@ -4,6 +4,8 @@ using UnityEngine.AI;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System;
 
 [System.Serializable]
 public struct TowerSummon
@@ -44,6 +46,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
     // Las invocaciones manuales son exclusivamente para aliados.
     [SerializeField] private List<TowerSummon> towerSummons;
+    public ButtonCooldown[] buttons;
 
     private Mutex spawnerMutex = new Mutex();
 
@@ -116,6 +119,9 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         switch (faction)
         {
             case Faction.ALLY:
+                buttons = FindObjectsByType<ButtonCooldown>(FindObjectsSortMode.InstanceID);
+                Array.Sort(buttons, (a, b) => string.Compare(a.gameObject.name, b.gameObject.name, StringComparison.Ordinal));
+
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
                 generator?.AddObserver(this);
             break;
@@ -248,7 +254,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         if (enemyTroops.Count == 0)
             return;
 
-        int randomIndex = Random.Range(0, enemyTroops.Count);
+        int randomIndex = Utils.GetRandom(0, enemyTroops.Count);
 
         TroopDefinition definition = enemyTroops[randomIndex];
 
@@ -365,6 +371,11 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
     {
         if (faction != Faction.ALLY)
             return;
+
+        if (buttons[id].OnCoolDown)
+            return;
+
+        buttons[id].OnButtonPressed();
 
         if (towerSummons == null || id < 0 || id >= towerSummons.Count)
         {
@@ -491,6 +502,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
         // 3. Invocaciones manuales de la base aliada.
         // Se mantienen disponibles también durante las partidas normales.
+        /*
         if (faction == Faction.ALLY && towerSummons != null)
         {
             for (int i = 0; i < towerSummons.Count; i++)
@@ -499,6 +511,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
                     SpawnUnit(i);
             }
         }
+        */
     }
 
     #endregion

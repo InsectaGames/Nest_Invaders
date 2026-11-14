@@ -31,4 +31,4 @@ MonoBehaviour:
   obstacleNumber: 10
   enemySpawnInterval: 13
   enemyTroops:
-  - {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+  - {fileID: 11400000, guid: 994c70ab7a57ca340b45c7490435f7c8, type: 2}

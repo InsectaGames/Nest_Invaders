@@ -555,6 +555,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+--- !u!114 &258033229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4732532758180681498, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+  m_PrefabInstance: {fileID: 258033228}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d928a92b4689ee549b03fc7afac30023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameFlowController
 --- !u!1 &259610794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,7 +2717,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4732532758180681498, guid: a20f5d0f9898b194e8fb1e731ca2809b, type: 3}
+      - m_Target: {fileID: 258033229}
         m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
         m_MethodName: ReturnToMenu
         m_Mode: 1

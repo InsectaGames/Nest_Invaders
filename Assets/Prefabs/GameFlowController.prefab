@@ -54,7 +54,7 @@ MonoBehaviour:
   creditsScene: Credits
   settingsScene: Settings
   shopScene: Shop
-  transition: {fileID: 0}
+  transition: {fileID: 1728183604383839245}
 --- !u!95 &1728183604383839245
 Animator:
   serializedVersion: 7

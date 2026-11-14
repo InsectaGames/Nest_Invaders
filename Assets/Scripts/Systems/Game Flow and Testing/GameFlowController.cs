@@ -44,24 +44,13 @@ public class GameFlowController : MonoBehaviour
             else
                 PauseGame();
         }
-
-    
-
     }
 
     #region MENU
 
-    public void StartGame()
-    {
-        ReturnToLevelSelection();
-    }
+    public void StartGame() =>  ReturnToLevelSelection();
 
-    public void ShopScene()
-    {
-
-        CallSceneChange();
-        SetSceneChange(shopScene);
-    }
+    public void ShopScene() => SetSceneChange(shopScene);
     
     public void GoToSettings()
     {
@@ -70,10 +59,7 @@ public class GameFlowController : MonoBehaviour
         Debug.Log("Active In Hierarchy: " + gameObject.activeInHierarchy);
         Debug.Log("Enabled: " + isActiveAndEnabled);
 
-
-        CallSceneChange();
         SetSceneChange(settingsScene);
-
     }
 
     public void ExitGame()
@@ -110,7 +96,6 @@ public class GameFlowController : MonoBehaviour
 
         Debug.Log($"Cargando nivel: {level.Name} (ID: {level.ID})");
 
-        CallSceneChange();
         SetSceneChange(gameplayScene);
     }
 
@@ -135,7 +120,6 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        CallSceneChange();
         SetSceneChange(gameplayScene);
     }
 
@@ -144,7 +128,6 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        CallSceneChange();
         SetSceneChange(levelSelectionScene);
     }
 
@@ -162,8 +145,6 @@ public class GameFlowController : MonoBehaviour
     {
         Time.timeScale = 1f;
         gamePaused = false;
-
-        
 
         GameObject[] objects = Array.ConvertAll(FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None), t => t.gameObject);
         
@@ -220,7 +201,6 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
         AudioManager.Instance?.StopBackgroundMusic();
-        CallSceneChange();
         SetSceneChange("Menu");
     }
        
@@ -291,30 +271,19 @@ public class GameFlowController : MonoBehaviour
 
     #region CREDITOS
 
-    public void GoToCredits()
-    {
-        CallSceneChange();
-        SetSceneChange(creditsScene);
-
-    }
-
+    public void GoToCredits() => SetSceneChange(creditsScene);
   
     #endregion
 
-    public void CallSceneChange()
-    {
-     
-        transition.SetTrigger("in");
-
-    }
+    #region TRANSICIONES
 
     private void SetSceneChange(string scene)
     {
+        transition.SetTrigger("in");
         _TransSceneSetted = scene;
-    }
-    public void TransitionEnded()
-    {
- 
-        SceneManager.LoadScene(_TransSceneSetted);
-    }
+    } 
+
+    public void TransitionEnded() => SceneManager.LoadScene(_TransSceneSetted);
+
+    #endregion
 }

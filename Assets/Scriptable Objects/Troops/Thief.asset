@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: -3
   Name: THIEF
-  type: 5
+  type: 1
   maxHealth: 200
   speed: 3
   strength: 30
   attackReach: 2
   chanceToDropSticks: 50
-  recursos:
-  - res: 0
-    cantidad: 1
+  recursos: []
   capacity: []
   bhvRunner: {fileID: 0}

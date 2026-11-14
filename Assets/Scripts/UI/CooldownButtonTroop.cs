@@ -4,13 +4,15 @@ using System.Collections;
 
 public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 {
-    [Header("Configuración")]
+    [Header("ConfiguraciÃ³n")]
     [SerializeField] private Button button;
     [SerializeField] private Image cooldownImage;
     [SerializeField] private float cooldownTime = 3f;
     [SerializeField] private int buttonID;
 
     private bool isOnCooldown = false;
+    public bool OnCoolDown => isOnCooldown;
+
     private Animator _anim;
 
     private void Start()
@@ -29,7 +31,6 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
     {
         if (!isOnCooldown)
         {
-            
             StartCoroutine(CooldownCoroutine());
         }
     }
@@ -62,7 +63,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 
     public void UpdateObserver(GameEvent<int> data)
     {
-        // Solo reaccionamos si el ID coincide con el botón.
+        // Solo reaccionamos si el ID coincide con el botÃ³n.
         if (data.data != buttonID)
             return;
 
