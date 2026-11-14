@@ -339,11 +339,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
                 agent.ResetPath();
         }
 
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = true;
-            spriteRenderer.flipX = false;
-        }
+        GetComponent<AnimationSelector>()?.ResetVisuals();
 
         if (troopCollider != null)
             troopCollider.enabled = true;

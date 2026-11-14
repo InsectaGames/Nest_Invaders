@@ -359,8 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57786dd9fc74340458297cb2596877c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GathererTroop
+  gatheringDuration: 5
   minAmount: 2
   maxAmount: 4
+  arrivalTolerance: 0.3
+  movementRetryInterval: 1.5
 --- !u!114 &8904036214587931233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,8 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1328492a1fdd13b48b9eb128b93bf294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationSelector
-  m_Animator: {fileID: 0}
-  _troopDefinition: {fileID: 0}
+  m_Animator: {fileID: 5710064644136453479}
+  spriteRenderer: {fileID: 2716294022404114053}
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,4 +31,6 @@ MonoBehaviour:
   obstacleNumber: 20
   enemySpawnInterval: 8
   enemyTroops:
-  - {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+  - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+    chance: 0
+  defaultTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}

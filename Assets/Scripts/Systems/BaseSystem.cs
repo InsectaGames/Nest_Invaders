@@ -51,7 +51,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
     private Mutex spawnerMutex = new Mutex();
 
     // Configuración de generación enemiga.
-    [SerializeField] private List<TroopDefinition> enemyTroops = new List<TroopDefinition>();
+    private List<EnemySummons> enemyTroops = new List<EnemySummons>();
 
     private float enemySpawnInterval;
     private Coroutine enemySpawnCoroutine;
@@ -211,9 +211,9 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
         enemyTroops.Clear();
 
-        foreach (TroopDefinition troop in level.enemyTroops)
+        foreach (EnemySummons troop in level.enemyTroops)
         {
-            if (troop != null)
+            if (troop.enemyTroop != null && troop.chance > 0 && troop.chance < 100)
                 enemyTroops.Add(troop);
         }
 
@@ -254,11 +254,47 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         if (enemyTroops.Count == 0)
             return;
 
+        /*
         int randomIndex = Utils.GetRandom(0, enemyTroops.Count);
 
         TroopDefinition definition = enemyTroops[randomIndex];
+        */
+
+        TroopDefinition definition = GetUnitToSpawn();
 
         SpawnConfiguredTroop(definition, false);
+    }
+
+    private TroopDefinition GetUnitToSpawn()
+    {
+        float totalProbability = 0f;
+
+        foreach (var entry in enemyTroops)
+        {
+            if (entry.enemyTroop != null)
+                totalProbability += entry.chance;
+        }
+
+        if (totalProbability > 100f)
+        {
+            Debug.LogWarning($"[BaseSystem] La suma de probabilidades es {totalProbability} (>100).");
+        }
+
+        float roll = Utils.GetRandomFloat(0f, 100f);
+        float cumulative = 0f;
+
+        foreach (var entry in enemyTroops)
+        {
+            if (entry.enemyTroop == null) continue;
+
+            cumulative += entry.chance;
+
+            if (roll <= cumulative)
+                return entry.enemyTroop;
+        }
+
+        // Si no entra en ninguna probabilidad, se emplea el barril por defecto.
+        return LevelSession.SelectedLevel.defaultTroop;
     }
 
     private void StopEnemySpawner()
