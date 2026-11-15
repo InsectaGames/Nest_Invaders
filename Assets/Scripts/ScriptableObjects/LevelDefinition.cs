@@ -5,6 +5,13 @@ public enum LevelDifficulty
     EASY, NORMAL, HARD, EXPERT
 }
 
+[System.Serializable]
+public struct EnemySummons
+{
+    public TroopDefinition enemyTroop;
+    public int chance;
+}
+
 [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Scriptable Objects/LevelDefinition")]
 public class LevelDefinition : ScriptableObject
 {
@@ -39,5 +46,6 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Generación enemiga")]
     [Min(0.1f)] public float enemySpawnInterval = 10f;
-    public TroopDefinition[] enemyTroops;
+    public EnemySummons[] enemyTroops;
+    public TroopDefinition defaultTroop;
 }

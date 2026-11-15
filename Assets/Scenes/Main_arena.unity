@@ -1720,6 +1720,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_text
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_fontSize
       value: 30.2
       objectReference: {fileID: 0}
@@ -3554,6 +3558,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_text
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_fontSize
       value: 30.2
       objectReference: {fileID: 0}
@@ -4002,6 +4010,10 @@ PrefabInstance:
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_text
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_fontSize
@@ -10150,7 +10162,7 @@ SceneRoots:
   - {fileID: 1098334748}
   - {fileID: 1381670540}
   - {fileID: 924418201}
-  - {fileID: 190405037}
   - {fileID: 518333885}
   - {fileID: 1874662290}
+  - {fileID: 190405037}
   - {fileID: 1418146240}
