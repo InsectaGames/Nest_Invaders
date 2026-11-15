@@ -213,7 +213,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
         foreach (EnemySummons troop in level.enemyTroops)
         {
-            if (troop.enemyTroop != null && troop.chance > 0 && troop.chance < 100)
+            if (troop.enemyTroop != null && troop.chance >= 0 && troop.chance <= 100)
                 enemyTroops.Add(troop);
         }
 
