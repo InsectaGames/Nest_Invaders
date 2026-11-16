@@ -1758,7 +1758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.6
+      value: 1.5999985
       objectReference: {fileID: 0}
     - target: {fileID: 5659584713882936490, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: buttonID
@@ -5130,7 +5130,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.85660374, g: 0.85660374, b: 0.49618366, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5777,7 +5777,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 27.29
+      scalar: 12
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5894,22 +5894,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: -2.2128525
-          outSlope: -2.2128525
+          value: 0
+          inSlope: 2.1797218
+          outSlope: 2.1797218
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.034374993
+          inWeight: 0
+          outWeight: 0.05163691
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: 0.37147188
-          outSlope: 0.37147188
+          value: 1
+          inSlope: 0.39430732
+          outSlope: 0.39430732
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.079910815
-          outWeight: 0.33333334
+          inWeight: 0.46181178
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -6232,8 +6232,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 44024
+        atime2: 44024
         atime3: 0
         atime4: 0
         atime5: 0
