@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad45e27b4cddd5a4b922829f5ef70b5e, type: 3}
   m_Name: NightCreature
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
-  ID: 3
+  ID: 9
   Name: Night Creature
   type: 6
   maxHealth: 150

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad45e27b4cddd5a4b922829f5ef70b5e, type: 3}
-  m_Name: Thief
+  m_Name: Enemy_tank
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
-  ID: -3
-  Name: THIEF
-  type: 5
+  ID: -4
+  Name: TANK_ENEMY
+  type: 4
   maxHealth: 200
-  speed: 3
-  strength: 30
+  speed: 2
+  strength: 35
   attackReach: 2
-  chanceToDropSticks: 50
+  chanceToDropSticks: 60
   recursos: []
   capacity: []
   bhvRunner: {fileID: 0}

@@ -412,6 +412,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4581652472961576798, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8227629669823673927, guid: 78e035113fdfbdd44be8e172c1e4e6b7, type: 3}
     - target: {fileID: 6148888313420318171, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_fontSize
       value: 23.5
@@ -1726,19 +1730,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_fontSize
-      value: 30.2
+      value: 26.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 26.25
       objectReference: {fileID: 0}
     - target: {fileID: 1996546287405885217, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.7699738
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876624075694854861, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8224405212763982586, guid: a51f486d86ac0504e850feb79cf78cce, type: 3}
+    - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -12.6077
+      objectReference: {fileID: 0}
+    - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -6.9312
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.62158966
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000038146973
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 5659584713882936490, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: buttonID
@@ -3568,7 +3588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1996546287405885217, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.7699738
+      value: 4.8
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4170,7 +4190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2750216903530126455, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4006013713020423905, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: self_faction
@@ -4260,6 +4280,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4581652472961576798, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3405064141843487395, guid: 5dd7ec2c5822b8b469db6c310545c6ac, type: 3}
     - target: {fileID: 6148888313420318171, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_fontSize
       value: 24.5
@@ -4585,6 +4609,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4581652472961576798, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1564963981683614496, guid: 8972b537b0d50dc4ba13acd60eabff59, type: 3}
     - target: {fileID: 6148888313420318171, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_fontSize
       value: 24.5
