@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public enum LevelDifficulty
@@ -35,10 +36,16 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Base Aliada")]
     public GameObject allyBase;
+    public Vector2[] allyBasePositions;
     public int allyBaseHealth = 10;
+
+    [Header("Zona de recursos")]
+    public GameObject resourceArea;
+    public Vector2[] resourceAreaPositions;
 
     [Header("Base Enemiga")]
     public GameObject enemyBase;
+    public Vector2[] enemyBasePositions;
     public int enemyBaseHealth = 10;
 
     [Header("Obstáculos")]
@@ -46,6 +53,8 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Generación enemiga")]
     [Min(0.1f)] public float enemySpawnInterval = 10f;
+    [Min(1)] public int maxSpawnableAmount = 1;
+    [Min(1)] public int chanceToSpawnMore = 20;
     public EnemySummons[] enemyTroops;
     public TroopDefinition defaultTroop;
 }

@@ -254,15 +254,17 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         if (enemyTroops.Count == 0)
             return;
 
-        /*
-        int randomIndex = Utils.GetRandom(0, enemyTroops.Count);
+        for(int i = 0; i < LevelSession.SelectedLevel.maxSpawnableAmount; i++)
+        {
+            TroopDefinition definition = GetUnitToSpawn();
 
-        TroopDefinition definition = enemyTroops[randomIndex];
-        */
+            SpawnConfiguredTroop(definition, false);
 
-        TroopDefinition definition = GetUnitToSpawn();
+            float roll = Utils.GetRandom(0, 100);
 
-        SpawnConfiguredTroop(definition, false);
+            if(roll > LevelSession.SelectedLevel.chanceToSpawnMore)
+                break;
+        }
     }
 
     private TroopDefinition GetUnitToSpawn()
