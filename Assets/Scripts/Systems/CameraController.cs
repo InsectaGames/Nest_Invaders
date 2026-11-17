@@ -4,20 +4,33 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     [Header("Límites")]
-    [SerializeField] private Vector2 limiteInferior = new Vector2(-6.8f, -3.7f);
-    [SerializeField] private Vector2 limiteSuperior = new Vector2(6.7f, 3.8f);
+    [SerializeField] private Vector2 limiteInferior = new Vector2(-18.5f, -10f);
+    [SerializeField] private Vector2 limiteSuperior = new Vector2(18.5f, 10f);
 
     [Header("Configuración de Velocidad")]
     [SerializeField] private float keyboardSpeed = 6f;
-    [SerializeField] private float mouseDragSpeed = 0.01f;
+    [SerializeField] private float mouseDragSpeed = 0.07f;
+
+    [Header("Configuración del Zoom 2D")]
+    [SerializeField] private float zoomMinimo = 2f;
+    [SerializeField] private float zoomMaximo = 7f;
+    [SerializeField] private float zoomSpeed = 0.15f;
+
+    private Camera camara;
 
     private Vector3 lastMousePosition;
     private bool isDragging = false;
+
+    private void Awake()
+    {
+        camara = GetComponent<Camera>();
+    }
 
     private void Update()
     {
         HandleKeyboardMovement();
         HandleMouseDrag();
+        HandleMouseZoom();
         ApplyCameraLimits();
     }
 
@@ -43,13 +56,13 @@ public class CameraController : MonoBehaviour
         if (!Utils.MouseActive())
             return;
 
-        if (Utils.MouseClicked(Utils.MiddleClick))
+        if (Utils.MouseClicked(Utils.RightClick))
         {
             isDragging = true;
             lastMousePosition = Utils.GetMousePos();
         }
 
-        if (Utils.MouseReleased(Utils.MiddleClick))
+        if (Utils.MouseReleased(Utils.RightClick))
         {
             isDragging = false;
         }
@@ -68,12 +81,50 @@ public class CameraController : MonoBehaviour
         lastMousePosition = currentMousePosition;
     }
 
+    private void HandleMouseZoom()
+    {
+        if (!Utils.MouseActive() || camara == null || !camara.orthographic)
+            return;
+
+        float scroll = Mouse.current.scroll.ReadValue().y;
+
+        if (Mathf.Approximately(scroll, 0f))
+            return;
+
+        Vector2 posicionCursor = Utils.GetMousePos();
+        float distancia = -camara.transform.position.z / camara.transform.forward.z;
+        Vector3 puntoAntes = new Vector3(posicionCursor.x, posicionCursor.y, distancia);
+        Vector3 mundoAntes = camara.ScreenToWorldPoint(puntoAntes);
+
+        float nuevoTamaño = camara.orthographicSize - scroll * zoomSpeed;
+        camara.orthographicSize = Mathf.Clamp(nuevoTamaño, zoomMinimo, zoomMaximo);
+
+        Vector3 mundoDespues = camara.ScreenToWorldPoint(puntoAntes);
+        transform.position += mundoAntes - mundoDespues;
+    }
+
     private void ApplyCameraLimits()
     {
         Vector3 position = transform.position;
 
-        position.x = Utils.Clamp(position.x, limiteInferior.x, limiteSuperior.x);
-        position.y = Mathf.Clamp(position.y, limiteInferior.y, limiteSuperior.y);
+        float mitadAlto = camara.orthographicSize;
+        float mitadAncho = mitadAlto * camara.aspect;
+
+        float minX = limiteInferior.x + mitadAncho;
+        float maxX = limiteSuperior.x - mitadAncho;
+
+        float minY = limiteInferior.y + mitadAlto;
+        float maxY = limiteSuperior.y - mitadAlto;
+
+        if (minX > maxX)
+            position.x = (limiteInferior.x + limiteSuperior.x) / 2f;
+        else
+            position.x = Mathf.Clamp(position.x, minX, maxX);
+
+        if (minY > maxY)
+            position.y = (limiteInferior.y + limiteSuperior.y) / 2f;
+        else
+            position.y = Mathf.Clamp(position.y, minY, maxY);
 
         transform.position = position;
     }
