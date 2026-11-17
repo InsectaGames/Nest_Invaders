@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 {
     private ATroop troop;
+    private Animator animator;
 
     public TroopType Type => TroopType.RANGED_ATTACKER;
 
@@ -17,6 +18,13 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
     [SerializeField, Min(0.1f)] private float attackCooldown = 1.5f;
 
     public bool IsInCombat => CombatSystem.IsValidEnemy(troop, currentTarget);
+
+    [Header("Proyectiles")]
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform projectileSpawnPoint;
+
+    private bool isShooting;
+    private ATroop shootingTarget;
 
     [Header("Huida")]
     [SerializeField, Min(1f)] private float escapeSpeedMultiplier = 1.5f;
@@ -42,6 +50,7 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
     {
         troop = GetComponent<ATroop>();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -73,6 +82,7 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
             }
         }
 
+        /*
         // La huida siempre tiene prioridad.
         if (dangerTarget != null)
         {
@@ -84,6 +94,7 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
         // Si ya no hay enemigos dentro de safeDistance, se recupera el comportamiento normal.
         if (escaping)
             StopEscaping();
+        */
 
         // Atacar si tiene un objetivo válido.
         if (IsInCombat)
@@ -155,39 +166,71 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
         if (!IsInCombat)
         {
             currentTarget = null;
+            troop.SetMovementStopped(false);
             return;
         }
 
-        // Si está dentro del alcance efectivo de ataque, dispara.
         if (CombatSystem.CloseEnoughToAttack(troop, currentTarget))
         {
             troop.SetMovementStopped(true);
 
-            if (Time.time >= nextAttackTime)
+            if (!isShooting && Time.time >= nextAttackTime)
             {
-                CombatSystem.PerformAttack(troop, currentTarget);
-
-                nextAttackTime = Time.time + attackCooldown;
-
-                HealthComponent targetHealth = currentTarget.GetHealth();
-
-                if (targetHealth != null && targetHealth.IsDead())
-                {
-                    targetHealth.Die();
-
-                    currentTarget = null;
-                    returningToBase = false;
-
-                    troop.SetMovementStopped(false);
-                }
+                StartShooting();
             }
         }
         else
         {
-            // El enemigo está detectado, pero fuera del alcance.
             troop.SetMovementStopped(false);
             troop.SetTarget(currentTarget.transform);
         }
+    }
+
+    private void StartShooting()
+    {
+        if (isShooting || animator == null)
+            return;
+
+        if (!CombatSystem.IsValidEnemy(troop, currentTarget))
+            return;
+
+        isShooting = true;
+        shootingTarget = currentTarget;
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        animator.SetTrigger("shoot");
+    }
+
+    public void ShootProjectile()
+    {
+        if (!isShooting || projectilePrefab == null || projectileSpawnPoint == null)
+            return;
+
+        if (!CombatSystem.IsValidEnemy(troop, shootingTarget))
+            return;
+
+        GameObject projectileObject = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+
+        RangedProjectile projectile = projectileObject.GetComponent<RangedProjectile>();
+
+        if (projectile != null)
+        {
+            projectile.Initialize(troop, shootingTarget, troop.GetDefinition().strength);
+        }
+        else
+        {
+            Destroy(projectileObject);
+        }
+    }
+
+    public void FinishShooting()
+    {
+        isShooting = false;
+        shootingTarget = null;
+
+        if (animator != null)
+            animator.ResetTrigger("shoot");
     }
 
     #endregion

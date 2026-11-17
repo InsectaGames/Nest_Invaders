@@ -382,6 +382,8 @@ MonoBehaviour:
   dangerRadius: 3
   targetUpdateInterval: 0.2
   attackCooldown: 1.5
+  projectilePrefab: {fileID: 7695737180038959750, guid: 39e90c7a41387e346a4845161cdfb02f, type: 3}
+  projectileSpawnPoint: {fileID: 5837321875170479044}
   escapeSpeedMultiplier: 1.5
   safeDistance: 7
   escapeUpdateInterval: 0.3
@@ -418,7 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankTroop
   allyProtectionRadius: 8
-  defenseRadius: 10
+  defenseRadius: 5
   guardWanderRadius: 4
   enemyDetectionRadius: 8
   attackCooldown: 1.5

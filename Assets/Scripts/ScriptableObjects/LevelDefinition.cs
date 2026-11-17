@@ -29,6 +29,8 @@ public class LevelDefinition : ScriptableObject
     public int nightLength;
 
     [Header("Recursos")]
+    public int passiveCooldown = 60;
+    public int passiveAmount = 1;
     public ResourceSlot[] initialResources;
 
     [Header("Mapa")]
@@ -57,4 +59,9 @@ public class LevelDefinition : ScriptableObject
     [Min(1)] public int chanceToSpawnMore = 20;
     public EnemySummons[] enemyTroops;
     public TroopDefinition defaultTroop;
+
+    [Header("Generación de Jefe")]
+    public bool IsMidBossStage = false;
+    public bool IsMainBossStage = false;
+    public GameObject bossPrefab;
 }

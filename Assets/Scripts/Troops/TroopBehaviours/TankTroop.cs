@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,9 +11,10 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     [Header("Protección de aliados")]
     [SerializeField, Min(1f)] private float allyProtectionRadius = 8f;
 
-    [Header("Defensa de la base")]
-    [SerializeField, Min(1f)] private float defenseRadius = 10f;
+    [Header("Defensa de la mina")]
+    [SerializeField, Min(1f)] private float defenseRadius = 5f;
     [SerializeField, Min(1f)] private float guardWanderRadius = 4f;
+    private Transform gatherPoint;
 
     [Header("Detección y combate")]
     [SerializeField, Min(1f)] private float enemyDetectionRadius = 8f;
@@ -84,6 +84,8 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         protectedAlly = null;
         currentTarget = null;
 
+        FindGatherPoint();
+
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
         nextMovementUpdateTime = 0f;
@@ -96,6 +98,9 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     {
         protectedAlly = null;
         currentTarget = null;
+
+        if(gatherPoint != null)
+            gatherPoint = null;
 
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
@@ -122,12 +127,19 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
         currentTarget = null;
 
-        Transform allyBase = troop.GetAllyBaseTransform();
+        if (gatherPoint == null)
+            FindGatherPoint();
 
-        if (allyBase != null)
+        if (gatherPoint != null)
         {
-            currentTarget = FindClosestEnemyAround(allyBase.position, defenseRadius);
+            currentTarget = FindClosestEnemyAround(gatherPoint.position, defenseRadius);
         }
+    }
+
+    private void FindGatherPoint()
+    {
+        GameObject point = GameObject.FindGameObjectWithTag("GatherPoint");
+        gatherPoint = point != null ? point.transform : null;
     }
 
     private ATroop FindAllyInCombat()
@@ -266,17 +278,19 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
     private void SetRandomGuardPosition()
     {
-        Transform allyBase = troop.GetAllyBaseTransform();
-
-        if (allyBase == null)
+        if (gatherPoint == null)
             return;
+
+        float minRadius = guardWanderRadius * 0.4f; 
 
         for (int i = 0; i < 10; i++)
         {
-            Vector2 offset = Random.insideUnitCircle * guardWanderRadius;
+            float angle = Utils.GetRandomFloat(0f, Mathf.PI);
+            float distance = Utils.GetRandomFloat(minRadius, guardWanderRadius);
 
-            Vector3 candidate = allyBase.position +
-                new Vector3(offset.x, offset.y, 0f);
+            Vector2 offset = new Vector2(Mathf.Cos(angle) * distance, Mathf.Sin(angle) * distance);
+
+            Vector3 candidate = gatherPoint.position + new Vector3(offset.x, offset.y, 0f);
 
             if (NavMesh.SamplePosition(candidate, out NavMeshHit hit, navMeshSampleDistance, agent.areaMask))
             {
@@ -298,10 +312,10 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
         if (troop != null && troop.GetAllyBaseTransform() != null)
         {
-            Gizmos.DrawWireSphere(troop.GetAllyBaseTransform().position, defenseRadius);
+            Gizmos.DrawWireSphere(gatherPoint.position, defenseRadius);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(troop.GetAllyBaseTransform().position, guardWanderRadius);
+            Gizmos.DrawWireSphere(gatherPoint.position, guardWanderRadius);
         }
     }
 }

@@ -40,6 +40,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
     [Header("Recursos")]
     [SerializeField] private ResourceSlot[] resources;
     [SerializeField] private int[] maxResources;
+    private Coroutine passiveResourceGeneration;
 
     [Header("Lógica de Spawner")]
     [SerializeField] private TroopPoolManager troopPoolManager;
@@ -124,6 +125,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
                 UITroopsGenerator generator = FindFirstObjectByType<UITroopsGenerator>();
                 generator?.AddObserver(this);
+
+                passiveResourceGeneration = StartCoroutine(GenerateResourcesPassively());
             break;
 
             case Faction.ENEMY:
@@ -179,6 +182,20 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         }
 
         return -1;
+    }
+
+    private IEnumerator GenerateResourcesPassively()
+    {
+        int leavesIndex = GetResourceIndex(Resource.LEAVES);
+
+        while(true)
+        {
+            yield return new WaitForSeconds(LevelSession.SelectedLevel.passiveCooldown);
+
+            resources[leavesIndex].cantidad += LevelSession.SelectedLevel.passiveAmount;
+
+            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, resources[leavesIndex].cantidad)));
+        }
     }
 
     #endregion

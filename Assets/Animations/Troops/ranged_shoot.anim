@@ -98,16 +98,23 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.13333334
-    functionName: 
+    functionName: ShootProjectile
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 8420292baf7e0bc4a89e2500af2179db, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.6666667
-    functionName: 
+    functionName: ShootProjectile
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 8420292baf7e0bc4a89e2500af2179db, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: FinishShooting
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 8420292baf7e0bc4a89e2500af2179db, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

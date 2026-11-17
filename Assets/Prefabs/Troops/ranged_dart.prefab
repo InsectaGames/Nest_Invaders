@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1445251025955753354}
   - component: {fileID: 1269200736858161871}
+  - component: {fileID: 5904079645341428222}
   m_Layer: 0
   m_Name: ranged_dart
   m_TagString: Untagged
@@ -92,6 +93,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5904079645341428222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7695737180038959750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb98894fc112bb44ea8f23fae1868864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedProjectile
+  speed: 10
+  lifetime: 5
 --- !u!1 &7961872116567367746
 GameObject:
   m_ObjectHideFlags: 0

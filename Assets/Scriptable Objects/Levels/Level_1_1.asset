@@ -18,6 +18,8 @@ MonoBehaviour:
   nextLevel: {fileID: 11400000, guid: c3e568ad52417aa498e26bc7ce132656, type: 2}
   dayLength: 75
   nightLength: 45
+  passiveCooldown: 60
+  passiveAmount: 1
   initialResources:
   - res: 0
     cantidad: 10
