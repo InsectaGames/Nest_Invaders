@@ -20,6 +20,7 @@ public struct TroopInstance
     public int id;
 }
 
+
 [System.Serializable]
 public class DebugTroopEntry
 {
@@ -27,7 +28,7 @@ public class DebugTroopEntry
     public ATroop prefab;
 }
 
-public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
+public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -66,6 +67,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
     [SerializeField] private Transform debugSpawnPoint;
     [SerializeField] private float debugSpawnRadius = 2f;
+
+    private List<IObserver<int>> _observers = new List<IObserver<int>>();
 
     public Faction GetFaction() => faction;
 
@@ -430,7 +433,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
         if (buttons[id].OnCoolDown)
             return;
 
-        buttons[id].OnButtonPressed();
+       // buttons[id].OnButtonPressed();
 
         if (towerSummons == null || id < 0 || id >= towerSummons.Count)
         {
@@ -481,6 +484,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
                 if (leavesIndex < 0 || resources[leavesIndex].cantidad < definition.recursos[0].cantidad)
                 {
                     Debug.LogWarning($"No se puede crear {definition.Name}: no hay suficientes hojas.");
+                 
+                    UpdateObservers(definition.ID);
                     return null;
                 }
             }
@@ -602,6 +607,18 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
         Debug.Log($"Ahora tengo {resources[index].cantidad} del recurso " + resources[index].res);
     }
+
+  
+
+    public void UpdateObservers(int data)
+    {
+        foreach (IObserver<int> obs in _observers)
+        {
+            obs?.UpdateObserver(data);
+        }
+    }
+    public void AddObserver(IObserver<int> obs) => _observers.Add(obs);
+    public void RemoveObserver(IObserver<int> obs) => _observers.Remove(obs);
 
     #endregion
 }

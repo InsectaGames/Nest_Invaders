@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
+public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> ,  IObserver<int>
 {
     [Header("Configuración")]
     [SerializeField] private Button button;
@@ -22,6 +22,19 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
         GameObject.Find("UI_Controller")
             .GetComponent<UITroopsGenerator>()
             .AddObserver(this);
+
+
+        GameObject[] _go = GameObject.FindGameObjectsWithTag("Base");
+
+        foreach (var go in _go)
+        {
+           if(go.GetComponent<BaseSystem>().GetFaction() == Faction.ALLY)
+            {
+                go.GetComponent<BaseSystem>().AddObserver(this);
+                Debug.Log("Me suscribi a :" + go.name);
+            }
+
+        }
 
         cooldownImage.fillAmount = 0f;
         cooldownImage.gameObject.SetActive(false);
@@ -85,6 +98,20 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
                 cooldownTime = 4f;
                 break;
         }
+        _anim.ResetTrigger("not_enough_resources");
         _anim.SetTrigger("pressed");
+    }
+
+    public void UpdateObserver(int data)
+    {
+        if (data != buttonID)
+            return;
+
+
+        cooldownImage.fillAmount = 0f;
+        _anim.ResetTrigger("pressed");
+        _anim.SetTrigger("not_enough_resources");
+
+
     }
 }

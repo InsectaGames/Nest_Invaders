@@ -18,6 +18,8 @@ TagManager:
   - Enemy
   - trans
   - pool
+  - AllyBase
+  - EnemyBase
   layers:
   - Default
   - TransparentFX
