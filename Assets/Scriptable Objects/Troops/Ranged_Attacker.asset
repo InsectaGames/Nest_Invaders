@@ -22,6 +22,6 @@ MonoBehaviour:
   chanceToDropSticks: 50
   recursos:
   - res: 0
-    cantidad: 5
+    cantidad: 3
   capacity: []
   bhvRunner: {fileID: 0}

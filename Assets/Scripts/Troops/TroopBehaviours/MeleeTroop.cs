@@ -227,7 +227,7 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
     {
         if (Utils.GetRandomInclusive(0, 100) > def.chanceToDropSticks)
         {
-            troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_2, new ResourceSlot(Resource.STICK, 1));
+            troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_2, new ResourceSlot(Resource.SPIDERWEBS, 1));
         }
     }
 

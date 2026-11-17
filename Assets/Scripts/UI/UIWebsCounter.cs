@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
+public class UIWebsCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private TextMeshProUGUI text;
 
@@ -27,7 +27,7 @@ public class UISticksCounter : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 
     public void UpdateObserver(GameEvent<ResourceSlot> data)
     {
-        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_2 && data.data.res == Resource.STICK)
+        if(data.logicEvent == LogicEvent.RESOURCE_GATHER_2 && data.data.res == Resource.SPIDERWEBS)
             text.text = data.data.cantidad.ToString();
     }
 }

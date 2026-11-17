@@ -7,7 +7,8 @@ public enum LogicEvent
     RESOURCE_GATHER_1,
     RESOURCE_GATHER_2,
     TIME_CHANGE,
-    TROOP_DESPAWN
+    TROOP_DESPAWN,
+    NOT_ENOUGH_RESOURCES
 }
 
 [System.Serializable]

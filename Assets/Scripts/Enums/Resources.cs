@@ -1,7 +1,7 @@
 public enum Resource
 {
-    LEAVES,
-    STICK
+    FUNGUS,
+    SPIDERWEBS
 }
 
 [System.Serializable]
@@ -20,7 +20,7 @@ public struct ResourceSlot
     {
         return new ResourceSlot
         { 
-            res = Resource.LEAVES,
+            res = Resource.FUNGUS,
             cantidad = 1
         };
     }

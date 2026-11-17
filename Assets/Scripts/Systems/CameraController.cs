@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Configuración de Velocidad")]
     [SerializeField] private float keyboardSpeed = 6f;
-    [SerializeField] private float mouseDragSpeed = 0.07f;
+    [SerializeField] private float mouseDragSpeed = 0.02f;
 
     [Header("Configuración del Zoom 2D")]
     [SerializeField] private float zoomMinimo = 2f;

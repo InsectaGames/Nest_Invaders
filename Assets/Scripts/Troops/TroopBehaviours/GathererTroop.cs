@@ -248,7 +248,7 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     private void DeliverResources()
     {
-        troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, Utils.GetRandomInclusive(minAmount, maxAmount)));
+        troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, Utils.GetRandomInclusive(minAmount, maxAmount)));
 
         BeginMovement(gatherPointTransform, GathererState.MovingToGatherPoint);
     }

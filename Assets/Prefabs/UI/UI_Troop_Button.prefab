@@ -70,7 +70,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.08615013, y: 0.29836056}
   m_AnchorMax: {x: 0.89400005, y: 0.8973198}
-  m_AnchoredPosition: {x: 0.6215898, y: -0.0000019073486}
+  m_AnchoredPosition: {x: 0.62158966, y: 0}
   m_SizeDelta: {x: -7.475, y: -8.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5874301348046064629
@@ -302,6 +302,7 @@ MonoBehaviour:
   button: {fileID: 5937444980217501485}
   cooldownImage: {fileID: 5918792338869747726}
   cooldownTime: 0
+  buttonID: 0
 --- !u!95 &4247978299204819385
 Animator:
   serializedVersion: 7
@@ -416,7 +417,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.2
+  m_fontSize: 48.95
   m_fontSizeBase: 47.18
   m_fontWeight: 400
   m_enableAutoSizing: 1

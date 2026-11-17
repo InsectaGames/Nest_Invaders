@@ -69,8 +69,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
     public Faction GetFaction() => faction;
 
-    public int GetLeaves() => GetResourceAmount(Resource.LEAVES);
-    public int GetSticks() => GetResourceAmount(Resource.STICK);
+    public int GetLeaves() => GetResourceAmount(Resource.FUNGUS);
+    public int GetSticks() => GetResourceAmount(Resource.SPIDERWEBS);
 
     private int GetResourceAmount(Resource resource)
     {
@@ -186,7 +186,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
     private IEnumerator GenerateResourcesPassively()
     {
-        int leavesIndex = GetResourceIndex(Resource.LEAVES);
+        int leavesIndex = GetResourceIndex(Resource.FUNGUS);
 
         while(true)
         {
@@ -194,7 +194,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
 
             resources[leavesIndex].cantidad += LevelSession.SelectedLevel.passiveAmount;
 
-            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, resources[leavesIndex].cantidad)));
+            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[leavesIndex].cantidad)));
         }
     }
 
@@ -476,7 +476,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
             // Solo las tropas aliadas consumen recursos.
             if (consumeLeaves)
             {
-                leavesIndex = GetResourceIndex(Resource.LEAVES);
+                leavesIndex = GetResourceIndex(Resource.FUNGUS);
 
                 if (leavesIndex < 0 || resources[leavesIndex].cantidad < definition.recursos[0].cantidad)
                 {
@@ -497,7 +497,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, IObserver<GameEvent
             {
                 resources[leavesIndex].cantidad -= definition.recursos[0].cantidad;
 
-                UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, resources[leavesIndex].cantidad)));
+                UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[leavesIndex].cantidad)));
 
                 Debug.Log($"Tropa aliada creada: {definition.Name}. Hojas restantes: {resources[leavesIndex].cantidad}");
             }

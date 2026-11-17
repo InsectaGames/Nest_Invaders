@@ -440,7 +440,7 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
             // Entregar los recursos recolectados.
             if (collectedResources > 0)
             {
-                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.LEAVES, collectedResources));
+                troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, collectedResources));
 
                 Debug.Log("Recursos entregados en la base: " + collectedResources);
 
