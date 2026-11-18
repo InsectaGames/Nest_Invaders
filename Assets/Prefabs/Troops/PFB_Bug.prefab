@@ -291,6 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
   canv_health: {fileID: 4054950483857702460}
   fillbar: {fileID: 2194438035360904084}
+  death_effect_ally: {fileID: 8556668702727465672, guid: b51ea3c33e3e61f4182261ba7da107a5, type: 3}
+  death_effect_enemy: {fileID: 8556668702727465672, guid: 102923ef5043a4a4da83f3bb47e0ede1, type: 3}
 --- !u!114 &6056719398558215712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,8 +387,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7695737180038959750, guid: 39e90c7a41387e346a4845161cdfb02f, type: 3}
   projectileSpawnPoint: {fileID: 5837321875170479044}
   escapeSpeedMultiplier: 1.5
-  safeDistance: 7
-  escapeUpdateInterval: 0.3
+  repositionDistance: 6
+  repositionCooldown: 2
   navMeshSampleDistance: 3
 --- !u!114 &2453348568739707454
 MonoBehaviour:

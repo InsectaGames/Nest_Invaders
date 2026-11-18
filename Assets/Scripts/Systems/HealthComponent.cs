@@ -10,6 +10,8 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private GameObject canv_health;
     [SerializeField] private Image fillbar;
 
+    [SerializeField] private GameObject death_effect_ally;
+    [SerializeField] private GameObject death_effect_enemy;
     public void Initialize(int maxHealth = 100)
     {
         Health = maxHealth;
@@ -68,7 +70,12 @@ public class HealthComponent : MonoBehaviour
     {
         ATroop troop = GetComponent<ATroop>();
 
-        if(troop != null)
+        if (troop.GetFaction() == Faction.ALLY)
+            Instantiate(death_effect_ally, transform.position, Quaternion.identity);
+        else if (troop.GetFaction() == Faction.ENEMY)
+            Instantiate(death_effect_enemy, transform.position, Quaternion.identity);
+
+        if (troop != null)
         {
             troop.ReturnToPool();
             return;
