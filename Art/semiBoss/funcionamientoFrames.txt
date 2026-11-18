@@ -1,0 +1,52 @@
+Regla de los frames para las piezas del ciempies:
+
+Cada pieza (cabeza, cuerpo y cola) tiene 4 variantes de animación (los 4 frames numerados de izquierda a derecha).
+La idea es que las piezas deben usar ciertos frames según su posición en la cadena para que la animación encaje correctamente al añadir más cuerpos.
+
+Caso base: 1 cuerpo
+Cabeza -> Frame 1
+Cuerpo -> Frame 1
+Cola -> Frame 1
+
+Resultado:
+[Cabeza F1] [Cuerpo F1] [Cola F1]
+
+Al añadir un segundo cuerpo
+El nuevo cuerpo y la cola pasan a usar el frame anterior de la secuencia.
+
+Cabeza  -> Frame 1
+Cuerpo1 -> Frame 1
+Cuerpo2 -> Frame 4
+Cola    -> Frame 4
+
+Resultado:
+[Cabeza F1] [Cuerpo F1] [Cuerpo F4] [Cola F4]
+
+Al añadir un tercer cuerpo
+El último cuerpo y la cola vuelven a retroceder un frame.
+
+Cabeza  -> Frame 1
+Cuerpo1 -> Frame 1
+Cuerpo2 -> Frame 4
+Cuerpo3 -> Frame 3
+Cola    -> Frame 3
+
+Resultado:
+[Cabeza F1] [Cuerpo F1] [Cuerpo F4] [Cuerpo F3] [Cola F3]
+
+Patrón general
+
+Los frames se asignan desde la cola hacia delante siguiendo esta secuencia:
+1 → 4 → 3 → 2 → 1 → 4 → 3 → 2 ...
+
+La cola siempre usa el mismo frame que el último cuerpo.
+
+Número de cuerpos	Frames
+1			F1
+2			F1, F4
+3			F1, F4, F3
+4			F1, F4, F3, F2
+5			F1, F4, F3, F2, F1
+
+RESUMEN:Los cuerpos siguen una secuencia cíclica de frames [1, 4, 3, 2]. 
+Cada vez que se añade un nuevo cuerpo, este recibe el siguiente frame de la secuencia y la cola copia siempre el frame del último cuerpo.
