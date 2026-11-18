@@ -58,17 +58,15 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         if (IsInCombat)
         {
             HandleCombat();
+            return;
         }
-        else if (protectedAlly != null && protectedAlly.gameObject.activeInHierarchy)
-        {
-            currentTarget = null;
-            MoveTowards(protectedAlly.transform);
-        }
-        else
-        {
-            currentTarget = null;
-            HandleGuarding();
-        }
+        
+        // Si el objetivo ha desaparecido o ha muerto, limpiar el estado.
+        currentTarget = null;
+        troop.SetMovementStopped(false);
+
+        // Continuar hacia el GatherPoint o patrullar alrededor de él.
+        HandleGuarding();
     }
 
     #region INITIALIZATION
@@ -117,23 +115,29 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
     private void UpdateTargets()
     {
+        // Asegurar que tenemos localizado el punto de recolección.
+        if (gatherPoint == null)
+            FindGatherPoint();
+
+        // Prioridad 1: Proteger aliados cercanos que estén combatiendo.
         protectedAlly = FindAllyInCombat();
 
         if (protectedAlly != null)
         {
             currentTarget = FindClosestEnemyAround(protectedAlly.transform.position, enemyDetectionRadius);
+
+            if (currentTarget != null)
+                return;
+        }
+
+        // Prioridad 2: Detectar enemigos alrededor del propio tanque. Esto permite interrumpir el desplazamiento hacia el GatherPoint.
+        currentTarget = FindClosestEnemyAround(transform.position, enemyDetectionRadius);
+
+        if (currentTarget != null)
             return;
-        }
 
-        currentTarget = null;
-
-        if (gatherPoint == null)
-            FindGatherPoint();
-
-        if (gatherPoint != null)
-        {
-            currentTarget = FindClosestEnemyAround(gatherPoint.position, defenseRadius);
-        }
+        // Prioridad 3: Detectar enemigos que amenacen la zona de recolección.
+        currentTarget = gatherPoint != null ? FindClosestEnemyAround(gatherPoint.position, defenseRadius) : null;
     }
 
     private void FindGatherPoint()
@@ -263,6 +267,18 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
     private void HandleGuarding()
     {
+        if (gatherPoint == null)
+        return;
+
+        // Primero debe llegar a la zona de recolección.
+        float distanceToGatherPoint = Vector2.Distance(transform.position, gatherPoint.position);
+
+        if (distanceToGatherPoint > guardWanderRadius)
+        {
+            MoveTowards(gatherPoint);
+            return;
+        }
+
         if (agent.hasPath && agent.pathStatus != NavMeshPathStatus.PathInvalid && agent.remainingDistance > agent.stoppingDistance + 0.2f)
         {
             return;
@@ -308,10 +324,9 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, allyProtectionRadius);
 
-        Gizmos.color = Color.red;
-
-        if (troop != null && troop.GetAllyBaseTransform() != null)
+        if (gatherPoint != null)
         {
+            Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(gatherPoint.position, defenseRadius);
 
             Gizmos.color = Color.yellow;

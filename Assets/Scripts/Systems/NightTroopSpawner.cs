@@ -130,6 +130,9 @@ public class NightTroopSpawner : MonoBehaviour, IObserver<GameEvent<DayTime>>
         if (!TryGetSpawnPosition(out Vector3 spawnPosition))
             return;
 
+        if(spawnedTroops.Count >= LevelSession.SelectedLevel.maxNightCreatureAmount)
+            return;
+
         ATroop troop = nightTroopPool.Spawn(nightTroopDefinition, Faction.NEUTRAL, spawnPosition);
 
         if (troop != null)

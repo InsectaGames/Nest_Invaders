@@ -3,25 +3,27 @@ using BehaviourAPI.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum GathererState
+{
+    Inactive,
+    WaitingForTargets,
+    MovingToGatherPoint,
+    Gathering,
+    ReturningToBase
+}
+
 public class GathererTroop : MonoBehaviour, ITroop
 {
-    private enum GathererState
-    {
-        Inactive,
-        WaitingForTargets,
-        MovingToGatherPoint,
-        Gathering,
-        ReturningToBase
-    }
-
     private ATroop troop;
     private NavMeshAgent agent;
     private SpriteRenderer spriteRenderer;
     private NavMeshAgent nvm;
+    private Collider2D col;
 
     public TroopType Type => TroopType.GATHERER;
 
     private GathererState state = GathererState.Inactive;
+    public GathererState GetState() => state;
 
     private Transform gatherPointTransform;
     private Transform currentTarget;
@@ -44,6 +46,7 @@ public class GathererTroop : MonoBehaviour, ITroop
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         nvm = this.GetComponent<NavMeshAgent>();
+        col = this.GetComponent<Collider2D>();
     }
 
     private void Update()
@@ -91,6 +94,8 @@ public class GathererTroop : MonoBehaviour, ITroop
         gatheringTimer = 0f;
         movementRetryTimer = 0f;
 
+        col.enabled = true;
+
         if (spriteRenderer != null)
             spriteRenderer.enabled = true;
 
@@ -124,6 +129,8 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         gatherPointTransform = null;
         currentTarget = null;
+
+        col.enabled = true;
 
         if (spriteRenderer != null)
             spriteRenderer.enabled = true;
@@ -183,15 +190,13 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         if (invalidPath || stalled)
             troop.SetTarget(currentTarget);
-
-
-        
     }
 
     private void UpdateSpriteVisuals()
     {
         spriteRenderer.flipX = (nvm.velocity.x < 0);
     }
+
     private bool HasReachedTarget()
     {
         if (agent.pathPending)
@@ -218,6 +223,8 @@ public class GathererTroop : MonoBehaviour, ITroop
         state = GathererState.Gathering;
         gatheringTimer = gatheringDuration;
 
+        col.enabled = false;
+
         agent.isStopped = true;
         agent.ResetPath();
 
@@ -242,6 +249,7 @@ public class GathererTroop : MonoBehaviour, ITroop
                 return;
             }
 
+            col.enabled = true;
             BeginMovement(allyBase, GathererState.ReturningToBase);
         }
     }

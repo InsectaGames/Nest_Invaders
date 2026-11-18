@@ -26,10 +26,10 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
     private bool isShooting;
     private ATroop shootingTarget;
 
-    [Header("Huida")]
-    [SerializeField, Min(1f)] private float escapeSpeedMultiplier = 1.5f;
-    [SerializeField, Min(0.5f)] private float safeDistance = 7f;
-    [SerializeField, Min(0.1f)] private float escapeUpdateInterval = 0.3f;
+    [Header("Reposicionamiento evasivo")]
+    [SerializeField, Min(1f)] private float escapeSpeedMultiplier = 2.5f;
+    [SerializeField, Min(1f)] private float repositionDistance = 6f;
+    [SerializeField, Min(0.1f)] private float repositionCooldown = 2f;
     [SerializeField, Min(0.1f)] private float navMeshSampleDistance = 3f;
 
     private NavMeshAgent agent;
@@ -39,12 +39,13 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 
     private float nextTargetUpdateTime;
     private float nextAttackTime;
-    private float nextEscapeUpdateTime;
+    private float nextRepositionTime;
 
     private float normalSpeed;
 
-    private bool escaping;
+    private bool repositioning;
     private bool returningToBase;
+    private Vector3 repositionDestination;
 
     private void Awake()
     {
@@ -68,10 +69,7 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
         {
             nextTargetUpdateTime = Time.time + targetUpdateInterval;
 
-            // Cuando huye, comprueba si todavía hay enemigos dentro de la distancia de seguridad.
-            float escapeDetectionRadius = escaping ? safeDistance : dangerRadius;
-
-            dangerTarget = CombatSystem.FindClosestEnemy(troop, escapeDetectionRadius);
+            dangerTarget = CombatSystem.FindClosestEnemy(troop, dangerRadius);
 
             if (!IsInCombat)
             {
@@ -82,19 +80,20 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
             }
         }
 
-        /*
-        // La huida siempre tiene prioridad.
-        if (dangerTarget != null)
+        // Si ya está reposicionándose, debe terminar el desplazamiento.
+        if (repositioning)
         {
-            escaping = true;
-            HandleEscape();
+            HandleRepositioning();
             return;
         }
 
-        // Si ya no hay enemigos dentro de safeDistance, se recupera el comportamiento normal.
-        if (escaping)
-            StopEscaping();
-        */
+        // Si un enemigo se acerca demasiado, buscar otra posición.
+        if (CombatSystem.IsValidEnemy(troop, dangerTarget) &&
+            Time.time >= nextRepositionTime)
+        {
+            if (TryReposition())
+                return;
+        }
 
         // Atacar si tiene un objetivo válido.
         if (IsInCombat)
@@ -124,9 +123,9 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
-        nextEscapeUpdateTime = 0f;
+        nextRepositionTime = 0f;
 
-        escaping = false;
+        repositioning = false;
         returningToBase = false;
 
         if (agent != null && troop != null && troop.GetDefinition() != null)
@@ -145,9 +144,9 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
-        nextEscapeUpdateTime = 0f;
+        nextRepositionTime = 0f;
 
-        escaping = false;
+        repositioning = false;
         returningToBase = false;
 
         if (agent != null)
@@ -235,14 +234,77 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 
     #endregion
 
-    #region ESCAPE
+    #region REPOSITIONING
+
+    private bool TryReposition()
+    {
+        if (!CombatSystem.IsValidEnemy(troop, dangerTarget))
+            return false;
+
+        Vector3 awayDirection = (transform.position - dangerTarget.transform.position).normalized;
+
+        if (awayDirection.sqrMagnitude < 0.01f)
+            awayDirection = -transform.right;
+
+        // Probar varias direcciones para encontrar una posición válida.
+        Vector3[] directions =
+        {
+            awayDirection,
+            Quaternion.Euler(0f, 0f, 45f) * awayDirection,
+            Quaternion.Euler(0f, 0f, -45f) * awayDirection,
+            Quaternion.Euler(0f, 0f, 90f) * awayDirection,
+            Quaternion.Euler(0f, 0f, -90f) * awayDirection,
+            -awayDirection
+        };
+
+        foreach (Vector3 direction in directions)
+        {
+            Vector3 desiredPosition = transform.position + direction * repositionDistance;
+
+            if (!TrySetValidDestination(desiredPosition))
+                continue;
+
+            repositioning = true;
+            repositionDestination = agent.destination;
+
+            nextRepositionTime = Time.time + repositionCooldown;
+
+            agent.speed = normalSpeed * escapeSpeedMultiplier;
+            agent.isStopped = false;
+
+            troop.SetMovementStopped(false);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void HandleRepositioning()
+    {
+        if (!agent.pathPending && (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathInvalid || agent.remainingDistance <= agent.stoppingDistance + 0.2f))
+        {
+            FinishRepositioning();
+        }
+    }
+
+    private void FinishRepositioning()
+    {
+        repositioning = false;
+
+        agent.speed = normalSpeed;
+        agent.ResetPath();
+        agent.isStopped = false;
+
+        // El siguiente Update recuperará el comportamiento de combate.
+    }
 
     private bool TrySetValidDestination(Vector3 desiredPosition)
     {
         if (agent == null || !agent.isOnNavMesh)
             return false;
 
-        if (!NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, navMeshSampleDistance, NavMesh.AllAreas))
+        if (!NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, navMeshSampleDistance, agent.areaMask))
             return false;
 
         NavMeshPath path = new NavMeshPath();
@@ -250,50 +312,7 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
         if (!agent.CalculatePath(hit.position, path) || path.status != NavMeshPathStatus.PathComplete)
             return false;
 
-        agent.SetDestination(hit.position);
-        return true;
-    }
-
-    private void HandleEscape()
-    {
-        if (!CombatSystem.IsValidEnemy(troop, dangerTarget))
-            return;
-
-        agent.speed = normalSpeed * escapeSpeedMultiplier;
-        troop.SetMovementStopped(false);
-
-        if (Time.time < nextEscapeUpdateTime)
-            return;
-
-        nextEscapeUpdateTime = Time.time + escapeUpdateInterval;
-
-        Vector3 escapeDirection = (transform.position - dangerTarget.transform.position).normalized;
-
-        if (escapeDirection.sqrMagnitude < 0.01f)
-            escapeDirection = -transform.right;
-
-        Vector3 escapePosition = dangerTarget.transform.position + escapeDirection * safeDistance;
-
-        if (!TrySetValidDestination(escapePosition))
-        {
-            agent.ResetPath();
-            agent.isStopped = true;
-        }
-        else
-        {
-            agent.isStopped = false;
-        }
-    }
-
-    private void StopEscaping()
-    {
-        escaping = false;
-        dangerTarget = null;
-
-        if (agent != null)
-            agent.speed = normalSpeed;
-
-        // El siguiente comportamiento decidirá si debe atacar o continuar avanzando hacia la base enemiga.
+        return agent.SetDestination(hit.position);
     }
 
     #endregion
@@ -341,8 +360,5 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, dangerRadius);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, safeDistance);
     }
 }

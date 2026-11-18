@@ -1792,6 +1792,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
   m_PrefabInstance: {fileID: 594084244}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &594084246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5937444980217501485, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+  m_PrefabInstance: {fileID: 594084244}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &625314178
 GameObject:
   m_ObjectHideFlags: 0
@@ -3637,6 +3648,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
   m_PrefabInstance: {fileID: 1170295424}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1170295426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5937444980217501485, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+  m_PrefabInstance: {fileID: 1170295424}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1241456673
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,7 +3903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.8000183
+      value: 0.8000488
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3953,6 +3975,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
   m_PrefabInstance: {fileID: 1334308952}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1334308954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5937444980217501485, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+  m_PrefabInstance: {fileID: 1334308952}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1001 &1340143391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4027,7 +4060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.057891846
+      value: -0.057861328
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4087,6 +4120,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
   m_PrefabInstance: {fileID: 1340143391}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1340143393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5937444980217501485, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
+  m_PrefabInstance: {fileID: 1340143391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1381670539
 GameObject:
   m_ObjectHideFlags: 0
@@ -4336,6 +4380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da1b9353e4a4694eb5ef0321ee5e8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITroopsGenerator
+  buttons:
+  - {fileID: 1340143393}
+  - {fileID: 1334308954}
+  - {fileID: 594084246}
+  - {fileID: 1170295426}
 --- !u!4 &1600037797
 Transform:
   m_ObjectHideFlags: 0

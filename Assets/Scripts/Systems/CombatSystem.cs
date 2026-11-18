@@ -40,6 +40,14 @@ public class CombatSystem
         if (attacker.GetFaction() == target.GetFaction())
             return false;
 
+        if(target.GetDefinition().type == TroopType.GATHERER)
+        {
+            GathererTroop gathererTroop = target.GetComponent<GathererTroop>();
+
+            if (gathererTroop == null || gathererTroop.GetState() == GathererState.Gathering)
+                return false;
+        }
+            
         HealthComponent health = target.GetHealth();
 
         return health != null && !health.IsDead();

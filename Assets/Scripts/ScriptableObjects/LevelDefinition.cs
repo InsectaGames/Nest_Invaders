@@ -60,6 +60,9 @@ public class LevelDefinition : ScriptableObject
     public EnemySummons[] enemyTroops;
     public TroopDefinition defaultTroop;
 
+    [Header("Generación de criaturas de noche")]
+    [Min(0)] public int maxNightCreatureAmount = 3;
+
     [Header("Generación de Jefe")]
     public bool IsMidBossStage = false;
     public bool IsMainBossStage = false;
