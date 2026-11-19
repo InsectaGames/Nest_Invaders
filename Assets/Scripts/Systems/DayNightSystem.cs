@@ -53,6 +53,10 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
 
     public LevelDefinition GetLvlDef() => this.levelInfo;
 
+    // Audio manager para la nusica de dia y noche
+    private AudioManager audioManager;
+
+
     private void Awake()
     {
         // Obtener la definición seleccionada en SubLevelsScene.
@@ -96,6 +100,11 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
     {
         daytime = DayTime.DAY;
         StartDay();
+
+        audioManager = AudioManager.Instance;
+
+        if (audioManager != null)
+            AddObserver(audioManager);
     }
 
     private void Update()
@@ -167,6 +176,7 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
         _timer = 0f;
 
         UpdateObservers(new GameEvent<DayTime>(LogicEvent.TIME_CHANGE, daytime));
+
 
         if(GameTestMode.IsBehaviourTestScene)
             return;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ public struct AudioEntry
     public AudioClip clip;    // Clip de audio asociado.
 }
 
-public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
+public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>>, IObserver<GameEvent<DayTime>>
 {
     [Header("Sonidos y Música")]
     [SerializeField] private List<AudioEntry> audioEntries; // Lista configurable desde el inspector.
@@ -163,17 +164,32 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<int>>
 
         if(SceneManager.GetActiveScene().name == "Main_arena")
         {
-            PlayBackgroundMusic("Test Music");
+            PlayBackgroundMusic("Day_Theme");
         }
-        else if(IsBackgroundMusicPlaying())
+        else 
         {
-            StopBackgroundMusic();
+            PlayBackgroundMusic("Menu_Theme");
         }
     }
 
-    public void UpdateObserver(GameEvent<int> data)
+    public void UpdateObserver(GameEvent<string> data)
     {
-        // Reproducir sonidos según información recibida.
+        if (data.logicEvent == LogicEvent.UI_SOUND)
+        {
+            PlaySound("UI_Sound");
+        }
+    }
+
+    public void UpdateObserver(GameEvent<DayTime> data)
+    {
+        if (data.data == DayTime.DAY)
+        {
+            PlayBackgroundMusic("Day_Theme");
+        }
+        else
+        {
+            PlayBackgroundMusic("Night_Theme");
+        }
     }
 
     #endregion

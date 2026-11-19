@@ -669,6 +669,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2100402341}
+        m_TargetAssemblyTypeName: UIMenuController, Assembly-CSharp
+        m_MethodName: OnUIButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1159309024}
         m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
         m_MethodName: ResumeGame
@@ -782,6 +794,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2100402341}
+        m_TargetAssemblyTypeName: UIMenuController, Assembly-CSharp
+        m_MethodName: OnUIButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1159309024}
         m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
         m_MethodName: ReturnToMenu
@@ -1098,6 +1122,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 667844048}
+        m_TargetAssemblyTypeName: UIMenuController, Assembly-CSharp
+        m_MethodName: OnUIButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1159309024}
         m_TargetAssemblyTypeName: GameFlowController, Assembly-CSharp
         m_MethodName: PauseGame
@@ -1921,6 +1957,7 @@ GameObject:
   - component: {fileID: 667844046}
   - component: {fileID: 667844045}
   - component: {fileID: 667844044}
+  - component: {fileID: 667844048}
   m_Layer: 5
   m_Name: CanvasUI
   m_TagString: Untagged
@@ -2021,6 +2058,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &667844048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667844043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690f3bd81f1d2934585ef4becc4e19a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIMenuController
 --- !u!1 &685371668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4385,6 +4434,7 @@ MonoBehaviour:
   - {fileID: 1334308954}
   - {fileID: 594084246}
   - {fileID: 1170295426}
+  summonInputCooldown: 0.25
 --- !u!4 &1600037797
 Transform:
   m_ObjectHideFlags: 0
@@ -10080,6 +10130,7 @@ GameObject:
   - component: {fileID: 2100402340}
   - component: {fileID: 2100402339}
   - component: {fileID: 2100402338}
+  - component: {fileID: 2100402341}
   m_Layer: 5
   m_Name: Canvas_pause
   m_TagString: Pause
@@ -10175,6 +10226,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &2100402341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100402336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690f3bd81f1d2934585ef4becc4e19a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIMenuController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
