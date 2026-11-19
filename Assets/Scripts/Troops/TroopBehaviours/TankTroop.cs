@@ -30,6 +30,11 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     private ATroop protectedAlly;
     private ATroop currentTarget;
 
+    private Animator animator;
+
+    private bool isAttacking;
+    private ATroop attackTarget;
+
     private float nextTargetUpdateTime;
     private float nextAttackTime;
     private float nextMovementUpdateTime;
@@ -39,6 +44,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     {
         troop = GetComponent<ATroop>();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -54,6 +60,10 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
             nextTargetUpdateTime = Time.time + targetUpdateInterval;
             UpdateTargets();
         }
+
+        // No interrumpir una animación de ataque en curso.
+        if (isAttacking)
+            return;
 
         if (IsInCombat)
         {
@@ -89,6 +99,12 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         nextMovementUpdateTime = 0f;
         nextWanderTime = 0f;
 
+        isAttacking = false;
+        attackTarget = null;
+
+        if (animator != null)
+            animator.SetBool("tank_attacking", false);
+
         troop.SetMovementStopped(false);
     }
 
@@ -104,6 +120,12 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         nextAttackTime = 0f;
         nextMovementUpdateTime = 0f;
         nextWanderTime = 0f;
+
+        isAttacking = false;
+        attackTarget = null;
+
+        if (animator != null)
+            animator.SetBool("tank_attacking", false);
 
         if (troop != null)
             troop.SetMovementStopped(false);
@@ -231,22 +253,61 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
             if (Time.time >= nextAttackTime)
             {
-                CombatSystem.PerformAttack(troop, currentTarget);
-                nextAttackTime = Time.time + attackCooldown;
-
-                HealthComponent targetHealth = currentTarget.GetHealth();
-
-                if (targetHealth != null && targetHealth.IsDead())
-                {
-                    targetHealth.Die();
-                    currentTarget = null;
-                    troop.SetMovementStopped(false);
-                }
+                Attack(currentTarget);
             }
         }
         else
         {
+            animator.SetBool("tank_attacking", false);
             MoveTowards(currentTarget.transform);
+        }
+    }
+
+    private void Attack(ATroop target)
+    {
+        if (isAttacking || !CombatSystem.IsValidEnemy(troop, target))
+            return;
+
+        isAttacking = true;
+        attackTarget = target;
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        troop.SetMovementStopped(true);
+        animator.SetBool("tank_attacking", true);
+    }
+
+    public void ApplyTankAttackDamage()
+    {
+        if (!isAttacking || !CombatSystem.IsValidEnemy(troop, attackTarget))
+            return;
+
+        if (!CombatSystem.CloseEnoughToAttack(troop, attackTarget))
+            return;
+
+        CombatSystem.PerformAttack(troop, attackTarget);
+
+        HealthComponent targetHealth = attackTarget.GetHealth();
+
+        if (targetHealth != null && targetHealth.IsDead())
+        {
+            targetHealth.Die();
+            currentTarget = null;
+        }
+    }
+
+    public void FinishTankAttackAnimation()
+    {
+        isAttacking = false;
+        attackTarget = null;
+
+        if (animator != null)
+            animator.SetBool("tank_attacking", false);
+
+        if (!IsInCombat)
+        {
+            currentTarget = null;
+            troop.SetMovementStopped(false);
         }
     }
 

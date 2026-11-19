@@ -274,7 +274,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
     #endregion
 
-    #region TRIGGER Y RESOURCE_EVENT
+    #region TRIGGER Y EVENTOS
 
     // Cuando entra en el trigger de una base. Es un comportamiento común a todas las tropas.
     private void OnTriggerEnter2D(Collider2D col)
@@ -305,6 +305,16 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Comunicar recursos a los observadores de la tropa.
     public void SendResourceEvent(LogicEvent logicEvent, ResourceSlot resourceSlot) =>
         UpdateObservers(new GameEvent<ResourceSlot>(logicEvent, resourceSlot));
+
+    // Método para conseguir palos. De momento, simplemente será una tirada aleatoria en todos los enemigos.
+    // En el futuro, solo se debe aplicar a los bichos que suelten palos.
+    public void GambleForSticks(TroopDefinition def)
+    {
+        if (Utils.GetRandomInclusive(0, 100) > def.chanceToDropSticks)
+        {
+            this.SendResourceEvent(LogicEvent.RESOURCE_GATHER_2, new ResourceSlot(Resource.SPIDERWEBS, 1));
+        }
+    }
 
     #endregion
 

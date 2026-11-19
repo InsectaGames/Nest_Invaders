@@ -17,6 +17,9 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
     private ATroop enemyToAttack;
 
+    private bool isAttacking;
+    private ATroop attackTarget;
+
     private float nextAttackTime = 0f;
     private float enemyStartTime;
     private float nextTargetUpdateTime;
@@ -39,7 +42,6 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
     private void Update()
     {
-
         UpdateSpriteVisuals();
         if (troop == null || troop.GetDefinition() == null)
             return;
@@ -76,10 +78,9 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
             troop.SetMovementStopped(true);
 
             // Atacar cuando corresponda.
-            if (Time.time >= nextAttackTime && CanAttackNow())
+            if (Time.time >= nextAttackTime && CanAttackNow() && !isAttacking)
             {
                 Attack(enemyToAttack);
-                nextAttackTime = Time.time + attackCooldown;
             }
         }
         else
@@ -91,7 +92,6 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
             if (Time.time >= nextTargetUpdateTime)
             {
                 troop.SetTarget(enemyToAttack.transform);
-
                 nextTargetUpdateTime = Time.time + targetUpdateInterval;
             }
         }
@@ -115,9 +115,31 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
         nextTargetUpdateTime = 0f;
         returningToBase = false;
 
+        isAttacking = false;
+        attackTarget = null;
+        _animator.SetBool("melee_attacking", false);
+
         troop.SetMovementStopped(false);
 
         ReturnToEnemyBase();
+    }
+
+    public void ResetBehaviour()
+    {
+        enemyToAttack = null;
+        nextAttackTime = 0f;
+        enemyStartTime = 0f;
+
+        isAttacking = false;
+        attackTarget = null;
+
+        returningToBase = false;
+
+        if (_animator != null)
+            _animator.SetBool("melee_attacking", false);
+
+        if (troop != null)
+            troop.SetMovementStopped(false);
     }
 
     // Establecer un nuevo objetivo de combate.
@@ -125,8 +147,6 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
     {
         if (!CombatSystem.IsValidEnemy(troop, target))
             return;
-
-        _animator.SetBool("melee_attacking", true);
 
         enemyToAttack = target;
         returningToBase = false;
@@ -157,12 +177,10 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
         // No realizar otra solicitud recíproca: evita llamadas circulares entre las dos tropas.
         SetCombatTarget(attacker, false);
-        
     }
 
     // Comprobar si podemos mantener nuestro objetivo actual.
-    private bool HasValidTarget() => 
-        (enemyToAttack == null) ? false : IsInCombat;
+    private bool HasValidTarget() =>  (enemyToAttack == null) ? false : IsInCombat;
 
     // Volver a dirigirnos hacia la base enemiga.
     private void ReturnToEnemyBase()
@@ -187,68 +205,66 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
     #endregion
 
-    // Ejecutar el ataque.
+    #region ATAQUE
+
     private void Attack(ATroop target)
     {
-        if (!CombatSystem.IsValidEnemy(troop, target))
-        { 
-            _animator.SetBool("melee_attacking", false);
+        if (isAttacking || !CombatSystem.IsValidEnemy(troop, target))
             return;
-        }
 
+        isAttacking = true;
+        attackTarget = target;
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        troop.SetMovementStopped(true);
         _animator.SetBool("melee_attacking", true);
-        CombatSystem.PerformAttack(troop, target);
-        
-        HealthComponent targetHealth = target.GetHealth();
+    }
+
+    public void ApplyAttackDamage()
+    {
+        if (!isAttacking || !CombatSystem.IsValidEnemy(troop, attackTarget))
+            return;
+
+        if (!CombatSystem.CloseEnoughToAttack(troop, attackTarget))
+            return;
+
+        CombatSystem.PerformAttack(troop, attackTarget);
+
+        HealthComponent targetHealth = attackTarget.GetHealth();
 
         if (targetHealth != null && targetHealth.IsDead())
         {
-            // Si el enemigo suelta recursos, realizar la tirada.
-            if (target.GetFaction() != Faction.ALLY)
-            {
-                GambleForSticks(target.GetDefinition());
-            }
+            if (attackTarget.GetFaction() != Faction.ALLY)
+                troop.GambleForSticks(attackTarget.GetDefinition());
 
             targetHealth.Die();
 
-            // Liberar el objetivo para buscar otro enemigo.
             enemyToAttack = null;
-
-            // Reanudar movimiento para buscar otro objetivo.
-            troop.SetMovementStopped(false);
         }
-
-        _animator.SetBool("melee_attacking", false);
     }
 
-    // Método para conseguir palos. De momento, simplemente será una tirada aleatoria en todos los enemigos.
-    // En el futuro, solo se debe aplicar a los bichos que suelten palos.
-    private void GambleForSticks(TroopDefinition def)
+    public void FinishAttackAnimation()
     {
-        if (Utils.GetRandomInclusive(0, 100) > def.chanceToDropSticks)
+        isAttacking = false;
+        attackTarget = null;
+
+        if (_animator != null)
+            _animator.SetBool("melee_attacking", false);
+
+        if (!HasValidTarget())
         {
-            troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_2, new ResourceSlot(Resource.SPIDERWEBS, 1));
+            enemyToAttack = null;
+            troop.SetMovementStopped(false);
+            returningToBase = false;
         }
     }
+
+    #endregion
 
     public void UpdateSpriteVisuals()
     {
         spr.flipX = (nvm.velocity.x < 0);
         //spr.flipY = (nvm.velocity.y > 0);
-    }
-    
-    public void ResetBehaviour()
-    {
-        enemyToAttack = null;
-        nextAttackTime = 0f;
-        enemyStartTime = 0f;
-
-        returningToBase = false;
-
-        if (_animator != null)
-            _animator.SetBool("melee_attacking", false);
-
-        if (troop != null)
-            troop.SetMovementStopped(false);
     }
 }

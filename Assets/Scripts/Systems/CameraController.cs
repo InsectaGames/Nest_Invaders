@@ -1,5 +1,9 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class CameraController : MonoBehaviour
 {
@@ -9,28 +13,42 @@ public class CameraController : MonoBehaviour
 
     [Header("Configuración de Velocidad")]
     [SerializeField] private float keyboardSpeed = 6f;
-    [SerializeField] private float mouseDragSpeed = 0.02f;
 
     [Header("Configuración del Zoom 2D")]
     [SerializeField] private float zoomMinimo = 2f;
     [SerializeField] private float zoomMaximo = 7f;
     [SerializeField] private float zoomSpeed = 0.15f;
+    [SerializeField] private float pinchZoomSpeed = 0.01f;
 
     private Camera camara;
 
-    private Vector3 lastMousePosition;
-    private bool isDragging = false;
+    private Vector2 lastPointerPosition;
+    private float lastPinchDistance;
 
-    private void Awake()
-    {
-        camara = GetComponent<Camera>();
-    }
+    private bool isDragging;
+    private int previousTouchCount;
+
+    private void Awake() => camara = GetComponent<Camera>();
+
+    private void OnEnable() => EnhancedTouchSupport.Enable();
+
+    private void OnDisable() => EnhancedTouchSupport.Disable();
 
     private void Update()
     {
+        if (camara == null)
+            return;
+
         HandleKeyboardMovement();
-        HandleMouseDrag();
-        HandleMouseZoom();
+
+        bool touchHandled = HandleTouchInput();
+
+        if (!touchHandled)
+        {
+            HandleMouseDrag();
+            HandleMouseZoom();
+        }
+
         ApplyCameraLimits();
     }
 
@@ -45,45 +63,108 @@ public class CameraController : MonoBehaviour
         if (Utils.KeyHeld(Key.RightArrow)) horizontalInput += 1f;
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0f);
-
         direction = Vector3.ClampMagnitude(direction, 1f);
 
         transform.Translate(direction * keyboardSpeed * Time.deltaTime, Space.World);
     }
 
-    private void HandleMouseDrag()
+    private bool HandleTouchInput()
     {
-        if (!Utils.MouseActive())
-            return;
+        if (Touchscreen.current == null)
+            return false;
 
-        if (Utils.MouseClicked(Utils.RightClick))
+        var touches = Touch.activeTouches;
+        int touchCount = touches.Count;
+
+        if (touchCount == 0)
         {
-            isDragging = true;
-            lastMousePosition = Utils.GetMousePos();
+            isDragging = false;
+            previousTouchCount = 0;
+            return true;
         }
 
-        if (Utils.MouseReleased(Utils.RightClick))
+        // Dos dedos: zoom mediante gesto pinch.
+        if (touchCount >= 2)
+        {
+            isDragging = false;
+
+            Vector2 firstPosition = touches[0].screenPosition;
+            Vector2 secondPosition = touches[1].screenPosition;
+
+            float currentDistance = Vector2.Distance(firstPosition, secondPosition);
+            Vector2 pinchCenter = (firstPosition + secondPosition) * 0.5f;
+
+            if (previousTouchCount < 2)
+            {
+                lastPinchDistance = currentDistance;
+            }
+            else
+            {
+                float pinchDelta = currentDistance - lastPinchDistance;
+                ZoomAtScreenPosition(pinchCenter, pinchDelta * pinchZoomSpeed);
+
+                lastPinchDistance = currentDistance;
+            }
+
+            previousTouchCount = touchCount;
+            return true;
+        }
+
+        // Un dedo: arrastrar la cámara.
+        Touch touch = touches[0];
+        Vector2 currentPosition = touch.screenPosition;
+
+        if (previousTouchCount != 1 || touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+        {
+            lastPointerPosition = currentPosition;
+            isDragging = true;
+        }
+        else if (isDragging)
+        {
+            MoveCameraByPointer(lastPointerPosition, currentPosition);
+            lastPointerPosition = currentPosition;
+        }
+
+        previousTouchCount = touchCount;
+        return true;
+    }
+
+    private void HandleMouseDrag()
+    {
+        if (Mouse.current == null)
+            return;
+
+        Vector2 currentPosition = Mouse.current.position.ReadValue();
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            isDragging = true;
+            lastPointerPosition = currentPosition;
+        }
+
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             isDragging = false;
         }
 
-        if (!isDragging)
+        if (!isDragging || !Mouse.current.leftButton.isPressed)
             return;
 
-        Vector2 currentMousePosition = Utils.GetMousePos();
-        Vector2 deltaMouse = currentMousePosition - new Vector2(lastMousePosition.x, lastMousePosition.y);
+        MoveCameraByPointer(lastPointerPosition, currentPosition);
+        lastPointerPosition = currentPosition;
+    }
 
-        // Efecto "agarre" (invertir).
-        Vector3 mouseDirection = new Vector3(-deltaMouse.x, -deltaMouse.y, 0f);
+    private void MoveCameraByPointer(Vector2 previousPosition, Vector2 currentPosition)
+    {
+        Vector3 previousWorldPosition = ScreenToWorld(previousPosition);
+        Vector3 currentWorldPosition = ScreenToWorld(currentPosition);
 
-        transform.Translate(mouseDirection * mouseDragSpeed, Space.World);
-
-        lastMousePosition = currentMousePosition;
+        transform.position += previousWorldPosition - currentWorldPosition;
     }
 
     private void HandleMouseZoom()
     {
-        if (!Utils.MouseActive() || camara == null || !camara.orthographic)
+        if (Mouse.current == null || !camara.orthographic)
             return;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
@@ -91,16 +172,31 @@ public class CameraController : MonoBehaviour
         if (Mathf.Approximately(scroll, 0f))
             return;
 
-        Vector2 posicionCursor = Utils.GetMousePos();
-        float distancia = -camara.transform.position.z / camara.transform.forward.z;
-        Vector3 puntoAntes = new Vector3(posicionCursor.x, posicionCursor.y, distancia);
-        Vector3 mundoAntes = camara.ScreenToWorldPoint(puntoAntes);
+        Vector2 cursorPosition = Mouse.current.position.ReadValue();
+        ZoomAtScreenPosition(cursorPosition, scroll * zoomSpeed);
+    }
 
-        float nuevoTamaño = camara.orthographicSize - scroll * zoomSpeed;
-        camara.orthographicSize = Mathf.Clamp(nuevoTamaño, zoomMinimo, zoomMaximo);
+    // delta positivo = acercar cámara.
+    private void ZoomAtScreenPosition(Vector2 screenPosition, float delta)
+    {
+        if (!camara.orthographic || Mathf.Approximately(delta, 0f))
+            return;
 
-        Vector3 mundoDespues = camara.ScreenToWorldPoint(puntoAntes);
-        transform.position += mundoAntes - mundoDespues;
+        Vector3 worldBefore = ScreenToWorld(screenPosition);
+
+        float newSize = camara.orthographicSize - delta;
+        camara.orthographicSize = Mathf.Clamp(newSize, zoomMinimo, zoomMaximo);
+
+        Vector3 worldAfter = ScreenToWorld(screenPosition);
+
+        transform.position += worldBefore - worldAfter;
+    }
+
+    private Vector3 ScreenToWorld(Vector2 screenPosition)
+    {
+        float distance = -camara.transform.position.z / camara.transform.forward.z;
+
+        return camara.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, distance));
     }
 
     private void ApplyCameraLimits()
