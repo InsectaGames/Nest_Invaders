@@ -28,7 +28,7 @@ public class DebugTroopEntry
     public ATroop prefab;
 }
 
-public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
+public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<int>> , IObserver<GameEvent<int>>, IObserver<GameEvent<ResourceSlot>>
 {
     [Header("Configuración")]
     [SerializeField] private Faction faction;
@@ -68,7 +68,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IOb
     [SerializeField] private Transform debugSpawnPoint;
     [SerializeField] private float debugSpawnRadius = 2f;
 
-    private List<IObserver<int>> _observers = new List<IObserver<int>>();
+    private List<IObserver<GameEvent<int>>> _observers = new List<IObserver<GameEvent<int>>>();
 
     public Faction GetFaction() => faction;
 
@@ -485,7 +485,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IOb
                 {
                     Debug.LogWarning($"No se puede crear {definition.Name}: no hay suficientes hojas.");
                  
-                    UpdateObservers(definition.ID);
+                    UpdateObservers(new GameEvent<int>(LogicEvent.NOT_ENOUGH_RESOURCES,definition.ID));
                     return null;
                 }
             }
@@ -503,7 +503,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IOb
                 resources[leavesIndex].cantidad -= definition.recursos[0].cantidad;
 
                 UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[leavesIndex].cantidad)));
-
+                UpdateObservers(new GameEvent<int>(LogicEvent.TROOP_PLACED, definition.ID));
                 Debug.Log($"Tropa aliada creada: {definition.Name}. Hojas restantes: {resources[leavesIndex].cantidad}");
             }
             else
@@ -610,15 +610,15 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<int> , IOb
 
   
 
-    public void UpdateObservers(int data)
+    public void UpdateObservers(GameEvent<int> data)
     {
-        foreach (IObserver<int> obs in _observers)
+        foreach (IObserver<GameEvent<int>> obs in _observers)
         {
             obs?.UpdateObserver(data);
         }
     }
-    public void AddObserver(IObserver<int> obs) => _observers.Add(obs);
-    public void RemoveObserver(IObserver<int> obs) => _observers.Remove(obs);
+    public void AddObserver(IObserver<GameEvent<int>> obs) => _observers.Add(obs);
+    public void RemoveObserver(IObserver<GameEvent<int>> obs) => _observers.Remove(obs);
 
     #endregion
 }

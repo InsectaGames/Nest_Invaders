@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> ,  IObserver<int>
+public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 {
     [Header("Configuración")]
     [SerializeField] private Button button;
@@ -80,6 +80,16 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> ,  IObser
         if (data.data != buttonID)
             return;
 
+
+        if(data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES) {
+
+            cooldownImage.fillAmount = 0f;
+        _anim.ResetTrigger("pressed");
+        _anim.SetTrigger("not_enough_resources");
+
+        }else if(data.logicEvent == LogicEvent.TROOP_PLACED) {
+
+
         switch (data.data)
         {
             case 0:
@@ -99,19 +109,8 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> ,  IObser
                 break;
         }
         _anim.ResetTrigger("not_enough_resources");
-        _anim.SetTrigger("pressed");
-    }
-
-    public void UpdateObserver(int data)
-    {
-        if (data != buttonID)
-            return;
-
-
-        cooldownImage.fillAmount = 0f;
-        _anim.ResetTrigger("pressed");
-        _anim.SetTrigger("not_enough_resources");
-
-
+        _anim.SetTrigger("pressed"); 
+        
+        }
     }
 }
