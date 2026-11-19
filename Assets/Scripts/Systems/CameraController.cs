@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
@@ -21,13 +22,27 @@ public class CameraController : MonoBehaviour
     private Vector3 lastMousePosition;
     private bool isDragging = false;
 
+    [Header("Referencias")]
+    [SerializeField] private GameFlowController gameFlowController;
+
+
     private void Awake()
     {
         camara = GetComponent<Camera>();
+
+        // Buscar GameFlowController si no está asignado
+        if (gameFlowController == null)
+            gameFlowController = FindFirstObjectByType<GameFlowController>();
     }
+
 
     private void Update()
     {
+        if (gameFlowController != null && gameFlowController.GamePaused)
+        {
+            isDragging = false;
+            return;
+        }
         HandleKeyboardMovement();
         HandleMouseDrag();
         HandleMouseZoom();
@@ -53,6 +68,12 @@ public class CameraController : MonoBehaviour
 
     private void HandleMouseDrag()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            isDragging = false;
+            return;
+        }
+
         if (!Utils.MouseActive())
             return;
 
