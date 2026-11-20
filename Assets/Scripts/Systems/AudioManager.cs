@@ -31,6 +31,8 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
     private Slider sfxSlider;
     private Slider musicSlider;
 
+    private string previousScene;
+
     #region SETUP
 
     protected override void Awake()
@@ -66,8 +68,14 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
         CheckReferences();
     }
 
-    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
-    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     #endregion
 
@@ -126,6 +134,25 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
 
         Debug.Log($"Slider SFX encontrado: {sfxSlider != null}");
         Debug.Log($"Slider Music encontrado: {musicSlider != null}");
+
+        DayNightSystem dayNightSystem = FindFirstObjectByType<DayNightSystem>();
+        UIMenuController uIMenuController = FindFirstObjectByType<UIMenuController>();
+
+        switch(SceneManager.GetActiveScene().name)
+        {
+            case "Main_arena":
+                dayNightSystem?.AddObserver(this);
+            break;
+
+            default:
+                uIMenuController?.AddObserver(this);
+
+                if(dayNightSystem != null && dayNightSystem.ContainsObserver(this))
+                {
+                    dayNightSystem.RemoveObserver(this);
+                }
+            break;
+        }
     }
 
     private void LoadDefaultAudioSettings()

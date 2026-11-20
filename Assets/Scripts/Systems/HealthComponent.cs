@@ -70,13 +70,13 @@ public class HealthComponent : MonoBehaviour
     {
         ATroop troop = GetComponent<ATroop>();
 
-        if (troop.GetFaction() == Faction.ALLY)
-            Instantiate(death_effect_ally, transform.position, Quaternion.identity);
-        else if (troop.GetFaction() == Faction.ENEMY)
-            Instantiate(death_effect_enemy, transform.position, Quaternion.identity);
-
         if (troop != null)
         {
+            if (troop.GetFaction() == Faction.ALLY)
+                Instantiate(death_effect_ally, transform.position, Quaternion.identity);
+            else if (troop.GetFaction() == Faction.ENEMY)
+                Instantiate(death_effect_enemy, transform.position, Quaternion.identity);
+
             troop.ReturnToPool();
             return;
         }

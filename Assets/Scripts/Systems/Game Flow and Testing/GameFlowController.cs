@@ -200,7 +200,10 @@ public class GameFlowController : MonoBehaviour
     {
         Time.timeScale = 1f;
         gamePaused = false;
-        AudioManager.Instance?.StopBackgroundMusic();
+        
+        if(SceneManager.GetActiveScene().name == "Main_arena")
+            AudioManager.Instance?.StopBackgroundMusic();
+
         SetSceneChange("Menu");
     }
        

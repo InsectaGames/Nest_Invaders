@@ -532,9 +532,6 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
 
             StopEnemySpawner();
 
-            // Ejecutar la muerte de la base.
-            health.Die();
-
             GameObject controllerObject = GameObject.FindGameObjectWithTag("GameFlowController");
 
             GameFlowController gfc = controllerObject != null ? controllerObject.GetComponent<GameFlowController>() : null;
@@ -551,6 +548,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
                 Debug.LogError("No se encontró GameFlowController en la escena.");
             }
 
+            // Ejecutar la muerte de la base.
+            health.Die();
             return;
         }
 

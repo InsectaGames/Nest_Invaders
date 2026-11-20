@@ -53,10 +53,6 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
 
     public LevelDefinition GetLvlDef() => this.levelInfo;
 
-    // Audio manager para la nusica de dia y noche
-    private AudioManager audioManager;
-
-
     private void Awake()
     {
         // Obtener la definición seleccionada en SubLevelsScene.
@@ -100,11 +96,6 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
     {
         daytime = DayTime.DAY;
         StartDay();
-
-        audioManager = AudioManager.Instance;
-
-        if (audioManager != null)
-            AddObserver(audioManager);
     }
 
     private void Update()
@@ -184,7 +175,6 @@ public class DayNightSystem : ASubject<GameEvent<DayTime>>
         colorAdjustments.colorFilter.value = colorDia;
 
         SetVelocityAnim(1f / levelInfo.dayLength);
-
 
         foreach(ParticleSystem p in particleSystems)
             p?.Play();

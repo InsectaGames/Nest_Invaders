@@ -9,6 +9,8 @@ public abstract class ASubject<T> : MonoBehaviour, ISubject<T>
 
     public void RemoveObserver(IObserver<T> obs) => _observers.Remove(obs);
 
+    public bool ContainsObserver(IObserver<T> obs) => _observers.Contains(obs);
+
     public void UpdateObservers(T data)
     {
         foreach (IObserver<T> obs in _observers)
