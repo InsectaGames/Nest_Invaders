@@ -161,9 +161,13 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
                 Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
                 return;
             }
+
+            
             
             agent.ResetPath();
         }
+        
+        
 
         allyBaseTransform = FindBaseTransform(f);
 

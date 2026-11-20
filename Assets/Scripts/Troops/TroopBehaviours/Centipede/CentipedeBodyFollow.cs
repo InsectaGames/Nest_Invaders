@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CentipedeBodyFollow : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class CentipedeBodyFollow : MonoBehaviour
     [SerializeField] private Vector2 localForwardAxis = Vector2.right;
 
     [SerializeField] private float rotationLookDistance = 0.15f;
+
+    [Header("NavmeshAgent")]
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private TroopDefinition definition;
+
 
     // Punto del recorrido y distancia acumulada.
     private struct PathPoint
@@ -54,6 +60,30 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         CacheSpriteAxis();
         InitializeHistory();
+
+        agent = head.gameObject.GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            if (!agent.enabled)
+                agent.enabled = true;
+
+            agent.speed = definition.speed;
+            agent.isStopped = false;
+            agent.updateUpAxis = true;
+            agent.updateRotation = true;
+
+            if (!agent.isOnNavMesh)
+            {
+                Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
+                return;
+            }
+
+
+
+            agent.ResetPath();
+        }
+
     }
 
     private void LateUpdate()
@@ -61,6 +91,29 @@ public class CentipedeBodyFollow : MonoBehaviour
         RecordHeadMovement();
         UpdateSegments();
         CleanHistory();
+
+        Debug.Log($"Head Rotation: {head.eulerAngles}");
+        Debug.Log($"Agent Up Axis: {agent.transform.up}");
+
+        DebugRotationHierarchy();
+    }
+
+
+    private void DebugRotationHierarchy()
+    {
+        Transform current = head;
+
+        while (current != null)
+        {
+            Debug.Log(
+                $"Objeto: {current.name} | " +
+                $"Local: {current.localEulerAngles} | " +
+                $"World: {current.eulerAngles} | " +
+                $"Up: {current.up}"
+            );
+
+            current = current.parent;
+        }
     }
 
     // Guarda el angulo original del sprite.
