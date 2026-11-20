@@ -218,40 +218,6 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
 
     // Metodos que utiliza la API para funcionar.
     #region BEHAVIOUR TREE (API)
-    public void InitB()
-    {
-        // Auxiliares para las custom action de la API.
-    }
-    public void EndB()
-    {
-        // Auxiliares para las custom action de la API.
-    }
-    public Status AreAlliesNearby()
-    {
-        Debug.LogWarning("Entro a comprobar enemigos");
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
-        Debug.Log("Tamaño del array del collider: " + detectedObjects.Length);
-
-        foreach (Collider2D collider in detectedObjects)
-        {
-            if (collider == null) continue;
-
-            ATroop otherTroop = collider.GetComponentInParent<ATroop>();
-
-            // Ignorar la propia tropa.
-            if (otherTroop == null || otherTroop == troop) continue;
-
-            // Comprobar que sea un aliado.
-            if (otherTroop.CompareTag("Ally") || otherTroop.gameObject.CompareTag("Ally"))
-            {
-                HealthComponent health = otherTroop.GetHealth();
-
-                if (health != null && !health.IsDead())
-                    return Status.Success;
-            }
-        }
-        return Status.Failure;
-    }
 
     // Hay enemigos en el area de visión de la tropa.
     public Status AreEnemiesNearby()
@@ -283,10 +249,10 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
 
 
                 if (health != null && !health.IsDead())
-                    return Status.Success;
+                    return Status.Failure; // Cuando hay enemigos da Failure para que en el BT no se vaya directamente a la parte de irse al POI
             }
         }
-        return Status.Failure;
+        return Status.Success;
     }
 
     // Compara si hay mayor o igual numero de aliados cercanos que de enemigos.
@@ -328,6 +294,34 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
         if (alliesCount >= enemiesCount)
             return Status.Success;
 
+        return Status.Failure;
+    }
+
+    // Hay aliados en el area de visión de la tropa.
+    public Status AreAlliesNearby()
+    {
+        Debug.LogWarning("Entro a comprobar enemigos");
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+        Debug.Log("Tamaño del array del collider: " + detectedObjects.Length);
+
+        foreach (Collider2D collider in detectedObjects)
+        {
+            if (collider == null) continue;
+
+            ATroop otherTroop = collider.GetComponentInParent<ATroop>();
+
+            // Ignorar la propia tropa.
+            if (otherTroop == null || otherTroop == troop) continue;
+
+            // Comprobar que sea un aliado.
+            if (otherTroop.CompareTag("Ally") || otherTroop.gameObject.CompareTag("Ally"))
+            {
+                HealthComponent health = otherTroop.GetHealth();
+
+                if (health != null && !health.IsDead())
+                    return Status.Success;
+            }
+        }
         return Status.Failure;
     }
 

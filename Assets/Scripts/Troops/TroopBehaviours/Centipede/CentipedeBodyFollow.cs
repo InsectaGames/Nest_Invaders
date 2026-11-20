@@ -105,12 +105,7 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         while (current != null)
         {
-            Debug.Log(
-                $"Objeto: {current.name} | " +
-                $"Local: {current.localEulerAngles} | " +
-                $"World: {current.eulerAngles} | " +
-                $"Up: {current.up}"
-            );
+            Debug.Log($"Objeto: {current.name} | " + $"Local: {current.localEulerAngles} | " + $"World: {current.eulerAngles} | " + $"Up: {current.up}");
 
             current = current.parent;
         }
@@ -268,7 +263,7 @@ public class CentipedeBodyFollow : MonoBehaviour
     // Elimina puntos antiguos sin desplazar la lista cada frame.
     private void CleanHistory()
     {
-        float maxDistance = headToFirstSegmentSpacing                    + Mathf.Max(0, segments.Count - 2) * segmentSpacing                    + (segments.Count > 1 ? lastSegmentSpacing : 0f)                    + rotationLookDistance;
+        float maxDistance = headToFirstSegmentSpacing + Mathf.Max(0, segments.Count - 2) * segmentSpacing + (segments.Count > 1 ? lastSegmentSpacing : 0f) + rotationLookDistance;
         float minimumDistance = distanceTravelled - maxDistance - sampleSpacing * 2f;
 
         while (firstValidIndex + 1 < path.Count && path[firstValidIndex + 1].distance < minimumDistance)
