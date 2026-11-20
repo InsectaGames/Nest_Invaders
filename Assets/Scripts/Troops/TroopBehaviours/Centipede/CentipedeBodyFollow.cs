@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[DefaultExecutionOrder(-1000)]
 public class CentipedeBodyFollow : MonoBehaviour
 {
     [Header("Referencias")]
@@ -49,6 +50,20 @@ public class CentipedeBodyFollow : MonoBehaviour
     // Angulo del eje original del sprite, calculado una sola vez.
     private float spriteAxisAngle;
 
+    private void Awake()
+    {
+        if (head == null)
+            return;
+
+        agent = head.gameObject.GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+        {
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+        }
+    }
+
     private void Start()
     {
         if (head == null)
@@ -61,8 +76,6 @@ public class CentipedeBodyFollow : MonoBehaviour
         CacheSpriteAxis();
         InitializeHistory();
 
-        agent = head.gameObject.GetComponent<NavMeshAgent>();
-
         if (agent != null)
         {
             if (!agent.enabled)
@@ -70,8 +83,6 @@ public class CentipedeBodyFollow : MonoBehaviour
 
             agent.speed = definition.speed;
             agent.isStopped = false;
-            agent.updateUpAxis = true;
-            agent.updateRotation = true;
 
             if (!agent.isOnNavMesh)
             {
@@ -79,36 +90,24 @@ public class CentipedeBodyFollow : MonoBehaviour
                 return;
             }
 
-
-
             agent.ResetPath();
         }
 
     }
 
     private void LateUpdate()
+{
+    RecordHeadMovement();
+    UpdateSegments();
+    CleanHistory();
+
+    FixHeadRotation();
+}
+
+    private void FixHeadRotation()
     {
-        RecordHeadMovement();
-        UpdateSegments();
-        CleanHistory();
-
-        Debug.Log($"Head Rotation: {head.eulerAngles}");
-        Debug.Log($"Agent Up Axis: {agent.transform.up}");
-
-        DebugRotationHierarchy();
-    }
-
-
-    private void DebugRotationHierarchy()
-    {
-        Transform current = head;
-
-        while (current != null)
-        {
-            Debug.Log($"Objeto: {current.name} | " + $"Local: {current.localEulerAngles} | " + $"World: {current.eulerAngles} | " + $"Up: {current.up}");
-
-            current = current.parent;
-        }
+        Vector3 euler = head.eulerAngles;
+                head.rotation = Quaternion.Euler(            0f,            0f,            euler.z        );
     }
 
     // Guarda el angulo original del sprite.

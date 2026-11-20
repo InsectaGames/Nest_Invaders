@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1769948139551029991
+--- !u!1 &5232957046603109582
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,194 +8,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 713886185663606308}
-  - component: {fileID: 212356102259681348}
-  - component: {fileID: 3597981692842863070}
-  - component: {fileID: 8621888743203560857}
-  m_Layer: 5
-  m_Name: Canvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &713886185663606308
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769948139551029991}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8370156697309095074}
-  - {fileID: 247770463415368801}
-  m_Father: {fileID: 1856957444454747525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.041, y: 0.752}
-  m_SizeDelta: {x: 1.919, y: 0.2145}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &212356102259681348
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769948139551029991}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &3597981692842863070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769948139551029991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
---- !u!114 &8621888743203560857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769948139551029991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!1 &3242758570822572372
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 247770463415368801}
-  - component: {fileID: 5773669241770210300}
-  - component: {fileID: 5706541180397293195}
-  m_Layer: 5
-  m_Name: fillbar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &247770463415368801
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3242758570822572372}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 713886185663606308}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0024000406, y: 0.000008583069}
-  m_SizeDelta: {x: -0.0047998, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5773669241770210300
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3242758570822572372}
-  m_CullTransparentMesh: 1
---- !u!114 &5706541180397293195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3242758570822572372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.017763138, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c6d7379137808e1478d1ea7578f7753b, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 0
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!1 &5045962686284486570
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1856957444454747525}
-  - component: {fileID: 8586839855608397202}
-  - component: {fileID: 4082190790674299473}
-  - component: {fileID: 7791498652451819077}
-  - component: {fileID: 5308835457506426734}
-  - component: {fileID: 8382816439163807370}
-  - component: {fileID: 470457945445984499}
-  - component: {fileID: 1865734298026328949}
-  - component: {fileID: 4764110091479693987}
-  - component: {fileID: 3676422898119388891}
+  - component: {fileID: 2909221481019558780}
+  - component: {fileID: 4909141231189129246}
+  - component: {fileID: 8126383489221743477}
+  - component: {fileID: 2117837744607725839}
+  - component: {fileID: 9111938437850848763}
+  - component: {fileID: 6204727867079327395}
+  - component: {fileID: 2543842732817004267}
+  - component: {fileID: 6696184533505053314}
+  - component: {fileID: 4130347677665016827}
+  - component: {fileID: 9172615364484639994}
   m_Layer: 0
   m_Name: PFB_Gatherer_for_testing
   m_TagString: Ally
@@ -203,30 +25,30 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1856957444454747525
+--- !u!4 &2909221481019558780
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.37, y: -0.65, z: 0}
+  m_LocalPosition: {x: 3, y: -1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 713886185663606308}
+  - {fileID: 4477717709349877194}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8586839855608397202
+--- !u!212 &4909141231189129246
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -278,13 +100,13 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &4082190790674299473
+--- !u!114 &8126383489221743477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
@@ -304,7 +126,7 @@ MonoBehaviour:
       nodes:
       - name: Root
         id: 4dd38c5d-15a5-453a-a0f0-cec2b6b52380
-        position: {x: 637.5, y: 0}
+        position: {x: 0, y: 0}
         node:
           rid: 8232782618998079586
         references: []
@@ -313,12 +135,87 @@ MonoBehaviour:
         - 97c83c79-7395-479b-a171-4f537f4fc914
       - name: Main sequence
         id: 97c83c79-7395-479b-a171-4f537f4fc914
-        position: {x: 637.5, y: 200}
+        position: {x: 0, y: 200}
         node:
           rid: 8232782618998079587
         references: []
         parentIds:
         - 4dd38c5d-15a5-453a-a0f0-cec2b6b52380
+        childIds:
+        - 910e675e-5c6c-461b-8f98-9d5eac783b2f
+        - f61b429a-df8b-48a1-96ba-247b7562aa16
+        - 1a303c8b-bb03-44f3-bac5-3a0e92f97ad0
+        - dd66fd68-7d00-482a-91d3-6ed9cddffe07
+        - 324685fa-2627-426d-8a98-037cae85c56f
+      - name: ExitPOI_FSM
+        id: 910e675e-5c6c-461b-8f98-9d5eac783b2f
+        position: {x: -600, y: 400}
+        node:
+          rid: 8232782898529566836
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566837
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 97c83c79-7395-479b-a171-4f537f4fc914
+        childIds: []
+      - name: CalculatePOI
+        id: f61b429a-df8b-48a1-96ba-247b7562aa16
+        position: {x: -300, y: 400}
+        node:
+          rid: 8232782898529566838
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566840
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 97c83c79-7395-479b-a171-4f537f4fc914
+        childIds: []
+      - name: POIExists
+        id: 1a303c8b-bb03-44f3-bac5-3a0e92f97ad0
+        position: {x: 0, y: 400}
+        node:
+          rid: 8232782898529566845
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566846
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 97c83c79-7395-479b-a171-4f537f4fc914
+        childIds: []
+      - name: Movement_BT
+        id: dd66fd68-7d00-482a-91d3-6ed9cddffe07
+        position: {x: 300, y: 400}
+        node:
+          rid: 8232782898529566847
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566848
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 97c83c79-7395-479b-a171-4f537f4fc914
+        childIds: []
+      - name: PerformResourceAction
+        id: 324685fa-2627-426d-8a98-037cae85c56f
+        position: {x: 600, y: 400}
+        node:
+          rid: 8232782898529566849
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566850
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 97c83c79-7395-479b-a171-4f537f4fc914
         childIds: []
     - name: Exit_POI_FSM
       id: 3977c1d1-4cd8-49f9-834f-5159eb7c51ed
@@ -342,7 +239,7 @@ MonoBehaviour:
         - 9324f938-f2c7-467b-9c5a-66b3c4e586e0
       - name: MoreEnemiesThanAllies
         id: 7446f3f7-0fbb-4203-a6d0-3e6f22138865
-        position: {x: 876, y: 474.4}
+        position: {x: 893.6, y: 498.4}
         node:
           rid: 8232782897774854148
         references:
@@ -356,7 +253,7 @@ MonoBehaviour:
         childIds:
         - 4db70f60-8cf9-4c0d-85e7-df7efd0703df
         - 3aa102e8-5973-443f-ab5d-b504bf79899d
-      - name: AreEnemiesNear
+      - name: NoEnemiesNear
         id: 58ef1b14-7cc3-4cc1-8766-5c912377aada
         position: {x: 566.4, y: 442.4}
         node:
@@ -376,7 +273,7 @@ MonoBehaviour:
         - 48c46b02-4bd6-4e8b-99b1-eff2173088d6
         childIds:
         - 7446f3f7-0fbb-4203-a6d0-3e6f22138865
-      - name: ExitSuccess_1
+      - name: ExitSuccess1
         id: 9324f938-f2c7-467b-9c5a-66b3c4e586e0
         position: {x: 312, y: -20}
         node:
@@ -414,7 +311,7 @@ MonoBehaviour:
         parentIds:
         - 7446f3f7-0fbb-4203-a6d0-3e6f22138865
         childIds: []
-      - name: ExitSuccess_2
+      - name: ExitSuccess2
         id: 4db70f60-8cf9-4c0d-85e7-df7efd0703df
         position: {x: 713.6, y: -4}
         node:
@@ -432,6 +329,139 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=null
         parentIds:
         - 7446f3f7-0fbb-4203-a6d0-3e6f22138865
+        childIds: []
+    - name: newbehaviourtreegraph
+      id: 77baeb6f-bb83-4b20-99aa-1bf9069de176
+      graph:
+        rid: 8232782898529566851
+      nodes:
+      - name: MainLoop
+        id: 396a591e-baab-4734-8888-2889b70886f1
+        position: {x: 150, y: 0}
+        node:
+          rid: 8232782898529566852
+        references: []
+        parentIds: []
+        childIds:
+        - 969d2e5e-1c56-4b0a-b61b-2cbd6435fc2a
+      - name: MainSelector
+        id: 969d2e5e-1c56-4b0a-b61b-2cbd6435fc2a
+        position: {x: 150, y: 200}
+        node:
+          rid: 8232782898529566853
+        references: []
+        parentIds:
+        - 396a591e-baab-4734-8888-2889b70886f1
+        childIds:
+        - ca510e01-d0c5-4203-bdfd-b9cc3c7afb4d
+        - ca1d0217-bc15-4a8a-8576-198621e24d2c
+        - 7094aa75-dfe2-4bdc-9818-5a51c9a65411
+      - name: ResetMovementValues
+        id: ca510e01-d0c5-4203-bdfd-b9cc3c7afb4d
+        position: {x: -300, y: 400}
+        node:
+          rid: 8232782898529566854
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566855
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 969d2e5e-1c56-4b0a-b61b-2cbd6435fc2a
+        childIds: []
+      - name: IncreaseSpeedSelector
+        id: 1ebfe2ff-0286-489e-9312-38377e790832
+        position: {x: 300, y: 600}
+        node:
+          rid: 8232782898529566856
+        references: []
+        parentIds:
+        - ca1d0217-bc15-4a8a-8576-198621e24d2c
+        childIds:
+        - 6e524f4e-2267-4664-9c59-183fc60875a6
+        - 6577ec1a-13ac-4ab3-aa39-1c80ef9ee3d1
+      - name: MovementDecisionSequence
+        id: ca1d0217-bc15-4a8a-8576-198621e24d2c
+        position: {x: 300, y: 400}
+        node:
+          rid: 8232782898529566857
+        references: []
+        parentIds:
+        - 969d2e5e-1c56-4b0a-b61b-2cbd6435fc2a
+        childIds:
+        - 0df6aa44-4da5-42e6-8688-6ea1d60419d8
+        - 1ebfe2ff-0286-489e-9312-38377e790832
+        - 24e9567d-fca4-472d-89d7-9fcedd5b50cd
+      - name: NoEnemiesNear
+        id: 0df6aa44-4da5-42e6-8688-6ea1d60419d8
+        position: {x: 0, y: 600}
+        node:
+          rid: 8232782898529566858
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566890
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ca1d0217-bc15-4a8a-8576-198621e24d2c
+        childIds: []
+      - name: AlliesNear
+        id: 6e524f4e-2267-4664-9c59-183fc60875a6
+        position: {x: 150, y: 800}
+        node:
+          rid: 8232782898529566891
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566892
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 1ebfe2ff-0286-489e-9312-38377e790832
+        childIds: []
+      - name: IncreaseSpeed
+        id: 6577ec1a-13ac-4ab3-aa39-1c80ef9ee3d1
+        position: {x: 450, y: 800}
+        node:
+          rid: 8232782898529566893
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566894
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 1ebfe2ff-0286-489e-9312-38377e790832
+        childIds: []
+      - name: AvoidEnemies
+        id: 24e9567d-fca4-472d-89d7-9fcedd5b50cd
+        position: {x: 600, y: 600}
+        node:
+          rid: 8232782898529566895
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566896
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ca1d0217-bc15-4a8a-8576-198621e24d2c
+        childIds: []
+      - name: AtPOI
+        id: 7094aa75-dfe2-4bdc-9818-5a51c9a65411
+        position: {x: 600, y: 400}
+        node:
+          rid: 8232782898529566897
+        references:
+        - fieldName: Action
+          value:
+            rid: 8232782898529566898
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 969d2e5e-1c56-4b0a-b61b-2cbd6435fc2a
         childIds: []
     pushPerceptions: []
   references:
@@ -461,7 +491,7 @@ MonoBehaviour:
       data:
         method:
           componentName: GathererTroopBehaviourForAPI
-          methodName: 
+          methodName: AreEnemiesNearby
     - rid: 8232782897774854148
       type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data: 
@@ -470,7 +500,7 @@ MonoBehaviour:
       data:
         method:
           componentName: GathererTroopBehaviourForAPI
-          methodName: 
+          methodName: CompareAlliesToEnemies
     - rid: 8232782897774854150
       type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data:
@@ -483,21 +513,140 @@ MonoBehaviour:
     - rid: 8232782897774854152
       type: {class: ExitTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data:
-        StatusFlags: -1
+        StatusFlags: 4
         ExitStatus: 4
     - rid: 8232782897774854153
       type: {class: ExitTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data:
-        StatusFlags: -1
+        StatusFlags: 2
         ExitStatus: 2
---- !u!50 &7791498652451819077
+    - rid: 8232782898529566836
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566837
+      type: {class: SubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 2
+        subgraphId: 3977c1d1-4cd8-49f9-834f-5159eb7c51ed
+    - rid: 8232782898529566838
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566840
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: CalculateInterestPoint
+    - rid: 8232782898529566845
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566846
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: InterestPointExists
+    - rid: 8232782898529566847
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566848
+      type: {class: SubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 2
+        subgraphId: 
+    - rid: 8232782898529566849
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566850
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566851
+      type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566852
+      type: {class: LoopUntilNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        TargetStatus: 2
+        MaxIterations: -1
+    - rid: 8232782898529566853
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782898529566854
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566855
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566856
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782898529566857
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 8232782898529566858
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566890
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566891
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566892
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566893
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566894
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566895
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566896
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+    - rid: 8232782898529566897
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 8232782898529566898
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: GathererTroopBehaviourForAPI
+          methodName: 
+--- !u!50 &2117837744607725839
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -517,13 +666,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &5308835457506426734
+--- !u!61 &9111938437850848763
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -563,13 +712,13 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!195 &8382816439163807370
+--- !u!195 &6204727867079327395
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
@@ -585,29 +734,29 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &470457945445984499
+--- !u!114 &2543842732817004267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
-  canv_health: {fileID: 1769948139551029991}
-  fillbar: {fileID: 5706541180397293195}
+  canv_health: {fileID: 8901416699654637882}
+  fillbar: {fileID: 6976743741560644695}
   death_effect_ally: {fileID: 0}
   death_effect_enemy: {fileID: 0}
---- !u!114 &1865734298026328949
+--- !u!114 &6696184533505053314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 538d757b0095156449498adba93ceae3, type: 3}
@@ -616,15 +765,15 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 75437939cf1573342bc5bedc8c18f603, type: 2}
   sceneFaction: 0
   availableBehaviours:
-  - {fileID: 4764110091479693987}
+  - {fileID: 4130347677665016827}
   infection: {fileID: 0}
---- !u!114 &4764110091479693987
+--- !u!114 &4130347677665016827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c7fab10545a7c14ba4e1ee819f72783, type: 3}
@@ -632,13 +781,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GathererTroopBehaviourForAPI
   detectionRadius: 8.5
   showDetectionRadius: 1
---- !u!114 &3676422898119388891
+--- !u!114 &9172615364484639994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5045962686284486570}
+  m_GameObject: {fileID: 5232957046603109582}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1726e9fdb9ff2d4baa8710d607b31ca, type: 3}
@@ -647,7 +796,7 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 1
     identifier: 
---- !u!1 &5978452586344330858
+--- !u!1 &6296603393200890614
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -655,9 +804,84 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8370156697309095074}
-  - component: {fileID: 4483382207128071958}
-  - component: {fileID: 4188192235007054704}
+  - component: {fileID: 1423948736830058493}
+  - component: {fileID: 3026713985469308529}
+  - component: {fileID: 6976743741560644695}
+  m_Layer: 5
+  m_Name: fillbar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1423948736830058493
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296603393200890614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4477717709349877194}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.0024000406, y: 0.000008583069}
+  m_SizeDelta: {x: -0.0047998, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3026713985469308529
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296603393200890614}
+  m_CullTransparentMesh: 1
+--- !u!114 &6976743741560644695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296603393200890614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.017763138, g: 1, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c6d7379137808e1478d1ea7578f7753b, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6363459643167795657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8018812857286815200}
+  - component: {fileID: 4820950316400185329}
+  - component: {fileID: 2011671828641746734}
   m_Layer: 5
   m_Name: bg_fill
   m_TagString: Untagged
@@ -665,40 +889,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &8370156697309095074
+--- !u!224 &8018812857286815200
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5978452586344330858}
+  m_GameObject: {fileID: 6363459643167795657}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 713886185663606308}
+  m_Father: {fileID: 4477717709349877194}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.0024000406, y: 0}
   m_SizeDelta: {x: -0.0047998, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4483382207128071958
+--- !u!222 &4820950316400185329
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5978452586344330858}
+  m_GameObject: {fileID: 6363459643167795657}
   m_CullTransparentMesh: 1
---- !u!114 &4188192235007054704
+--- !u!114 &2011671828641746734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5978452586344330858}
+  m_GameObject: {fileID: 6363459643167795657}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -722,3 +946,106 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8901416699654637882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4477717709349877194}
+  - component: {fileID: 7245794713017909908}
+  - component: {fileID: 5658795242586751092}
+  - component: {fileID: 3911814950756808711}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4477717709349877194
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901416699654637882}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8018812857286815200}
+  - {fileID: 1423948736830058493}
+  m_Father: {fileID: 2909221481019558780}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.041, y: 0.752}
+  m_SizeDelta: {x: 1.919, y: 0.2145}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &7245794713017909908
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901416699654637882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &5658795242586751092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901416699654637882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!114 &3911814950756808711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901416699654637882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
