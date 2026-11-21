@@ -37,6 +37,11 @@ public class CentipedeBodyFollow : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private TroopDefinition definition;
 
+    [Header("Animación")]
+    [SerializeField] private Animator headAnimator;
+
+    private Animator[] segmentAnimators;
+    private bool isMoving;
 
     // Punto del recorrido y distancia acumulada.
     private struct PathPoint
@@ -84,6 +89,7 @@ public class CentipedeBodyFollow : MonoBehaviour
         }
 
         CreateSegments();
+        InitializeAnimations();
 
         CacheSpriteAxis();
         InitializeHistory();
@@ -117,6 +123,7 @@ public class CentipedeBodyFollow : MonoBehaviour
         CleanHistory();
 
         FixHeadRotation();
+        UpdateAnimationState();
     }
 
     private void FixHeadRotation()
@@ -281,6 +288,32 @@ public class CentipedeBodyFollow : MonoBehaviour
         segment.rotation = Quaternion.Euler(0f, 0f, angle - spriteAxisAngle);
     }
 
+    // Para la animación de los segmentos.
+    private void UpdateAnimationState()
+    {
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        bool moving = agent.velocity.sqrMagnitude > 0.01f;
+
+        if (moving == isMoving)
+            return;
+
+        isMoving = moving;
+
+        if (headAnimator != null)
+            headAnimator.speed = isMoving ? 1f : 0f;
+
+        if (segmentAnimators == null)
+            return;
+
+        foreach (Animator animator in segmentAnimators)
+        {
+            if (animator != null)
+                animator.speed = isMoving ? 1f : 0f;
+        }
+    }
+
     // Elimina puntos antiguos sin desplazar la lista cada frame.
     private void CleanHistory()
     {
@@ -355,6 +388,40 @@ public class CentipedeBodyFollow : MonoBehaviour
         Transform tail = Instantiate(tailPrefab, head.position, head.rotation, parent);
 
         segments.Add(tail);
+    }
+
+    // Inicializar los Animator.
+    private void InitializeAnimations()
+    {
+        // Obtener el Animator de la cabeza si no está asignado.
+        if (headAnimator == null && head != null)
+            headAnimator = head.GetComponent<Animator>();
+
+        segmentAnimators = new Animator[segments.Count];
+
+        for (int i = 0; i < segments.Count; i++)
+        {
+            if (segments[i] == null)
+                continue;
+
+            Animator animator = segments[i].GetComponent<Animator>();
+            segmentAnimators[i] = animator;
+
+            if (animator == null)
+                continue;
+
+            // La cola siempre ocupa la última posición.
+            bool isTail = i == segments.Count - 1;
+
+            // Alternar la fase de los segmentos del cuerpo.
+            if (!isTail && i % 2 == 1)
+                animator.Play(0, 0, 0.5f);
+            else
+                animator.Play(0, 0, 0f);
+        }
+
+        if (headAnimator != null)
+            headAnimator.Play(0, 0, 0f);
     }
 
     // Activar y desactivar segmentos según la vida del mini jefe.
