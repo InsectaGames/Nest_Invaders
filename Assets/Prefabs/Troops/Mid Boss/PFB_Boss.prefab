@@ -161,9 +161,12 @@ GameObject:
   - component: {fileID: 5837321875170479044}
   - component: {fileID: 2716294022404114053}
   - component: {fileID: 7601657508519509782}
-  - component: {fileID: 6510354002243189156}
   - component: {fileID: 5408235178940176872}
   - component: {fileID: 9177602895071268543}
+  - component: {fileID: 5097452297331630028}
+  - component: {fileID: 6510354002243189156}
+  - component: {fileID: 1775192055609108981}
+  - component: {fileID: 7026647655867982530}
   m_Layer: 0
   m_Name: PFB_Boss
   m_TagString: Untagged
@@ -273,22 +276,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6510354002243189156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358891150988844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
-  canv_health: {fileID: 4054950483857702460}
-  fillbar: {fileID: 2194438035360904084}
-  death_effect_ally: {fileID: 8556668702727465672, guid: b51ea3c33e3e61f4182261ba7da107a5, type: 3}
-  death_effect_enemy: {fileID: 8556668702727465672, guid: 102923ef5043a4a4da83f3bb47e0ede1, type: 3}
 --- !u!58 &5408235178940176872
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -347,6 +334,87 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5097452297331630028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538d757b0095156449498adba93ceae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ATroop
+  definition: {fileID: 11400000, guid: 5eb00bf453c375f43bcda817a5926496, type: 2}
+  sceneFaction: 2
+  availableBehaviours:
+  - {fileID: 1775192055609108981}
+  infection: {fileID: 0}
+--- !u!114 &6510354002243189156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac351165046089043a092ae9d2e3b2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  canv_health: {fileID: 4054950483857702460}
+  fillbar: {fileID: 2194438035360904084}
+  death_effect_ally: {fileID: 8556668702727465672, guid: b51ea3c33e3e61f4182261ba7da107a5, type: 3}
+  death_effect_enemy: {fileID: 8556668702727465672, guid: 102923ef5043a4a4da83f3bb47e0ede1, type: 3}
+--- !u!114 &1775192055609108981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a153263f4b1a94eb29339d3eff67a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpringMiniBossTroop
+  frontOffset: 3
+  patrolRadius: 2
+  patrolInterval: 3
+  navMeshSampleDistance: 3
+  attackRadius: 3
+  areaDamage: 2
+  attackCooldown: 3
+  reinforcementHealthThreshold: 0.5
+  reinforcementCount: 3
+--- !u!114 &7026647655867982530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5936a03c8324ed4b89b603cd4e403dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CentipedeBodyFollow
+  head: {fileID: 5837321875170479044}
+  segments: []
+  generateSegmentsOnStart: 1
+  bodySegmentPrefab: {fileID: 5837321875170479044, guid: c7f17f04ac54d464b82376e412200ce6, type: 3}
+  tailPrefab: {fileID: 5059761124832891775, guid: 482764afcba31ab4cab13502d9e6ac1d, type: 3}
+  bodySegmentCount: 4
+  segmentsParent: {fileID: 5837321875170479044}
+  segmentSpacing: 0.59
+  sampleSpacing: 0.1
+  headToFirstSegmentSpacing: 0.59
+  lastSegmentSpacing: 0.41
+  localForwardAxis: {x: 1, y: 0}
+  rotationLookDistance: 0.15
+  agent: {fileID: 9177602895071268543}
+  definition: {fileID: 11400000, guid: 5eb00bf453c375f43bcda817a5926496, type: 2}
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

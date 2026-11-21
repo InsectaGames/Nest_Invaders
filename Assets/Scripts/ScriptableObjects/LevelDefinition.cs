@@ -65,6 +65,8 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Generación de Jefe")]
     public bool IsMidBossStage = false;
+    [Min(0.1f)] public float midBossSpawnDistance = 3f;
+
     public bool IsMainBossStage = false;
     public GameObject bossPrefab;
 }

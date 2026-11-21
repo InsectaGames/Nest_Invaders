@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LevelGameplayInitializer : MonoBehaviour
 {
@@ -31,6 +32,11 @@ public class LevelGameplayInitializer : MonoBehaviour
         Vector2 enemyPosition = GetRandomPosition(level.enemyBasePositions, enemyBaseSpawnPoint);
         Vector2 resourceAreaPosition = GetRandomPosition(level.resourceAreaPositions, resourceAreaSpawnPoint);
 
+        if (level.IsMidBossStage)
+        {
+            SpawnMidBoss(level, enemyPosition, allyPosition);
+        }
+
         AllyBaseInstance = SpawnBase(level.allyBase, allyPosition, "aliada");
         EnemyBaseInstance = SpawnBase(level.enemyBase, enemyPosition, "enemiga");
         ResourceAreaInstance = SpawnBase(level.resourceArea, resourceAreaPosition, "recursos");
@@ -59,5 +65,52 @@ public class LevelGameplayInitializer : MonoBehaviour
         GameObject instance = Instantiate(prefab, position, Quaternion.identity);
 
         return instance;
+    }
+
+    private void SpawnMidBoss(LevelDefinition level, Vector2 enemyPosition, Vector2 allyPosition)
+    {
+        if (level.bossPrefab == null)
+        {
+            Debug.LogError($"El nivel {level.Name} tiene IsMidBossStage activo, pero no tiene bossPrefab asignado.", this);
+            return;
+        }
+
+        // Dirección desde la base enemiga hacia la base aliada.
+        Vector2 direction = (allyPosition - enemyPosition).normalized;
+
+        if (direction.sqrMagnitude < 0.01f)
+            direction = Vector2.left;
+
+        Vector3 desiredPosition = (Vector3) enemyPosition + (Vector3)(direction * LevelSession.SelectedLevel.midBossSpawnDistance);
+
+        // El jefe necesita aparecer sobre el NavMesh.
+        if (!NavMesh.SamplePosition(desiredPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+        {
+            Debug.LogError("No se ha encontrado una posición válida en el NavMesh para el mini jefe.", this);
+            return;
+        }
+
+        GameObject bossObject = Instantiate(level.bossPrefab, hit.position, Quaternion.identity);
+
+        ATroop bossTroop = bossObject.GetComponent<ATroop>();
+
+        if (bossTroop == null)
+        {
+            Debug.LogError("El prefab del mini jefe necesita un componente ATroop en su objeto raíz.", bossObject);
+            Destroy(bossObject);
+            return;
+        }
+
+        TroopDefinition definition = bossTroop.GetDefinition();
+
+        if (definition == null || definition.type != TroopType.SPRING_MINIBOSS)
+        {
+            Debug.LogError("El prefab del mini jefe necesita una TroopDefinition de tipo SPRING_MINIBOSS.", bossObject);
+            Destroy(bossObject);
+            return;
+        }
+
+        // Inicialización explícita como enemigo.
+        bossTroop.Initialize(definition, Faction.ENEMY, null);
     }
 }

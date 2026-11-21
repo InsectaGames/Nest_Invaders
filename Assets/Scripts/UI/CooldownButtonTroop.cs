@@ -31,9 +31,8 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
            if(go.GetComponent<BaseSystem>().GetFaction() == Faction.ALLY)
             {
                 go.GetComponent<BaseSystem>().AddObserver(this);
-                Debug.Log("Me suscribi a :" + go.name);
+                Debug.Log("Me suscribi a: " + go.name);
             }
-
         }
 
         cooldownImage.fillAmount = 0f;
@@ -80,37 +79,36 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
         if (data.data != buttonID)
             return;
 
-
-        if(data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES) {
-
-            cooldownImage.fillAmount = 0f;
-        _anim.ResetTrigger("pressed");
-        _anim.SetTrigger("not_enough_resources");
-
-        }else if(data.logicEvent == LogicEvent.TROOP_PLACED) {
-
-
-        switch (data.data)
+        if(data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES)
         {
-            case 0:
-                cooldownTime = 2f;
-                break;
+            cooldownImage.fillAmount = 0f;
+            _anim.ResetTrigger("pressed");
+            _anim.SetTrigger("not_enough_resources");
 
-            case 1:
-                cooldownTime = 3.5f;
-                break;
-
-            case 2:
-                cooldownTime = 2.5f;
-                break;
-
-            case 3:
-                cooldownTime = 4f;
-                break;
         }
-        _anim.ResetTrigger("not_enough_resources");
-        _anim.SetTrigger("pressed"); 
-        
+        else if(data.logicEvent == LogicEvent.TROOP_PLACED)
+        {
+            switch (data.data)
+            {
+                case 0:
+                    cooldownTime = 2f;
+                    break;
+
+                case 1:
+                    cooldownTime = 3.5f;
+                    break;
+
+                case 2:
+                    cooldownTime = 2.5f;
+                    break;
+
+                case 3:
+                    cooldownTime = 4f;
+                    break;
+            }
+
+            _anim.ResetTrigger("not_enough_resources");
+            _anim.SetTrigger("pressed");  
         }
     }
 }

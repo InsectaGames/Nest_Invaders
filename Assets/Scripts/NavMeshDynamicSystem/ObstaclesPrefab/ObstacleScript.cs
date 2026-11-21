@@ -10,6 +10,8 @@ public class ObstacleScript : MonoBehaviour //, IObserver<Color> // Para ajustar
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float poiSafeDistance = 2f;
 
+    [SerializeField] private float baseSafeDistance = 5f;
+
     private bool isInitialized = false;
 
     private void Awake()
@@ -87,6 +89,23 @@ public class ObstacleScript : MonoBehaviour //, IObserver<Color> // Para ajustar
             foreach (Collider2D hit in hits)
             {
                 if (hit != col)
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            // Comprobar distancia a las bases.
+            BaseSystem[] bases = FindObjectsByType<BaseSystem>(FindObjectsSortMode.None);
+
+            foreach (BaseSystem baseSystem in bases)
+            {
+                if (baseSystem == null)
+                    continue;
+
+                float safeDistance = baseSafeDistance + obstacleRadius;
+
+                if (Vector2.Distance(candidate, baseSystem.transform.position) < safeDistance)
                 {
                     valid = false;
                     break;

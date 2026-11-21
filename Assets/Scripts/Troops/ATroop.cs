@@ -30,7 +30,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private ITroop troopBehaviour;
     private MonoBehaviour troopBehaviourComponent;
 
-    private GameObject[] bases;
+    private BaseSystem[] bases;
     private BaseSystem observedAllyBase;
 
     private Transform allyBaseTransform;
@@ -161,13 +161,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
                 Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
                 return;
             }
-
-            
             
             agent.ResetPath();
-        }
-        
-        
+        } 
 
         allyBaseTransform = FindBaseTransform(f);
 
@@ -184,18 +180,16 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private void RefreshBaseReferences()
     {
         // Actualizar las bases existentes en la escena actual.
-        bases = GameObject.FindGameObjectsWithTag("Base");
+        bases = FindObjectsByType<BaseSystem>(FindObjectsSortMode.None);
 
         BaseSystem currentAllyBase = null;
 
-        foreach (GameObject obj in bases)
+        foreach (BaseSystem baseSystem in bases)
         {
-            if (obj == null)
+            if (baseSystem == null)
                 continue;
 
-            BaseSystem baseSystem = obj.GetComponent<BaseSystem>();
-
-            if (baseSystem != null && baseSystem.GetFaction() == Faction.ALLY)
+            if (baseSystem.GetFaction() == Faction.ALLY)
             {
                 currentAllyBase = baseSystem;
                 break;
@@ -221,15 +215,13 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         if (bases == null)
             return null;
 
-        foreach (GameObject _base in bases)
+        foreach (BaseSystem baseSystem in bases)
         {
-            if (_base == null)
+            if (baseSystem == null)
                 continue;
 
-            BaseSystem baseSystem = _base.GetComponent<BaseSystem>();
-
-            if (baseSystem != null && baseSystem.GetFaction() == f)
-                return _base.transform;
+            if (baseSystem.GetFaction() == f)
+                return baseSystem.transform;
         }
 
         return null;

@@ -519,6 +519,28 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
         }
     }
 
+    public void SpawnBossReinforcements(int amount)
+    {
+        if (faction != Faction.ENEMY || amount <= 0 || IsDestroyed())
+            return;
+
+        if (enemyTroops == null || enemyTroops.Count == 0)
+        {
+            Debug.LogWarning("No hay tropas enemigas configuradas para los refuerzos del jefe.", this);
+            return;
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            TroopDefinition definition = GetUnitToSpawn();
+
+            if (definition == null)
+                continue;
+
+            SpawnConfiguredTroop(definition, false);
+        }
+    }
+
     #endregion
 
     #region UPDATE Y DESTRUCCIÓN

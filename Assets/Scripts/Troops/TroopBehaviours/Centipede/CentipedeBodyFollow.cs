@@ -9,6 +9,16 @@ public class CentipedeBodyFollow : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private List<Transform> segments = new List<Transform>();
 
+    [Header("Generación de segmentos")]
+    [SerializeField] private bool generateSegmentsOnStart;
+    [SerializeField] private Transform bodySegmentPrefab;
+    [SerializeField] private Transform tailPrefab;
+    [SerializeField, Min(0)] private int bodySegmentCount = 4;
+    [SerializeField] private Transform segmentsParent;
+
+    private int activeBodySegmentCount = -1;
+    public int BodySegmentCount => Mathf.Max(0, segments.Count - 1);
+
     [Header("Movimiento")]
     [SerializeField] private float segmentSpacing = 0.59f; // Espacio entre segmentos, es mejor definirlo asi por motivos de rendimiento
     [SerializeField] private float sampleSpacing = 0.1f; // Frecuencia con la que calcula las actualizaciones de la posicion del centipede
@@ -73,8 +83,13 @@ public class CentipedeBodyFollow : MonoBehaviour
             return;
         }
 
+        CreateSegments();
+
         CacheSpriteAxis();
         InitializeHistory();
+
+        if (definition == null && head.TryGetComponent<ATroop>(out ATroop headTroop))
+            definition = headTroop.GetDefinition();
 
         if (agent != null)
         {
@@ -90,24 +105,23 @@ public class CentipedeBodyFollow : MonoBehaviour
                 return;
             }
 
-            agent.ResetPath();
+            // agent.ResetPath();
         }
 
     }
 
     private void LateUpdate()
-{
-    RecordHeadMovement();
-    UpdateSegments();
-    CleanHistory();
+    {
+        RecordHeadMovement();
+        UpdateSegments();
+        CleanHistory();
 
-    FixHeadRotation();
-}
+        FixHeadRotation();
+    }
 
     private void FixHeadRotation()
     {
-        Vector3 euler = head.eulerAngles;
-                head.rotation = Quaternion.Euler(            0f,            0f,            euler.z        );
+        UpdateSegmentRotation(head, distanceTravelled);
     }
 
     // Guarda el angulo original del sprite.
@@ -173,36 +187,44 @@ public class CentipedeBodyFollow : MonoBehaviour
 
     private void UpdateSegments()
     {
+        if (segments.Count == 0)
+            return;
+
+        int bodyCount = activeBodySegmentCount < 0 ? BodySegmentCount : activeBodySegmentCount;
+
         float accumulatedSpacing = 0f;
 
-        for (int i = 0; i < segments.Count; i++)
+        // Actualizar los segmentos intermedios activos.
+        for (int i = 0; i < bodyCount; i++)
         {
             Transform segment = segments[i];
-            if (segment == null) continue;
 
-            // Distancia especial entre cabeza y primer segmento.
-            if (i == 0)
-            {
-                accumulatedSpacing += headToFirstSegmentSpacing;
-            }
-            // Distancia especial entre los dos últimos segmentos.
-            else if (i == segments.Count - 1)
-            {
-                accumulatedSpacing += lastSegmentSpacing;
-            }
-            // Distancia normal entre segmentos.
-            else
-            {
-                accumulatedSpacing += segmentSpacing;
-            }
+            if (segment == null)
+                continue;
+
+            accumulatedSpacing += i == 0 ? headToFirstSegmentSpacing : segmentSpacing;
 
             float targetDistance = distanceTravelled - accumulatedSpacing;
 
             segment.position = GetPositionAtDistance(targetDistance);
             UpdateSegmentRotation(segment, targetDistance);
         }
-    }
 
+        // Actualizar la cola, que siempre es el último elemento.
+        Transform tail = segments[segments.Count - 1];
+
+        if (tail == null)
+            return;
+
+        float tailSpacing = bodyCount > 0 ? lastSegmentSpacing : headToFirstSegmentSpacing;
+
+        accumulatedSpacing += tailSpacing;
+
+        float tailDistance = distanceTravelled - accumulatedSpacing;
+
+        tail.position = GetPositionAtDistance(tailDistance);
+        UpdateSegmentRotation(tail, tailDistance);
+    }
 
     // Busca una posicion usando busqueda binaria.
     private Vector3 GetPositionAtDistance(float targetDistance)
@@ -262,7 +284,11 @@ public class CentipedeBodyFollow : MonoBehaviour
     // Elimina puntos antiguos sin desplazar la lista cada frame.
     private void CleanHistory()
     {
-        float maxDistance = headToFirstSegmentSpacing + Mathf.Max(0, segments.Count - 2) * segmentSpacing + (segments.Count > 1 ? lastSegmentSpacing : 0f) + rotationLookDistance;
+        int bodyCount = activeBodySegmentCount < 0 ? BodySegmentCount : activeBodySegmentCount;
+        
+        float maxDistance = bodyCount > 0 ? headToFirstSegmentSpacing + (bodyCount - 1) * segmentSpacing + lastSegmentSpacing : headToFirstSegmentSpacing;
+        maxDistance += rotationLookDistance;
+        
         float minimumDistance = distanceTravelled - maxDistance - sampleSpacing * 2f;
 
         while (firstValidIndex + 1 < path.Count && path[firstValidIndex + 1].distance < minimumDistance)
@@ -299,5 +325,61 @@ public class CentipedeBodyFollow : MonoBehaviour
         rotationLookDistance = Mathf.Max(0.01f, rotationLookDistance);
         headToFirstSegmentSpacing = Mathf.Max(0.01f, headToFirstSegmentSpacing);
         lastSegmentSpacing = Mathf.Max(0.01f, lastSegmentSpacing);
+    }
+
+    // Crear segmentos de forma dinámica.
+    private void CreateSegments()
+    {
+        if (!generateSegmentsOnStart)
+            return;
+
+        if (bodySegmentPrefab == null || tailPrefab == null)
+        {
+            Debug.LogError("CentipedeBodyFollow: Asigna el prefab del cuerpo y el de la cola.", this);
+            return;
+        }
+
+        segments.Clear();
+
+        Transform parent = segmentsParent != null ? segmentsParent : transform;
+
+        // Crear los segmentos del cuerpo.
+        for (int i = 0; i < bodySegmentCount; i++)
+        {
+            Transform segment = Instantiate(bodySegmentPrefab, head.position, head.rotation, parent);
+
+            segments.Add(segment);
+        }
+
+        // La cola siempre es el último elemento de la lista.
+        Transform tail = Instantiate(tailPrefab, head.position, head.rotation, parent);
+
+        segments.Add(tail);
+    }
+
+    // Activar y desactivar segmentos según la vida del mini jefe.
+    public void SetActiveBodySegmentCount(int count)
+    {
+        int newCount = Mathf.Clamp(count, 0, BodySegmentCount);
+
+        if (newCount == activeBodySegmentCount)
+            return;
+
+        activeBodySegmentCount = newCount;
+
+        // Activar los segmentos necesarios y ocultar los restantes.
+        for (int i = 0; i < BodySegmentCount; i++)
+        {
+            if (segments[i] != null)
+                segments[i].gameObject.SetActive(i < activeBodySegmentCount);
+        }
+
+        // La cola siempre permanece activa.
+        Transform tail = segments[segments.Count - 1];
+
+        if (tail != null)
+            tail.gameObject.SetActive(true);
+
+        UpdateSegments();
     }
 }

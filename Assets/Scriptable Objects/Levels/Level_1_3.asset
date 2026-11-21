@@ -16,11 +16,13 @@ MonoBehaviour:
   Name: Level_1_3
   difficulty: 0
   nextLevel: {fileID: 11400000, guid: 03e042a0638e5f74d8479341094a85bd, type: 2}
-  dayLength: 60
+  dayLength: 600
   nightLength: 45
+  passiveCooldown: 60
+  passiveAmount: 1
   initialResources:
   - res: 0
-    cantidad: 7
+    cantidad: 700
   - res: 1
     cantidad: 1
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
@@ -43,3 +45,8 @@ MonoBehaviour:
   - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
     chance: 0
   defaultTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+  maxNightCreatureAmount: 3
+  IsMidBossStage: 1
+  midBossSpawnDistance: 3
+  IsMainBossStage: 0
+  bossPrefab: {fileID: 1358891150988844776, guid: a40c50e7a69cd944393c7840f0a1f4a0, type: 3}

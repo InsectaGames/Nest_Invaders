@@ -76,6 +76,8 @@ public class CombatSystem
 
         ATroop closestEnemy = null;
         ATroop closestTank = null;
+        ATroop closestBoss = null;
+        float shortestBossDistance = Mathf.Infinity;
 
         float shortestDistance = Mathf.Infinity;
         float shortestTankDistance = Mathf.Infinity;
@@ -92,7 +94,15 @@ public class CombatSystem
 
             float distance = (otherTroop.transform.position - attacker.transform.position).sqrMagnitude;
 
-            if (otherTroop.GetDefinition().type == TroopType.TANK)
+            if (otherTroop.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+            {
+                if (distance < shortestBossDistance)
+                {
+                    shortestBossDistance = distance;
+                    closestBoss = otherTroop;
+                }
+            }
+            else if (otherTroop.GetDefinition().type == TroopType.TANK)
             {
                 if (distance < shortestTankDistance)
                 {
@@ -107,7 +117,7 @@ public class CombatSystem
             }
         }
 
-        return closestTank != null ? closestTank : closestEnemy;
+        return closestBoss != null ? closestBoss : (closestTank != null ? closestTank : closestEnemy);
     }
 
     #endregion
