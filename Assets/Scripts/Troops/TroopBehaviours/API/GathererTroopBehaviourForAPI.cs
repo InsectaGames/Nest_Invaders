@@ -367,22 +367,28 @@ public class GathererTroopBehaviourForAPI : MonoBehaviour, ITroop
         return Status.Success;
     }
 
+    public Status ResetMovementBehaviour()
+    {
+        nvm.speed = normalSpeed;
+        return Status.Failure;
+    }
+
     // 3. Aumentar la velocidad de movimiento de la tropa estableciendo un límite máximo.
-    public void IncreaseMovementSpeed()
+    public Status IncreaseMovementSpeed()
     {
         if (nvm == null)
-            return;
+            return Status.Failure;
 
         nvm.speed = Mathf.Clamp(nvm.speed + speedIncreaseAmount, normalSpeed, maxSpeed);
         Debug.Log("Velocidad actual: " + nvm.speed);
-        return;
+        return Status.Failure;
     }
 
     // 4. Desplazarse hacia un objetivo evitando al enemigo
     //    más cercano mediante un rodeo.
-    public void MoveTowardsTargetAvoidingEnemy()
+    public Status MoveTowardsTargetAvoidingEnemy()
     {
-        return;
+        return Status.Failure;
     }
 
     // 5. Desplazarse hacia el punto de interés utilizando NavMesh.

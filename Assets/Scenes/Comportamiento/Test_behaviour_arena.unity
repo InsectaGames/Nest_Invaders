@@ -2107,6 +2107,66 @@ PrefabInstance:
       propertyPath: data.graphs.Array.data[2].name
       value: Movement_BT
       objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[1].nodes.Array.data[1].position.x
+      value: 902.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[1].nodes.Array.data[1].position.y
+      value: 518.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[5].position.x
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[5].position.y
+      value: 616
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[6].position.x
+      value: 166.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[6].position.y
+      value: 816
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[9].position.x
+      value: 616
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: data.graphs.Array.data[2].nodes.Array.data[9].position.y
+      value: 416
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566850].method.methodName
+      value: PerformInterestPointAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566855].method.methodName
+      value: ResetMovementBehaviour
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566890].method.methodName
+      value: AreEnemiesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566892].method.methodName
+      value: AreAlliesNearby
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566894].method.methodName
+      value: IncreaseMovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566896].method.methodName
+      value: MoveTowardsTargetAvoidingEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126383489221743477, guid: b0f3c13a055c9c94a9103dcac3166444, type: 3}
+      propertyPath: managedReferences[8232782898529566898].method.methodName
+      value: HasReachedInterestPoint
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
