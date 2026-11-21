@@ -34,6 +34,8 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
     private float nextAttackTime;
     private float nextWanderTime;
 
+    private Animator animator;
+    private bool attackAnimationActive;
     private bool isAttacking;
 
     private NavMeshAgent agent;
@@ -44,6 +46,7 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         troop = GetComponent<ATroop>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
@@ -101,7 +104,13 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         nextAttackTime = 0f;
         nextWanderTime = 0f;
 
+        attackAnimationActive = false;
         isAttacking = false;
+
+        if (animator != null)
+        {
+            animator.SetBool("spider_attacking", false);
+        }
 
         if (spriteRenderer != null)
             spriteRenderer.color = nightTint;
@@ -118,7 +127,13 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         nextAttackTime = 0f;
         nextWanderTime = 0f;
 
+        attackAnimationActive = false;
         isAttacking = false;
+
+        if (animator != null)
+        {
+            animator.SetBool("spider_attacking", false);
+        }
 
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
@@ -169,6 +184,11 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         {
             currentTarget = null;
             isAttacking = false;
+            attackAnimationActive = false;
+
+            if (animator != null)
+                animator.SetBool("spider_attacking", false);
+
             troop.SetMovementStopped(false);
             return;
         }
@@ -177,32 +197,46 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         {
             troop.SetMovementStopped(true);
 
-            if (Time.time >= nextAttackTime)
+            if (!attackAnimationActive && Time.time >= nextAttackTime || !isAttacking)
             {
-                AttackTarget();
-                nextAttackTime = Time.time + attackCooldown;
+                StartAttackAnimation();
             }
         }
         else
         {
             isAttacking = false;
 
+            attackAnimationActive = false;
+
+            if (animator != null)
+                animator.SetBool("spider_attacking", false);
+
             troop.SetMovementStopped(false);
             troop.SetTarget(currentTarget.transform);
         }
     }
 
-    private void AttackTarget()
+    private void StartAttackAnimation()
     {
         if (!IsInCombat)
-        {
-            currentTarget = null;
-            isAttacking = false;
             return;
-        }
 
-        if(!isAttacking)
-            isAttacking = true;
+        isAttacking = true;
+        attackAnimationActive = true;
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        if (animator != null)
+           animator.SetBool("spider_attacking", true);
+    }
+
+    public void ApplyNightAttackDamage()
+    {
+        if (!attackAnimationActive || !IsInCombat)
+            return;
+
+        if (!CombatSystem.CloseEnoughToAttack(troop, currentTarget))
+            return;
 
         CombatSystem.PerformAttack(troop, currentTarget);
 
@@ -214,9 +248,19 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
 
             currentTarget = null;
             isAttacking = false;
+            attackAnimationActive = false;
+
+            if (animator != null)
+                animator.SetBool("spider_attacking", false);
 
             troop.SetMovementStopped(false);
         }
+    }
+
+    public void FinishNightAttackAnimation()
+    {
+        attackAnimationActive = false;
+        isAttacking = false;
     }
 
     #endregion

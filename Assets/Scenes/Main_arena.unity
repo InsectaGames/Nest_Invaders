@@ -3357,6 +3357,7 @@ MonoBehaviour:
   zoomMinimo: 2
   zoomMaximo: 7
   zoomSpeed: 0.15
+  gameFlowController: {fileID: 0}
 --- !u!1 &1098334747
 GameObject:
   m_ObjectHideFlags: 0
@@ -4271,7 +4272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NightTroopSpawner
   nightTroopDefinition: {fileID: 11400000, guid: 7d396da2e6c1f3142999ee6b0de4e1bb, type: 2}
   spawnCenter: {fileID: 1418146240}
-  spawnRadius: 20
+  spawnRadius: 10
   navMeshSampleDistance: 3
   spawnInterval: 8
   maxNightTroops: 8

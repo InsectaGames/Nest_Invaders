@@ -80,6 +80,11 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
             }
         }
 
+        if (repositioning && IsInCombat && currentTarget.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+        {
+            FinishRepositioning();
+        }
+
         // Si ya está reposicionándose, debe terminar el desplazamiento.
         if (repositioning)
         {
@@ -88,8 +93,9 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
         }
 
         // Si un enemigo se acerca demasiado, buscar otra posición.
-        if (CombatSystem.IsValidEnemy(troop, dangerTarget) &&
-            Time.time >= nextRepositionTime)
+        bool isBossTarget = IsInCombat && currentTarget.GetDefinition().type == TroopType.SPRING_MINIBOSS;
+
+        if (!isBossTarget && CombatSystem.IsValidEnemy(troop, dangerTarget) && Time.time >= nextRepositionTime)
         {
             if (TryReposition())
                 return;

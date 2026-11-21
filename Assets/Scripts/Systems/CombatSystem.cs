@@ -60,10 +60,19 @@ public class CombatSystem
             return false;
 
         float attackReach = attacker.GetDefinition().attackReach;
+        float attackReachSqr = attackReach * attackReach;
 
         float sqrDistance = (target.transform.position - attacker.transform.position).sqrMagnitude;
 
-        return sqrDistance <= attackReach * attackReach;
+        if(attacker.GetDefinition().type == TroopType.RANGED_ATTACKER)
+        {
+            if(target.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+            {
+                return sqrDistance <= 0.3 * attackReachSqr;
+            }
+        }
+        
+        return sqrDistance <= attackReachSqr;
     }
 
     // Buscar la tropa enemiga más cercana dentro del radio de detección.
