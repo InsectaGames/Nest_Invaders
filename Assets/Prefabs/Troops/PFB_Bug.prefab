@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 2223015878359088277}
   - component: {fileID: 5710064644136453479}
   - component: {fileID: 8870340171512564411}
+  - component: {fileID: 5970411232637596535}
   m_Layer: 0
   m_Name: PFB_Bug
   m_TagString: Untagged
@@ -402,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f33796bbde13514f8f1b64bbf37fe8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightTroop
-  nightTint: {r: 0.65, g: 0.35, b: 0.85, a: 1}
+  nightTint: {r: 1, g: 1, b: 1, a: 1}
   detectionRadius: 6
   targetUpdateInterval: 0.25
   attackCooldown: 1.5
@@ -483,6 +484,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationSelector
   m_Animator: {fileID: 5710064644136453479}
   spriteRenderer: {fileID: 2716294022404114053}
+--- !u!114 &5970411232637596535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4c648bc016d3b4a8b62c255da9bc08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpdateVisuals
+  lifeCanvas: {fileID: 589425462129644402}
+  target: {fileID: 0}
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

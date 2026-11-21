@@ -66,5 +66,8 @@ TagManager:
   - name: Front Props
     uniqueID: 2366123205
     locked: 0
+  - name: Lifebar
+    uniqueID: 635156791
+    locked: 0
   m_RenderingLayers:
   - Default
