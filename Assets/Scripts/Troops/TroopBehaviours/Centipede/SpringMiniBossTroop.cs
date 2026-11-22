@@ -38,6 +38,8 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
 
     private bool reinforcementsSpawned;
 
+    private bool isAttacking;
+
     private void Awake()
     {
         troop = GetComponent<ATroop>();
@@ -56,8 +58,14 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
 
         UpdateBodySegments();
         CheckReinforcementThreshold();
+
+        if (isAttacking)
+            return;
+
         TryAreaAttack();
-        HandlePatrol();
+
+        if (!isAttacking)
+            HandlePatrol();
     }
 
     private void UpdateBodySegments()
@@ -234,11 +242,48 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
 
         Collider2D[] detected = Physics2D.OverlapCircleAll(transform.position, troop.GetDefinition().attackReach);
 
+        bool hasTargets = false;
 
-      // CentipedeBodyFollow cbf = this.GetComponent<CentipedeBodyFollow>();
+        foreach (Collider2D col in detected)
+        {
+            if (col == null)
+                continue;
 
+            ATroop target = col.GetComponentInParent<ATroop>();
 
-      //  cbf.AttackAnimation(true);
+            if (target == null || target == troop)
+                continue;
+
+            if (target.GetFaction() != Faction.ALLY)
+                continue;
+
+            HealthComponent targetHealth = target.GetHealth();
+
+            if (targetHealth == null || targetHealth.IsDead())
+                continue;
+
+            hasTargets = true;
+            break;
+        }
+
+        if (!hasTargets)
+            return;
+
+        isAttacking = true;
+        nextAttackTime = Time.time + attackCooldown;
+
+        agent.isStopped = true;
+
+        if (bodyFollow != null)
+            bodyFollow.AttackAnimation(true);
+    }
+
+    public void FinishAreaAttackAnimation()
+    {
+        if (!isAttacking)
+            return;
+
+        Collider2D[] detected = Physics2D.OverlapCircleAll(transform.position, troop.GetDefinition().attackReach);
 
         HashSet<HealthComponent> targets = new HashSet<HealthComponent>();
 
@@ -263,10 +308,6 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
             targets.Add(targetHealth);
         }
 
-        // No consumir el cooldown si no hay aliados que atacar.
-        if (targets.Count == 0)
-            return;
-
         foreach (HealthComponent targetHealth in targets)
         {
             targetHealth.TakeDamage(troop.GetDefinition().strength);
@@ -275,9 +316,13 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
                 targetHealth.Die();
         }
 
-       // cbf.AttackAnimation(false);
+        if (bodyFollow != null)
+            bodyFollow.AttackAnimation(false);
 
-        nextAttackTime = Time.time + attackCooldown;
+        isAttacking = false;
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+            agent.isStopped = false;
     }
 
     #endregion

@@ -47,6 +47,8 @@ public class CentipedeBodyFollow : MonoBehaviour
     private Animator[] segmentAnimators;
     private bool isMoving;
 
+    private bool isAttackingAnimation;
+
     // Punto del recorrido y distancia acumulada.
     private struct PathPoint
     {
@@ -326,6 +328,9 @@ public class CentipedeBodyFollow : MonoBehaviour
     // Para la animación de los segmentos.
     private void UpdateAnimationState()
     {
+        if (isAttackingAnimation)
+            return;
+
         if (agent == null || !agent.enabled || !agent.isOnNavMesh)
             return;
 
@@ -336,8 +341,10 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         isMoving = moving;
 
+        float animationSpeed = isMoving ? 1f : 0f;
+
         if (headAnimator != null)
-            headAnimator.speed = isMoving ? 1f : 0f;
+            headAnimator.speed = animationSpeed;
 
         if (segmentAnimators == null)
             return;
@@ -345,16 +352,8 @@ public class CentipedeBodyFollow : MonoBehaviour
         foreach (Animator animator in segmentAnimators)
         {
             if (animator != null)
-                animator.speed = isMoving ? 1f : 0f;
+                animator.speed = animationSpeed;
         }
-
-
-
-        // ATAQUE 
-
-
-
-
     }
 
     // Elimina puntos antiguos sin desplazar la lista cada frame.
@@ -467,20 +466,37 @@ public class CentipedeBodyFollow : MonoBehaviour
             headAnimator.Play(0, 0, 0f);
     }
 
-
-
-
     public void AttackAnimation(bool state)
     {
+        isAttackingAnimation = state;
 
-        foreach(Animator anim in segmentAnimators)
+        // La animación de ataque debe poder reproducirse aunque el NavMeshAgent esté detenido.
+        if (state)
         {
+            if (headAnimator != null)
+                headAnimator.speed = 1f;
 
-            anim.SetBool("centipede_attack", state);
-
+            if (segmentAnimators != null)
+            {
+                foreach (Animator anim in segmentAnimators)
+                {
+                    if (anim != null)
+                        anim.speed = 1f;
+                }
+            }
         }
 
+        if (headAnimator != null)
+            headAnimator.SetBool("centipede_attack", state);
 
+        if (segmentAnimators == null)
+            return;
+
+        foreach (Animator anim in segmentAnimators)
+        {
+            if (anim != null)
+                anim.SetBool("centipede_attack", state);
+        }
     }
 
     // Activar y desactivar segmentos según la vida del mini jefe.
