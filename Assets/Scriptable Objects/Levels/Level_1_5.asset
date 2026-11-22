@@ -18,11 +18,11 @@ MonoBehaviour:
   nextLevel: {fileID: 0}
   dayLength: 60
   nightLength: 60
-  passiveCooldown: 60
+  passiveCooldown: 40
   passiveAmount: 1
   initialResources:
   - res: 0
-    cantidad: 10
+    cantidad: 15
   - res: 1
     cantidad: 0
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
@@ -38,18 +38,18 @@ MonoBehaviour:
   - {x: -12.56, y: -7.06}
   enemyBaseHealth: 30
   obstacleNumber: 20
-  enemySpawnInterval: 10
-  maxSpawnableAmount: 4
+  enemySpawnInterval: 14
+  maxSpawnableAmount: 3
   chanceToSpawnMore: 30
   enemyTroops:
   - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
-    chance: 40
-  - enemyTroop: {fileID: 11400000, guid: 29e7b4e17c995254bb82a76322a161dd, type: 2}
     chance: 30
+  - enemyTroop: {fileID: 11400000, guid: 29e7b4e17c995254bb82a76322a161dd, type: 2}
+    chance: 40
   - enemyTroop: {fileID: 11400000, guid: 994c70ab7a57ca340b45c7490435f7c8, type: 2}
     chance: 30
   defaultTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
-  maxNightCreatureAmount: 5
+  maxNightCreatureAmount: 4
   IsMidBossStage: 0
   midBossSpawnDistance: 3
   IsMainBossStage: 0

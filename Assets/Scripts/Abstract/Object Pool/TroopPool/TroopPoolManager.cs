@@ -4,7 +4,7 @@ public class TroopPoolManager : ASubject<GameEvent<ATroop>>
 {
     [Header("Configuración del pool")]
     [SerializeField] private ATroop prefab;
-    [SerializeField, Min(1)] private int initialSize = 20;
+    [SerializeField, Min(1)] private int initialSize = 50;
 
     private IObjectPool<ATroop> pool;
 

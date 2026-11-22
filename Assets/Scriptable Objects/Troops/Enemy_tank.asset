@@ -15,9 +15,9 @@ MonoBehaviour:
   ID: -4
   Name: TANK_ENEMY
   type: 4
-  maxHealth: 300
+  maxHealth: 250
   speed: 2
-  strength: 40
+  strength: 35
   attackReach: 2
   chanceToDropSticks: 0
   recursos: []
