@@ -70,7 +70,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
             HandleCombat();
             return;
         }
-        
+
         // Si el objetivo ha desaparecido o ha muerto, limpiar el estado.
         currentTarget = null;
         troop.SetMovementStopped(false);
@@ -113,7 +113,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         protectedAlly = null;
         currentTarget = null;
 
-        if(gatherPoint != null)
+        if (gatherPoint != null)
             gatherPoint = null;
 
         nextTargetUpdateTime = 0f;
@@ -219,10 +219,12 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
             ATroop candidate = col.GetComponentInParent<ATroop>();
 
-            if(candidate.GetDefinition().type == TroopType.SPRING_MINIBOSS)
-            {
+            if (candidate == null || candidate == troop || candidate.GetDefinition() == null)
                 continue;
-            }
+
+            if (candidate.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+                continue;
+
             if (!CombatSystem.IsValidEnemy(troop, candidate))
                 continue;
 
@@ -333,7 +335,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     private void HandleGuarding()
     {
         if (gatherPoint == null)
-        return;
+            return;
 
         // Primero debe llegar a la zona de recolección.
         float distanceToGatherPoint = Vector2.Distance(transform.position, gatherPoint.position);
@@ -362,7 +364,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         if (gatherPoint == null)
             return;
 
-        float minRadius = guardWanderRadius * 0.4f; 
+        float minRadius = guardWanderRadius * 0.4f;
 
         for (int i = 0; i < 10; i++)
         {
