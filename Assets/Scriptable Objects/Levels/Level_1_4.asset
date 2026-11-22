@@ -18,11 +18,11 @@ MonoBehaviour:
   nextLevel: {fileID: 11400000, guid: 7ff988d7e8333cf478a119b3dfb987e9, type: 2}
   dayLength: 60
   nightLength: 50
-  passiveCooldown: 30
+  passiveCooldown: 40
   passiveAmount: 2
   initialResources:
   - res: 0
-    cantidad: 20
+    cantidad: 15
   - res: 1
     cantidad: 0
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
@@ -38,7 +38,7 @@ MonoBehaviour:
   - {x: 8.48, y: -7.73}
   enemyBaseHealth: 25
   obstacleNumber: 18
-  enemySpawnInterval: 18
+  enemySpawnInterval: 14
   maxSpawnableAmount: 3
   chanceToSpawnMore: 30
   enemyTroops:

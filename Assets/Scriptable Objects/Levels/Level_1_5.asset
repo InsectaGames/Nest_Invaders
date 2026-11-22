@@ -38,7 +38,7 @@ MonoBehaviour:
   - {x: -12.56, y: -7.06}
   enemyBaseHealth: 30
   obstacleNumber: 20
-  enemySpawnInterval: 14
+  enemySpawnInterval: 12
   maxSpawnableAmount: 3
   chanceToSpawnMore: 30
   enemyTroops:

@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Level_1_3
   difficulty: 1
   nextLevel: {fileID: 11400000, guid: 03e042a0638e5f74d8479341094a85bd, type: 2}
-  dayLength: 200
+  dayLength: 100
   nightLength: 40
   passiveCooldown: 40
   passiveAmount: 2
