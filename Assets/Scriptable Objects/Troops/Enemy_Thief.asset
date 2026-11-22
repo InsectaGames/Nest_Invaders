@@ -16,10 +16,10 @@ MonoBehaviour:
   Name: THIEF
   type: 5
   maxHealth: 75
-  speed: 3
+  speed: 6
   strength: 30
   attackReach: 2
-  chanceToDropSticks: 50
+  chanceToDropSticks: 0
   recursos: []
   capacity: []
   bhvRunner: {fileID: 0}

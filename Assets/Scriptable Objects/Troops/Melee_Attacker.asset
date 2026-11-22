@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: 0
   Name: MELEE
   type: 1
-  maxHealth: 200
-  speed: 3
-  strength: 30
+  maxHealth: 120
+  speed: 4
+  strength: 25
   attackReach: 2
-  chanceToDropSticks: 50
+  chanceToDropSticks: 0
   recursos:
   - res: 0
     cantidad: 2

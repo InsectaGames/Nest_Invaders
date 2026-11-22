@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: 2
   Name: RANGED
   type: 3
-  maxHealth: 175
+  maxHealth: 100
   speed: 3
   strength: 20
-  attackReach: 7
-  chanceToDropSticks: 50
+  attackReach: 5
+  chanceToDropSticks: 0
   recursos:
   - res: 0
     cantidad: 3

@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: 3
   Name: TANK
   type: 4
-  maxHealth: 500
+  maxHealth: 300
   speed: 2
-  strength: 10
-  attackReach: 7
-  chanceToDropSticks: 50
+  strength: 30
+  attackReach: 2
+  chanceToDropSticks: 0
   recursos:
   - res: 0
     cantidad: 5

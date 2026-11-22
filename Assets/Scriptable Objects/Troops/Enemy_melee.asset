@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: -2
   Name: ENEMY_MELEE
   type: 1
-  maxHealth: 150
+  maxHealth: 120
   speed: 5
-  strength: 40
+  strength: 30
   attackReach: 2
-  chanceToDropSticks: 50
+  chanceToDropSticks: 0
   recursos: []
   capacity: []
   bhvRunner: {fileID: 0}

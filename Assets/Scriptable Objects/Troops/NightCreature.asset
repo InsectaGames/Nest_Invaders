@@ -15,9 +15,9 @@ MonoBehaviour:
   ID: 9
   Name: Night Creature
   type: 6
-  maxHealth: 150
-  speed: 4
-  strength: 30
+  maxHealth: 200
+  speed: 5
+  strength: 50
   attackReach: 2
   chanceToDropSticks: 50
   recursos: []

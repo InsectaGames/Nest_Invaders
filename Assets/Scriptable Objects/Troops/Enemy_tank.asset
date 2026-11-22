@@ -15,11 +15,11 @@ MonoBehaviour:
   ID: -4
   Name: TANK_ENEMY
   type: 4
-  maxHealth: 200
+  maxHealth: 300
   speed: 2
-  strength: 35
+  strength: 40
   attackReach: 2
-  chanceToDropSticks: 60
+  chanceToDropSticks: 0
   recursos: []
   capacity: []
   bhvRunner: {fileID: 0}

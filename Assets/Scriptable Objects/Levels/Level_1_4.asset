@@ -14,32 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   ID: 4
   Name: Level_1_4
-  difficulty: 1
+  difficulty: 2
   nextLevel: {fileID: 11400000, guid: 7ff988d7e8333cf478a119b3dfb987e9, type: 2}
   dayLength: 60
-  nightLength: 45
+  nightLength: 50
+  passiveCooldown: 60
+  passiveAmount: 2
   initialResources:
   - res: 0
-    cantidad: 6
+    cantidad: 10
   - res: 1
-    cantidad: 1
+    cantidad: 0
   Map: {fileID: 4686648788942503854, guid: 0620543b3da6e4e48ac71e83ac6bf59d, type: 3}
   allyBase: {fileID: 6371691722752153460, guid: 590e03311d085fe4383a3784076737ce, type: 3}
   allyBasePositions:
-  - {x: -13, y: -0.53}
-  allyBaseHealth: 10
+  - {x: 6.1, y: 7.15}
+  allyBaseHealth: 15
   resourceArea: {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   resourceAreaPositions:
-  - {x: 0, y: -7.49}
+  - {x: -6.39, y: -5.93}
   enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
   enemyBasePositions:
-  - {x: 13.8, y: 1.39}
-  enemyBaseHealth: 10
-  obstacleNumber: 15
+  - {x: 8.48, y: -7.73}
+  enemyBaseHealth: 25
+  obstacleNumber: 18
   enemySpawnInterval: 10
-  maxSpawnableAmount: 1
-  chanceToSpawnMore: 20
+  maxSpawnableAmount: 3
+  chanceToSpawnMore: 40
   enemyTroops:
   - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
-    chance: 0
+    chance: 50
+  - enemyTroop: {fileID: 11400000, guid: 29e7b4e17c995254bb82a76322a161dd, type: 2}
+    chance: 20
+  - enemyTroop: {fileID: 11400000, guid: 994c70ab7a57ca340b45c7490435f7c8, type: 2}
+    chance: 30
   defaultTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
+  maxNightCreatureAmount: 4
+  IsMidBossStage: 0
+  midBossSpawnDistance: 3
+  IsMainBossStage: 0
+  bossPrefab: {fileID: 0}

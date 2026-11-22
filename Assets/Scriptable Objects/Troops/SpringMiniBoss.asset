@@ -15,10 +15,10 @@ MonoBehaviour:
   ID: -9
   Name: SPRING_MIDBOSS
   type: 7
-  maxHealth: 1000
+  maxHealth: 2000
   speed: 2
-  strength: 25
-  attackReach: 4
+  strength: 50
+  attackReach: 5
   chanceToDropSticks: 0
   recursos: []
   capacity: []
