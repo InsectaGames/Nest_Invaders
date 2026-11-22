@@ -347,6 +347,14 @@ public class CentipedeBodyFollow : MonoBehaviour
             if (animator != null)
                 animator.speed = isMoving ? 1f : 0f;
         }
+
+
+
+        // ATAQUE 
+
+
+
+
     }
 
     // Elimina puntos antiguos sin desplazar la lista cada frame.
@@ -457,6 +465,22 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         if (headAnimator != null)
             headAnimator.Play(0, 0, 0f);
+    }
+
+
+
+
+    public void AttackAnimation(bool state)
+    {
+
+        foreach(Animator anim in segmentAnimators)
+        {
+
+            anim.SetBool("centipede_attack", state);
+
+        }
+
+
     }
 
     // Activar y desactivar segmentos según la vida del mini jefe.

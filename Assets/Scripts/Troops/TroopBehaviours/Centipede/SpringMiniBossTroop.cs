@@ -234,6 +234,12 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
 
         Collider2D[] detected = Physics2D.OverlapCircleAll(transform.position, troop.GetDefinition().attackReach);
 
+
+      // CentipedeBodyFollow cbf = this.GetComponent<CentipedeBodyFollow>();
+
+
+      //  cbf.AttackAnimation(true);
+
         HashSet<HealthComponent> targets = new HashSet<HealthComponent>();
 
         foreach (Collider2D col in detected)
@@ -268,6 +274,8 @@ public class SpringMiniBossTroop : MonoBehaviour, ITroop
             if (targetHealth.IsDead())
                 targetHealth.Die();
         }
+
+       // cbf.AttackAnimation(false);
 
         nextAttackTime = Time.time + attackCooldown;
     }
