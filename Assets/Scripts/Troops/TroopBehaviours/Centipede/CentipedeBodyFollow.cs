@@ -30,8 +30,12 @@ public class CentipedeBodyFollow : MonoBehaviour
     [Header("Orientacion")]
     [Tooltip("Direccion hacia la que apunta el sprite originalmente.")]
     [SerializeField] private Vector2 localForwardAxis = Vector2.right;
-
     [SerializeField] private float rotationLookDistance = 0.15f;
+
+    [Header("Interfaz")]
+    [SerializeField] private Transform healthCanvas;
+    [SerializeField, Min(0f)] private float healthCanvasOffset = 0.5f;
+    [SerializeField] private SpriteRenderer headSprite;
 
     [Header("NavmeshAgent")]
     [SerializeField] private NavMeshAgent agent;
@@ -124,11 +128,42 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         FixHeadRotation();
         UpdateAnimationState();
+        UpdateHealthCanvasPosition();
     }
 
     private void FixHeadRotation()
     {
         UpdateSegmentRotation(head, distanceTravelled);
+    }
+
+    private void UpdateHealthCanvasPosition()
+    {
+        if (healthCanvas == null || head == null)
+            return;
+
+        float highestPoint = head.position.y;
+
+        if (headSprite != null)
+            highestPoint = Mathf.Max(highestPoint, headSprite.bounds.max.y);
+
+        foreach (Transform segment in segments)
+        {
+            if (segment == null || !segment.gameObject.activeInHierarchy)
+                continue;
+
+            SpriteRenderer sprite = segment.GetComponent<SpriteRenderer>();
+
+            float segmentTop = sprite != null ? sprite.bounds.max.y : segment.position.y;
+
+            highestPoint = Mathf.Max(highestPoint, segmentTop);
+        }
+
+        // Mantener la barra centrada sobre la cabeza.
+        Vector3 position = head.position;
+        position.y = highestPoint + healthCanvasOffset;
+
+        healthCanvas.position = position;
+        healthCanvas.rotation = Quaternion.identity;
     }
 
     // Guarda el angulo original del sprite.

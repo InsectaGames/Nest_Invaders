@@ -221,7 +221,7 @@ MonoBehaviour:
   attackCooldown: 3
   reinforcementHealthThreshold: 0.5
   reinforcementCount: 3
-  bodyFollow: {fileID: 0}
+  bodyFollow: {fileID: 7026647655867982530}
 --- !u!114 &7026647655867982530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +247,9 @@ MonoBehaviour:
   lastSegmentSpacing: 0.41
   localForwardAxis: {x: 1, y: 0}
   rotationLookDistance: 0.15
+  healthCanvas: {fileID: 2727482053497151741}
+  healthCanvasOffset: 0.5
+  headSprite: {fileID: 2716294022404114053}
   agent: {fileID: 9177602895071268543}
   definition: {fileID: 11400000, guid: 5eb00bf453c375f43bcda817a5926496, type: 2}
   headAnimator: {fileID: 2490209589658768815}

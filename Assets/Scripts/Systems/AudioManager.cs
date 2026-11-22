@@ -28,6 +28,9 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
     [SerializeField, Range(0f, 1f)] private float defaultSFXVolume = 0.5f;
     [SerializeField, Range(0f, 1f)] private float defaultMusicVolume = 0.5f;
 
+    private const string SFX_VOLUME_KEY = "SFXVolume";
+    private const string MUSIC_VOLUME_KEY = "MusicVolume";
+
     private Slider sfxSlider;
     private Slider musicSlider;
 
@@ -104,7 +107,7 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
             {
                 sfxSlider.SetValueWithoutNotify(audioSource.volume);
                 sfxSlider.onValueChanged.RemoveListener(OnSoundVolumeChange);
-                sfxSlider.onValueChanged.AddListener(ActualizarVolumenSFXSinSonido);
+                sfxSlider.onValueChanged.AddListener(OnSoundVolumeChange);
 
                 // Detector de "Fin de arrastre" (PointerUp / EndDrag)
                 EventTrigger trigger = sfxSliderGO.GetComponent<EventTrigger>();
@@ -113,10 +116,10 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
                 // Limpieza de eventos previos para evitar duplicados.
                 trigger.triggers.Clear();
 
-                EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = EventTriggerType.PointerUp; // Se dispara al soltar el slider.
-                entry.callback.AddListener((data) => OnSoundVolumeChange_OnRelease());
-                trigger.triggers.Add(entry);
+                EventTrigger.Entry soundTrigger = new EventTrigger.Entry();
+                soundTrigger.eventID = EventTriggerType.PointerUp; // Se dispara al soltar el slider.
+                soundTrigger.callback.AddListener((data) => OnSoundVolumeChange_OnRelease());
+                trigger.triggers.Add(soundTrigger);
             }
         }
 
@@ -129,11 +132,22 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
                 musicSlider.SetValueWithoutNotify(musicSource.volume);
                 musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
                 musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+
+                EventTrigger musicTrigger = musicSliderGO.GetComponent<EventTrigger>();
+                if (musicTrigger == null)
+                    musicTrigger = musicSliderGO.AddComponent<EventTrigger>();
+
+                musicTrigger.triggers.Clear();
+
+                EventTrigger.Entry musicEntry = new EventTrigger.Entry();
+                musicEntry.eventID = EventTriggerType.PointerUp;
+                musicEntry.callback.AddListener((data) => OnMusicVolumeChange_OnRelease());
+                musicTrigger.triggers.Add(musicEntry);
             }
         }
 
-        Debug.Log($"Slider SFX encontrado: {sfxSlider != null}");
-        Debug.Log($"Slider Music encontrado: {musicSlider != null}");
+        // Debug.Log($"Slider SFX encontrado: {sfxSlider != null}");
+        // Debug.Log($"Slider Music encontrado: {musicSlider != null}");
 
         DayNightSystem dayNightSystem = FindFirstObjectByType<DayNightSystem>();
         UIMenuController uIMenuController = FindFirstObjectByType<UIMenuController>();
@@ -157,28 +171,39 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
 
     private void LoadDefaultAudioSettings()
     {
-        audioSource.volume = defaultSFXVolume;
-        musicSource.volume = defaultMusicVolume;
+        float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, defaultSFXVolume);
+        float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, defaultMusicVolume);
+
+        audioSource.volume = sfxVolume;
+        musicSource.volume = musicVolume;
     }
 
     public void OnSoundVolumeChange(float value)
     {
         audioSource.volume = value;
-        Debug.Log($"Volumen de sonidos: {value}");
-        PlaySound("Test Sound");
+        // Debug.Log($"Volumen de sonidos: {value}");
     }
 
     public void OnMusicVolumeChanged(float value)
     {
         musicSource.volume = value;
-        Debug.Log($"Volumen de música: {value}");
+        // Debug.Log($"Volumen de música: {value}");
     }
 
-    // Este se ejecuta mientras se desliza (actualiza el volumen visual y del audio sin spamear el sonido).
-    private void ActualizarVolumenSFXSinSonido(float value) => audioSource.volume = value;
+    // Estos métodos se llamarán ÚNICAMENTE cuando el usuario suelte los slider.
+    private void OnSoundVolumeChange_OnRelease()
+    {
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, audioSource.volume);
+        PlayerPrefs.Save();
 
-    // Este método se llamará ÚNICAMENTE cuando el usuario suelte el slider.
-    private void OnSoundVolumeChange_OnRelease() => PlaySound("Test Sound");
+        PlaySound("UI_Sound");
+    }
+
+    private void OnMusicVolumeChange_OnRelease()
+    {
+        PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, musicSource.volume);
+        PlayerPrefs.Save();
+    }
 
     #endregion
 

@@ -797,7 +797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.3874757}
   m_AnchorMax: {x: 1, y: 0.5748314}
-  m_AnchoredPosition: {x: 0.08251953, y: 3.5}
+  m_AnchoredPosition: {x: 0.08251953, y: -107.289185}
   m_SizeDelta: {x: -0.16499329, y: 3.4216003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079687493
@@ -1010,7 +1010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1678066831
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1171,7 +1171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.6392152}
   m_AnchorMax: {x: 1, y: 0.8304908}
-  m_AnchoredPosition: {x: 0.08251953, y: -0.21081543}
+  m_AnchoredPosition: {x: 0.08251953, y: -111}
   m_SizeDelta: {x: -0.16499329, y: 0.42160034}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1686275384
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.990566, g: 0.84956706, b: 0.7242346, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1471,58 +1471,6 @@ PrefabInstance:
     - target: {fileID: 242452350998780851, guid: fb51b43426c896e42b11034f94287df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: f8db104eeafec3941b28b928bc4a2409, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[0].name
-      value: Menu_Theme
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 157fc151e2e500e4ab3669945ea2f3ab, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[1].name
-      value: Day_Theme
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[2].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 1d9cae3af51f99f439f788d92e7119e1, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[2].name
-      value: Night_Theme
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[3].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 747a2538d0fde934ab0b3e3473805a7e, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[3].name
-      value: Ally_Death_Sound
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[4].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 417dbfc345d8f594ca77360fc2aeba70, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[4].name
-      value: UI_Sound
-      objectReference: {fileID: 0}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[5].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 8e3e2ec6349b6164990e3831257b247c, type: 3}
-    - target: {fileID: 6529813463167935965, guid: fb51b43426c896e42b11034f94287df2, type: 3}
-      propertyPath: audioEntries.Array.data[5].name
-      value: Test Sound
       objectReference: {fileID: 0}
     - target: {fileID: 6942661706251167092, guid: fb51b43426c896e42b11034f94287df2, type: 3}
       propertyPath: m_Name

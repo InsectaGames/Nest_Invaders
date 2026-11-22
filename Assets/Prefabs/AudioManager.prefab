@@ -47,10 +47,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioEntries:
-  - name: Test Sound
-    clip: {fileID: 8300000, guid: 8e3e2ec6349b6164990e3831257b247c, type: 3}
-  - name: Test Music
-    clip: {fileID: 8300000, guid: 2032ee927dc2e8b42a01127f11c17c24, type: 3}
+  - name: Menu_Theme
+    clip: {fileID: 8300000, guid: f8db104eeafec3941b28b928bc4a2409, type: 3}
+  - name: Day_Theme
+    clip: {fileID: 8300000, guid: 157fc151e2e500e4ab3669945ea2f3ab, type: 3}
+  - name: Night_Theme
+    clip: {fileID: 8300000, guid: 1d9cae3af51f99f439f788d92e7119e1, type: 3}
+  - name: Ally_Death_Sound
+    clip: {fileID: 8300000, guid: 747a2538d0fde934ab0b3e3473805a7e, type: 3}
+  - name: UI_Sound
+    clip: {fileID: 8300000, guid: 417dbfc345d8f594ca77360fc2aeba70, type: 3}
   audioSource: {fileID: 8713865591537087035}
   musicSource: {fileID: 5356085561953806634}
   defaultSFXVolume: 0.5
