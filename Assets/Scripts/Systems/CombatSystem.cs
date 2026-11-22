@@ -12,7 +12,7 @@ public class CombatSystem
 
         ApplyDamage(target.gameObject, attacker.GetDefinition().strength);
     }
-    
+
     // Aplicar el daño.
     private static void ApplyDamage(GameObject obj, int damage = 0)
     {
@@ -40,14 +40,14 @@ public class CombatSystem
         if (attacker.GetFaction() == target.GetFaction())
             return false;
 
-        if(target.GetDefinition().type == TroopType.GATHERER)
+        if (target.GetDefinition().type == TroopType.GATHERER)
         {
             GathererTroop gathererTroop = target.GetComponent<GathererTroop>();
 
             if (gathererTroop == null || gathererTroop.GetState() == GathererState.Gathering)
                 return false;
         }
-            
+
         HealthComponent health = target.GetHealth();
 
         return health != null && !health.IsDead();
@@ -64,14 +64,14 @@ public class CombatSystem
 
         float sqrDistance = (target.transform.position - attacker.transform.position).sqrMagnitude;
 
-        if(attacker.GetDefinition().type == TroopType.RANGED_ATTACKER)
+        if (attacker.GetDefinition().type == TroopType.RANGED_ATTACKER)
         {
-            if(target.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+            if (target.GetDefinition().type == TroopType.SPRING_MINIBOSS)
             {
                 return sqrDistance <= 0.3 * attackReachSqr;
             }
         }
-        
+
         return sqrDistance <= attackReachSqr;
     }
 
@@ -126,7 +126,12 @@ public class CombatSystem
             }
         }
 
-        return closestBoss != null ? closestBoss : (closestTank != null ? closestTank : closestEnemy);
+        if (closestBoss != null && attacker.GetDefinition().type != TroopType.TANK && attacker.GetDefinition().type != TroopType.NIGHT_CREATURE)
+        {
+            return closestBoss != null ? closestBoss : (closestTank != null ? closestTank : closestEnemy);
+        }
+
+        return closestTank != null ? closestTank : closestEnemy;
     }
 
     #endregion

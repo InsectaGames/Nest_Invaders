@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,13 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
     [SerializeField, Min(1f)] private float wanderRadius = 5f;
     [SerializeField, Min(0.1f)] private float wanderInterval = 3f;
     [SerializeField, Min(0.1f)] private float navMeshSampleDistance = 3f;
+
+    [SerializeField, Min(0.1f)] private float MaxWaitingTime = 20f;
+
+    private float WaitedTime = 0f;
+
+    private Transform enemyBase;
+    private bool attackingBase;
 
     private Transform gatherPoint;
     private ATroop currentTarget;
@@ -47,6 +55,12 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
         if (gatherPoint == null)
             FindGatherPoint();
 
+        if (attackingBase)
+        {
+            AttackBase();
+            return;
+        }
+
         // Buscar objetivos periódicamente.
         if (Time.time >= nextTargetUpdateTime)
         {
@@ -59,6 +73,7 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
 
         if (IsInCombat)
         {
+            WaitedTime = 0f;
             HandleCombat();
         }
         else
@@ -82,9 +97,13 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
 
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
+        WaitedTime = 0f;
         nextWanderTime = 0f;
 
         FindGatherPoint();
+
+        FindEnemyBase();
+        attackingBase = false;
 
         if (troop != null)
             troop.SetMovementStopped(false);
@@ -97,7 +116,11 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
 
         nextTargetUpdateTime = 0f;
         nextAttackTime = 0f;
+        WaitedTime = 0f;
         nextWanderTime = 0f;
+
+        enemyBase = null;
+        attackingBase = false;
 
         if (troop != null)
             troop.SetMovementStopped(false);
@@ -109,6 +132,20 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
 
         if (obj != null)
             gatherPoint = obj.transform;
+    }
+
+    private void FindEnemyBase()
+    {
+        BaseSystem[] bases = FindObjectsByType<BaseSystem>(FindObjectsSortMode.None);
+
+        foreach (BaseSystem baseSystem in bases)
+        {
+            if (baseSystem.GetFaction() == Faction.ALLY)
+            {
+                enemyBase = baseSystem.transform;
+                return;
+            }
+        }
     }
 
     #endregion
@@ -215,6 +252,16 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
         if (gatherPoint == null)
             return;
 
+        // Acumular tiempo real sin objetivos.
+        WaitedTime += Time.deltaTime;
+
+        if (WaitedTime >= MaxWaitingTime)
+        {
+            attackingBase = true;
+            AttackBase();
+            return;
+        }
+
         if (agent.pathPending)
             return;
 
@@ -227,7 +274,6 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
             return;
 
         nextWanderTime = Time.time + wanderInterval;
-
         SetRandomWanderPosition();
     }
 
@@ -246,6 +292,22 @@ public class ThiefTroop : MonoBehaviour, ITroop, ICombatState
                 return;
             }
         }
+    }
+
+    private void AttackBase()
+    {
+        if (enemyBase == null)
+        {
+            FindEnemyBase();
+
+            if (enemyBase == null)
+                return;
+        }
+
+        troop.SetMovementStopped(false);
+
+        if (!agent.hasPath || agent.destination != enemyBase.position)
+            agent.SetDestination(enemyBase.position);
     }
 
     #endregion

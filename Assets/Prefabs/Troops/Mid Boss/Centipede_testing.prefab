@@ -192,8 +192,12 @@ MonoBehaviour:
   lastSegmentSpacing: 0.41
   localForwardAxis: {x: 1, y: 0}
   rotationLookDistance: 0.15
+  healthCanvas: {fileID: 0}
+  healthCanvasOffset: 0.5
+  headSprite: {fileID: 0}
   agent: {fileID: 0}
   definition: {fileID: 0}
+  headAnimator: {fileID: 0}
 --- !u!114 &2692773080571272587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,6 +622,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 3.0343857
       objectReference: {fileID: 0}
+    - target: {fileID: 2716294022404114053, guid: a40c50e7a69cd944393c7840f0a1f4a0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5408235178940176872, guid: a40c50e7a69cd944393c7840f0a1f4a0, type: 3}
       propertyPath: m_Radius
       value: 0.9535823
@@ -751,6 +759,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7623353880371149650}
     m_Modifications:
+    - target: {fileID: 4713775248364643552, guid: 482764afcba31ab4cab13502d9e6ac1d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5059761124832891775, guid: 482764afcba31ab4cab13502d9e6ac1d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.72

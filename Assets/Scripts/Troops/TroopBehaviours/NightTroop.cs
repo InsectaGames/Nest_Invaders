@@ -152,6 +152,7 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
 
         foreach (Collider2D detectedCollider in detectedObjects)
         {
+
             if (detectedCollider == null)
                 continue;
 
@@ -172,7 +173,7 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         return closestTarget;
     }
 
-    private bool IsValidTarget(ATroop target) => CombatSystem.IsValidEnemy(troop, target);
+    private bool IsValidTarget(ATroop target) => CombatSystem.IsValidEnemy(troop, target) && target.GetDefinition().type != TroopType.SPRING_MINIBOSS;
 
     #endregion
 
@@ -227,7 +228,7 @@ public class NightTroop : MonoBehaviour, ITroop, ICombatState
         nextAttackTime = Time.time + attackCooldown;
 
         if (animator != null)
-           animator.SetBool("spider_attacking", true);
+            animator.SetBool("spider_attacking", true);
     }
 
     public void ApplyNightAttackDamage()

@@ -219,6 +219,10 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
             ATroop candidate = col.GetComponentInParent<ATroop>();
 
+            if(candidate.GetDefinition().type == TroopType.SPRING_MINIBOSS)
+            {
+                continue;
+            }
             if (!CombatSystem.IsValidEnemy(troop, candidate))
                 continue;
 
