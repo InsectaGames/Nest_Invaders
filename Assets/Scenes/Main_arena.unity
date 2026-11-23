@@ -3827,10 +3827,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshUpdater
   obstaclePrefab: {fileID: 3279031227247596740, guid: 3207c50d38b8f824fb7498f1b154bde8, type: 3}
+  obstacleSprites:
+  - {fileID: 3814497870490984575, guid: fa5e9b4852bae5c4e9ba7e536f1ea4ce, type: 3}
+  - {fileID: -7262154200789606297, guid: 945eb1088e0efe0449506fffa340de85, type: 3}
+  - {fileID: 362995521809833453, guid: de26bba97111841478606299696af489, type: 3}
+  - {fileID: -4467996933318578668, guid: 85615558685f0e14eb207e40c4bca65e, type: 3}
+  - {fileID: -5104930685106128460, guid: 994fe802cc9e6b943ae0a295d62d0b49, type: 3}
+  - {fileID: -194818066077126744, guid: f024a46712a3e9147920c51d694cb914, type: 3}
+  - {fileID: 3330850549432674594, guid: 830bf53bc2cdbaa42900c30568e3bd35, type: 3}
+  - {fileID: -8630886842355845947, guid: ed98bcacf34c26742b503f613ca9ff5a, type: 3}
+  - {fileID: 7331315201791160908, guid: fb0aee2f5f500e44bba9d638b8ef3d6a, type: 3}
+  - {fileID: 8476764939301271271, guid: 45691973c52e06d46aad4ddea171fc66, type: 3}
+  - {fileID: -1027316089336844762, guid: 7d29410c76d015f4bb985bdb25a2f8b7, type: 3}
+  - {fileID: 6259665926663907396, guid: 0dfc28e49fd019a44b540a33799cfc21, type: 3}
+  - {fileID: 7505947131765754579, guid: 65930288868b89c49a0bab0ea5a8094a, type: 3}
+  - {fileID: 8176547193288410923, guid: 461a4fd3c2fd6524388c3fcc9dcf5b70, type: 3}
+  - {fileID: -3313706677659626788, guid: ffb977707c4a9704688dc00142e1ee7f, type: 3}
+  - {fileID: 7584708220467188952, guid: 370ecb9e4c8474640bc8e55bed5411af, type: 3}
+  - {fileID: 9120211361127971695, guid: 82705573029c7154c9cb4b02aab1b025, type: 3}
   pointsOfInterest:
   - {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   surface: {fileID: 1241456675}
-  standaloneObstacleNumber: 0
 --- !u!1 &1286329200
 GameObject:
   m_ObjectHideFlags: 0
@@ -4001,7 +4018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1996546287405885217, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.7699776
+      value: 1.7699738
       objectReference: {fileID: 0}
     - target: {fileID: 3876624075694854861, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_Sprite
@@ -9910,7 +9927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4553368237746844209, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.5999985
+      value: 0.6000061
       objectReference: {fileID: 0}
     - target: {fileID: 4553368237746844209, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -7,13 +7,13 @@ public class NavMeshUpdater : MonoBehaviour
 {
     [Header("Obstacle Generation")]
     [SerializeField] GameObject obstaclePrefab;
+    [SerializeField] Sprite[] obstacleSprites;
     [SerializeField] GameObject[] pointsOfInterest;
 
     [Header("Navigation")]
     [SerializeField] NavMeshSurface surface;
 
-    [Header("Configuración independiente de nivel")]
-    [SerializeField] private int standaloneObstacleNumber = 0;
+
 
     private IEnumerator Start()
     {
@@ -22,7 +22,11 @@ public class NavMeshUpdater : MonoBehaviour
             surface = GetComponent<NavMeshSurface>();
 
         LevelDefinition levelDefinition = GameTestMode.IsBehaviourTestScene ? null : LevelSession.SelectedLevel;
-        int obstacleNumber = levelDefinition != null ? levelDefinition.obstacleNumber : standaloneObstacleNumber;
+
+        Debug.Log("Nivel actual" + levelDefinition);
+
+        int obstacleNumber = levelDefinition.obstacles.Length;
+        
 
         if (levelDefinition == null && !GameTestMode.IsBehaviourTestScene)
         {
@@ -35,29 +39,17 @@ public class NavMeshUpdater : MonoBehaviour
             Debug.LogError("Falta asignar obstaclePrefab o NavMeshSurface.", this);
             yield break;
         }
-
-        // Obtener los puntos de interés de la escena y añadir las bases del nivel seleccionado.
-        GameObject[] pois = GetPointsOfInterest();
-
+  
         // Generar los obstáculos indicados por el nivel.
         for (int i = 0; i < obstacleNumber; i++)
         {
-            GameObject instance = Instantiate(obstaclePrefab, Vector3.zero, Quaternion.identity);
+            GameObject instance = Instantiate(obstaclePrefab, (Vector3)levelDefinition.obstacles[i].pos , Quaternion.identity);
+ 
+            SpriteRenderer spr = instance.GetComponent<SpriteRenderer>();
 
-            ObstacleScript obstacle = instance.GetComponent<ObstacleScript>();
+            spr.sprite = obstacleSprites[(int)levelDefinition.obstacles[i].obsType];
 
-            if (obstacle == null)
-            {
-                Debug.LogError("El prefab no tiene ObstacleScript.", instance);
-                Destroy(instance);
-                continue;
-            }
-
-            if (!obstacle.InitializePos(new Vector2(-16.99f, -9.28f), new Vector2(15.96f, 7.86f), pois))
-            {
-                Debug.LogWarning("No se encontró una posición válida para el obstáculo.");
-                Destroy(instance);
-            }
+            AdjustCollider(spr , instance.GetComponent<CircleCollider2D>());        
         }
 
         Physics2D.SyncTransforms();
@@ -65,53 +57,14 @@ public class NavMeshUpdater : MonoBehaviour
         surface.BuildNavMesh();
     }
 
-    private GameObject[] GetPointsOfInterest()
+    private void AdjustCollider(SpriteRenderer spr , CircleCollider2D col)
     {
-        List<GameObject> pois = new List<GameObject>();
+        if (spr == null || spr.sprite == null || col == null)
+            return;
 
-        // Conservar los puntos asignados manualmente.
-        if (pointsOfInterest != null)
-        {
-            foreach (GameObject poi in pointsOfInterest)
-            {
-                if (poi != null && !pois.Contains(poi))
-                    pois.Add(poi);
-            }
-        }
-
-        // Añadir las bases colocadas directamente en la escena.
-        if(GameTestMode.IsBehaviourTestScene)
-        {
-            GameObject[] sceneBases = GameObject.FindGameObjectsWithTag("Base");
-
-            foreach (GameObject baseObject in sceneBases)
-            {
-                if (baseObject != null && !pois.Contains(baseObject))
-                    pois.Add(baseObject);
-            }
-        }
-        else
-        {
-            // Añadir las bases instanciadas para este nivel.
-            LevelGameplayInitializer initializer = FindFirstObjectByType<LevelGameplayInitializer>();
-
-            if (initializer != null)
-            {
-                AddPointOfInterest(pois, initializer.AllyBaseInstance);
-                AddPointOfInterest(pois, initializer.EnemyBaseInstance);
-            }
-            else
-            {
-                Debug.LogWarning("NavMeshUpdater: No se ha encontrado LevelGameplayInitializer.");
-            }
-        }
-
-        return pois.ToArray();
+        col.radius = Utils.Max(spr.sprite.bounds.extents.x, spr.sprite.bounds.extents.y);
     }
 
-    private void AddPointOfInterest(List<GameObject> pois, GameObject point)
-    {
-        if (point != null && !pois.Contains(point))
-            pois.Add(point);
-    }
+
+ 
 }

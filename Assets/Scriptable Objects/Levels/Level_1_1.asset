@@ -37,7 +37,15 @@ MonoBehaviour:
   enemyBasePositions:
   - {x: 13.8, y: 1.39}
   enemyBaseHealth: 10
-  obstacleNumber: 8
+  obstacles:
+  - obsType: 0
+    pos: {x: -2.34, y: 2.11}
+  - obsType: 3
+    pos: {x: -4, y: 0}
+  - obsType: 10
+    pos: {x: 0, y: 3}
+  - obsType: 14
+    pos: {x: -8, y: 0}
   enemySpawnInterval: 15
   maxSpawnableAmount: 1
   chanceToSpawnMore: 1
@@ -48,5 +56,6 @@ MonoBehaviour:
   maxNightCreatureAmount: 0
   IsMidBossStage: 0
   midBossSpawnDistance: 3
+  _tutorial: 1
   IsMainBossStage: 0
   bossPrefab: {fileID: 0}

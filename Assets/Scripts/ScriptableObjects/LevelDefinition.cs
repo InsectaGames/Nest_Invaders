@@ -6,11 +6,41 @@ public enum LevelDifficulty
     EASY, NORMAL, HARD, EXPERT
 }
 
+public enum ObstacleType
+{
+    BUSH_A , 
+    BUSH_B , 
+    BUSH_C ,
+    BUSH_D , 
+    BUSH_E , 
+    FLOWERS, 
+    MUSH_A ,
+    MUSH_B ,
+    ROCK_A ,
+    ROCK_B ,
+    ROCK_C ,
+    ROCK_D ,
+    ROCK_E ,
+    ROCK_F ,
+    STICK_A,
+    STICK_B ,
+    LOG
+
+}
+
 [System.Serializable]
 public struct EnemySummons
 {
     public TroopDefinition enemyTroop;
     public int chance;
+}
+
+
+[System.Serializable]
+public struct Obstacle
+{
+    public ObstacleType obsType;
+    public Vector2 pos;
 }
 
 [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Scriptable Objects/LevelDefinition")]
@@ -51,7 +81,7 @@ public class LevelDefinition : ScriptableObject
     public int enemyBaseHealth = 10;
 
     [Header("Obstáculos")]
-    public int obstacleNumber;
+    public Obstacle[] obstacles;
 
     [Header("Generación enemiga")]
     [Min(0.1f)] public float enemySpawnInterval = 10f;
@@ -66,6 +96,9 @@ public class LevelDefinition : ScriptableObject
     [Header("Generación de Jefe")]
     public bool IsMidBossStage = false;
     [Min(0.1f)] public float midBossSpawnDistance = 3f;
+
+    [Header("Tutorial?")]
+    public bool _tutorial;
 
     public bool IsMainBossStage = false;
     public GameObject bossPrefab;
