@@ -57,6 +57,9 @@ public class TroopPoolManager : ASubject<GameEvent<ATroop>>
         if (pool == null || troop == null)
             return;
 
+
+        
+
         GameEvent<ATroop> eventTroop = new GameEvent<ATroop>(LogicEvent.TROOP_DESPAWN, troop);
         UpdateObservers(eventTroop);
         pool.Release(troop);

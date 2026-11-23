@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: -9
   Name: SPRING_MIDBOSS
-  type: 7
+  type: 9
+  behaviourType: 0
   maxHealth: 2000
   speed: 2
   strength: 50

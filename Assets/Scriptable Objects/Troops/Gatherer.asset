@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 1
   Name: GATHERER
-  type: 2
+  type: 3
+  behaviourType: 0
   maxHealth: 100
   speed: 2
   strength: 0

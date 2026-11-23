@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: 2
   Name: RANGED
-  type: 3
+  type: 4
+  behaviourType: 0
   maxHealth: 100
   speed: 3
   strength: 20

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: -2
   Name: ENEMY_MELEE
-  type: 1
+  type: 2
+  behaviourType: 1
   maxHealth: 120
   speed: 5
   strength: 30

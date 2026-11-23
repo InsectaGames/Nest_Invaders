@@ -9,7 +9,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     [SerializeField] private TroopDefinition definition;
 
     // Facción utilizada cuando la tropa se coloca directamente en una escena.
-    [SerializeField] private Faction sceneFaction = Faction.ALLY;
+    [SerializeField] private Faction sceneFaction = Faction.None;
 
     private Faction faction;
 
@@ -22,6 +22,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private SpriteRenderer spriteRenderer;
     private Collider2D troopCollider;
     private TroopFlocking troopFlocking;
+    private UpdateVisuals updVis;
 
     // Componentes para el comportamiento de las tropas.
     [Header("Comportamientos disponibles")]
@@ -34,6 +35,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private BaseSystem observedAllyBase;
 
     private Transform allyBaseTransform;
+
+
+
 
     [SerializeField] private GameObject infection;
 
@@ -55,6 +59,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         troopCollider = GetComponent<Collider2D>();
+        updVis = GetComponent<UpdateVisuals>();
 
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
@@ -129,6 +134,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         // Inicializar la selección de animación.
         AnimationSelector animationSelector = GetComponent<AnimationSelector>();
+
+        updVis?.InitializeVisuals(definition.type);
 
         if (animationSelector != null)
             animationSelector.Initialize(definition);
@@ -321,10 +328,16 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     {
         // El objeto permanece inactivo hasta que TroopPoolManager lo coloque y lo inicialice.
         returningToPool = true;
+
+        spriteRenderer.transform.rotation = Quaternion.identity;
+        spriteRenderer.flipX = false;
     }
 
     public void OnDespawn()
     {
+        this.faction = Faction.None;
+        spriteRenderer.transform.rotation = Quaternion.identity;
+        spriteRenderer.flipX = false;
         gameObject.SetActive(false);
     }
 
@@ -358,6 +371,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         }
 
         GetComponent<AnimationSelector>()?.ResetVisuals();
+        updVis?.ResetVisuals();
 
         if (troopCollider != null)
             troopCollider.enabled = true;
@@ -373,6 +387,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
             return;
 
         returningToPool = true;
+
+        spriteRenderer.transform.rotation = Quaternion.identity;   
+        spriteRenderer.flipX = false;   
 
         if (poolManager != null)
         {
