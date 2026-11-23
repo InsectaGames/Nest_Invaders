@@ -8,6 +8,9 @@ public class TroopDefinition : ScriptableObject
     public int ID;
     public string Name;
     public TroopType type;
+    
+    [Tooltip("Comportamiento que ejecutará la tropa. Si es none, utilizará su propio tipo.")]
+    public TroopType behaviourType = TroopType.none;
 
     [Header("Stats")]
     public int maxHealth;

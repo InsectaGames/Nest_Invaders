@@ -27,6 +27,8 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
     private bool returningToBase;
 
     private Animator _animator;
+    private string attackAnimation;
+
     private SpriteRenderer spr;
     private NavMeshAgent nvm;
 
@@ -117,7 +119,9 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
         isAttacking = false;
         attackTarget = null;
-        _animator.SetBool("melee_attacking", false);
+
+        attackAnimation = troop.GetDefinition().type == TroopType.TANK ? "tank_attacking" : "melee_attacking";
+        _animator.SetBool(attackAnimation, false);
 
         troop.SetMovementStopped(false);
 
@@ -136,7 +140,9 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
         returningToBase = false;
 
         if (_animator != null)
-            _animator.SetBool("melee_attacking", false);
+            _animator.SetBool(attackAnimation, false);
+
+        attackAnimation = "";
 
         if (troop != null)
             troop.SetMovementStopped(false);
@@ -218,7 +224,7 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
         nextAttackTime = Time.time + attackCooldown;
 
         troop.SetMovementStopped(true);
-        _animator.SetBool("melee_attacking", true);
+        _animator.SetBool(attackAnimation, true);
     }
 
     public void ApplyAttackDamage()
@@ -250,7 +256,7 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
         attackTarget = null;
 
         if (_animator != null)
-            _animator.SetBool("melee_attacking", false);
+            _animator.SetBool(attackAnimation, false);
 
         if (!HasValidTarget())
         {
@@ -259,6 +265,14 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
             returningToBase = false;
         }
     }
+
+    #endregion
+
+    #region ATAQUE TANQUE ENEMIGO
+
+    public void ApplyTankAttackDamage() => ApplyAttackDamage();
+
+    public void FinishTankAttackAnimation() => FinishAttackAnimation();
 
     #endregion
 

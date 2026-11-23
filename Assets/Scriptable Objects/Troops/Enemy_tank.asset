@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TroopDefinition
   ID: -4
   Name: TANK_ENEMY
-  type: 1
+  type: 4
+  behaviourType: 1
   maxHealth: 250
   speed: 2
   strength: 35

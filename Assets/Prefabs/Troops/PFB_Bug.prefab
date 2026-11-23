@@ -424,11 +424,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TankTroop
   allyProtectionRadius: 8
   defenseRadius: 5
-  guardWanderRadius: 4
+  guardWanderRadius: 6
+  guardInnerRadius: 4
   enemyDetectionRadius: 8
   attackCooldown: 1.5
   targetUpdateInterval: 0.25
-  wanderInterval: 3
+  wanderInterval: 6
   navMeshSampleDistance: 3
 --- !u!114 &2223015878359088277
 MonoBehaviour:
@@ -448,6 +449,7 @@ MonoBehaviour:
   wanderRadius: 5
   wanderInterval: 3
   navMeshSampleDistance: 3
+  MaxWaitingTime: 20
 --- !u!95 &5710064644136453479
 Animator:
   serializedVersion: 7
@@ -497,7 +499,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpdateVisuals
   lifeCanvas: {fileID: 589425462129644402}
-  target: {fileID: 0}
 --- !u!1 &2933646324420570845
 GameObject:
   m_ObjectHideFlags: 0

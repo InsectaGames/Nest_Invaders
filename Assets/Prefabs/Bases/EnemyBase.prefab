@@ -276,6 +276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseSystem
   faction: 2
   standaloneBaseHealth: 100
+  spriteRenderer: {fileID: 3642012754493789810}
+  effectRenderer: {fileID: 110230442399937202}
   resources: []
   maxResources: 
   troopPoolManager: {fileID: 0}
@@ -304,6 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
   canv_health: {fileID: 5749924793004231097}
   fillbar: {fileID: 8215492899794125007}
+  death_effect_ally: {fileID: 0}
+  death_effect_enemy: {fileID: 0}
 --- !u!58 &1412585909268355574
 CircleCollider2D:
   m_ObjectHideFlags: 0

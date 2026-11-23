@@ -13,7 +13,8 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
 
     [Header("Defensa de la mina")]
     [SerializeField, Min(1f)] private float defenseRadius = 5f;
-    [SerializeField, Min(1f)] private float guardWanderRadius = 4f;
+    [SerializeField, Min(1f)] private float guardWanderRadius = 8f;
+    [SerializeField, Min(1f)] private float guardInnerRadius = 6f;
     private Transform gatherPoint;
 
     [Header("Detección y combate")]
@@ -24,7 +25,7 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
     public bool IsInCombat => CombatSystem.IsValidEnemy(troop, currentTarget);
 
     [Header("Movimiento")]
-    [SerializeField, Min(0.1f)] private float wanderInterval = 3f;
+    [SerializeField, Min(0.1f)] private float wanderInterval = 6f;
     [SerializeField, Min(0.1f)] private float navMeshSampleDistance = 3f;
 
     private ATroop protectedAlly;
@@ -364,12 +365,10 @@ public class TankTroop : MonoBehaviour, ITroop, ICombatState
         if (gatherPoint == null)
             return;
 
-        float minRadius = guardWanderRadius * 0.4f;
-
         for (int i = 0; i < 10; i++)
         {
-            float angle = Utils.GetRandomFloat(0f, Mathf.PI);
-            float distance = Utils.GetRandomFloat(minRadius, guardWanderRadius);
+            float angle = Utils.GetRandomFloat(0f, Mathf.PI * 2f);
+            float distance = Utils.GetRandomFloat(guardInnerRadius, guardWanderRadius);
 
             Vector2 offset = new Vector2(Mathf.Cos(angle) * distance, Mathf.Sin(angle) * distance);
 

@@ -167,8 +167,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         allyBaseTransform = FindBaseTransform(f);
 
-        // Inicializar el comportamiento correspondiente al tipo de tropa.
-        ActivateTroopBehaviour(definition.type);
+        // Inicializar el comportamiento correspondiente al tipo de tropa, con excepciones.
+        TroopType behaviour = definition.behaviourType != TroopType.none ? definition.behaviourType : definition.type;
+        ActivateTroopBehaviour(behaviour);
 
         troopFlocking?.Initialize();
     }

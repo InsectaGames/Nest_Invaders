@@ -35,8 +35,11 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
 
     [Header("Configuración independiente de nivel (testing)")]
     [SerializeField] private int standaloneBaseHealth = 100;
-
     private HealthComponent health;
+
+    [Header("Sprite Renderers")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer effectRenderer;
 
     [Header("Recursos")]
     [SerializeField] private ResourceSlot[] resources;
@@ -111,6 +114,23 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
             if (level != null)
             {
                 initialHealth = faction == Faction.ALLY ? level.allyBaseHealth : level.enemyBaseHealth;
+
+                bool shouldFaceRight = transform.position.x < 0f;
+
+                if (GetFaction() == Faction.ALLY)
+                {
+                    if (spriteRenderer != null) spriteRenderer.flipX = !shouldFaceRight;
+
+                    if (effectRenderer != null) effectRenderer.flipX = !shouldFaceRight;
+
+                    if (!shouldFaceRight) effectRenderer.gameObject.GetComponent<Transform>().localPosition = new Vector3(0.247f,-0.584f,-9.53f);
+                }
+                else if (GetFaction() == Faction.ENEMY)
+                {
+                    if (spriteRenderer != null) spriteRenderer.flipX = shouldFaceRight;
+
+                    if (effectRenderer != null) effectRenderer.flipX = shouldFaceRight;
+                }
             }
 
             health.Initialize(initialHealth);
