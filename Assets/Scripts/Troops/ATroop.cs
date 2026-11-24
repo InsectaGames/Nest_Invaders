@@ -11,7 +11,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Facción utilizada cuando la tropa se coloca directamente en una escena.
     [SerializeField] private Faction sceneFaction = Faction.None;
 
-    private Faction faction;
+
 
     private TroopPoolManager poolManager;
     private bool returningToPool = true;
@@ -37,12 +37,14 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     private Transform allyBaseTransform;
 
 
+    [SerializeField] private ParticleSystem ps;
 
 
-    [SerializeField] private GameObject infection;
+
+    //[SerializeField] private GameObject infection;
 
     public TroopDefinition GetDefinition() => definition;
-    public Faction GetFaction() => faction;
+    public Faction GetFaction() => sceneFaction;
     public HealthComponent GetHealth() => health;
     public NavMeshAgent GetAgent() => agent;
     public SpriteRenderer GetSpriteRenderer() => spriteRenderer;
@@ -56,6 +58,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<HealthComponent>();
         troopFlocking = GetComponent<TroopFlocking>();
+        ps = this.GetComponentInChildren<ParticleSystem>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         troopCollider = GetComponent<Collider2D>();
@@ -127,7 +130,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
             return;
 
         definition = troopDefinition;
-        faction = f;
+        sceneFaction = f;
         poolManager = owner;
 
         returningToPool = false;
@@ -142,15 +145,18 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         // Restablecer la vida para esta nueva utilización.
         if (health != null)
-            health.Initialize(faction ,definition.maxHealth);
+            health.Initialize(sceneFaction ,definition.maxHealth);
 
         RefreshBaseReferences();
 
-        if (faction != Faction.ALLY && infection != null)
-            infection.SetActive(false);
+       
 
         if (troopCollider != null)
             troopCollider.enabled = true;
+
+        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+
+        if (f == Faction.ALLY) ps.Play();
 
         // Configuración común del NavMesh.
         if (agent != null)
@@ -283,7 +289,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Cuando entra en el trigger de una base. Es un comportamiento común a todas las tropas.
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if(faction == Faction.NEUTRAL)
+        if(sceneFaction == Faction.NEUTRAL)
             return;
 
         if (!col.CompareTag("Base"))
@@ -298,7 +304,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
             return;
 
         // Si llega a una base enemiga, le hace daño y vuelve al pool.
-        if (baseCol.GetFaction() != faction)
+        if (baseCol.GetFaction() != sceneFaction)
         {
             baseHealth.TakeDamage();
             Debug.Log($"Base dañada! Vida restante: { baseHealth.Health }");
@@ -331,14 +337,18 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         spriteRenderer.transform.rotation = Quaternion.identity;
         spriteRenderer.flipX = false;
+
+       
+            
     }
 
     public void OnDespawn()
     {
-        this.faction = Faction.None;
+        this.sceneFaction = Faction.None;
         spriteRenderer.transform.rotation = Quaternion.identity;
         spriteRenderer.flipX = false;
         gameObject.SetActive(false);
+        ps.Stop();
     }
 
     public void ResetState()
@@ -351,8 +361,6 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         if (troopBehaviourComponent != null)
             troopBehaviourComponent.enabled = false;
 
-        if(infection != null)
-            infection.SetActive(false);
 
         troopFlocking?.ResetFlocking();
 

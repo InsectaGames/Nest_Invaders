@@ -74,7 +74,7 @@ public class UpdateVisuals : MonoBehaviour
                 break;
 
             case TroopType.ENEMY_MELEE:
-                RotateSprite();
+                RotateSprite(-180f);
                 break;
 
             case TroopType.ENEMY_TANK:
@@ -82,7 +82,7 @@ public class UpdateVisuals : MonoBehaviour
                 break;
 
             case TroopType.NIGHT_CREATURE:
-                RotateSprite();
+                RotateSprite(-180f);
                 break;
         }
     }
