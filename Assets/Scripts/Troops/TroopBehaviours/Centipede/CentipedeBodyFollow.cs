@@ -430,6 +430,46 @@ public class CentipedeBodyFollow : MonoBehaviour
         Transform tail = Instantiate(tailPrefab, head.position, head.rotation, parent);
 
         segments.Add(tail);
+
+        ConfigureSortingOrder();
+    }
+
+    // Configura los Sorting Layers.
+    private void ConfigureSortingOrder()
+    {
+        SpriteRenderer headRenderer = headSprite != null ? headSprite : head.GetComponent<SpriteRenderer>();
+
+        if (headRenderer == null)
+            return;
+
+        int baseOrder = headRenderer.sortingOrder;
+        int sortingLayer = headRenderer.sortingLayerID;
+
+        // La cabeza conserva el orden original.
+        headRenderer.sortingOrder = baseOrder;
+
+        // Ordenar los segmentos del cuerpo de delante hacia atrás.
+        for (int i = 0; i < segments.Count - 1; i++)
+        {
+            SpriteRenderer renderer = segments[i].GetComponentInChildren<SpriteRenderer>();
+
+            if (renderer == null)
+                continue;
+
+            renderer.sortingLayerID = sortingLayer;
+            renderer.sortingOrder = baseOrder - (i + 1);
+        }
+
+        // La cola queda por encima del último segmento corporal.
+        SpriteRenderer tailRenderer = segments[segments.Count - 1].GetComponentInChildren<SpriteRenderer>();
+
+        if (tailRenderer != null)
+        {
+            tailRenderer.sortingLayerID = sortingLayer;
+
+            int tailOrder = baseOrder - Mathf.Max(1, bodySegmentCount - 1);
+            tailRenderer.sortingOrder = tailOrder;
+        }
     }
 
     // Inicializar los Animator.

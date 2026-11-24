@@ -1,19 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NavMeshPlus.Components;
 
 public class NavMeshUpdater : MonoBehaviour 
 {
     [Header("Obstacle Generation")]
-    [SerializeField] GameObject obstaclePrefab;
-    [SerializeField] Sprite[] obstacleSprites;
-    [SerializeField] GameObject[] pointsOfInterest;
+    [SerializeField] private GameObject obstaclePrefab;
+    [SerializeField] private Sprite[] obstacleSprites;
+    [SerializeField] private GameObject[] pointsOfInterest;
 
     [Header("Navigation")]
-    [SerializeField] NavMeshSurface surface;
-
-
+    [SerializeField] private NavMeshSurface surface;
 
     private IEnumerator Start()
     {
@@ -25,8 +22,7 @@ public class NavMeshUpdater : MonoBehaviour
 
         Debug.Log("Nivel actual" + levelDefinition);
 
-        int obstacleNumber = levelDefinition.obstacles.Length;
-        
+        int obstacleNumber = (levelDefinition != null) ? levelDefinition.obstacles.Length : 0;
 
         if (levelDefinition == null && !GameTestMode.IsBehaviourTestScene)
         {
@@ -63,8 +59,5 @@ public class NavMeshUpdater : MonoBehaviour
             return;
 
         col.radius = Utils.Max(spr.sprite.bounds.extents.x, spr.sprite.bounds.extents.y);
-    }
-
-
- 
+    } 
 }
