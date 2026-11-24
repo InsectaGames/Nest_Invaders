@@ -142,7 +142,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         // Restablecer la vida para esta nueva utilización.
         if (health != null)
-            health.Initialize(definition.maxHealth);
+            health.Initialize(faction ,definition.maxHealth);
 
         RefreshBaseReferences();
 

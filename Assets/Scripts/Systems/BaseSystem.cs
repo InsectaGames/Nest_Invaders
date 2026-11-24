@@ -133,7 +133,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
                 }
             }
 
-            health.Initialize(initialHealth);
+            health.Initialize(GetFaction() ,initialHealth);
         }
         else
         {

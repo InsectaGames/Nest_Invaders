@@ -8,14 +8,51 @@ public class HealthComponent : MonoBehaviour
     public GameObject obj { get; private set; }
 
     [SerializeField] private GameObject canv_health;
+
+    [SerializeField] private Image bg_fill;
     [SerializeField] private Image fillbar;
+
+    [SerializeField] private Sprite[] typeFill;
+    [SerializeField] private Sprite[] typeBg;
 
     [SerializeField] private GameObject death_effect_ally;
     [SerializeField] private GameObject death_effect_enemy;
-    public void Initialize(int maxHealth = 100)
+    public void Initialize( Faction f , int maxHealth = 100)
     {
         Health = maxHealth;
         MaxHealth = maxHealth;
+
+        int index = -1;
+
+        switch (f)
+        {
+            case Faction.ALLY:
+                index = 0;
+                break;
+
+            case Faction.ENEMY:
+                index = 1;
+                break;
+        }
+
+        if (index < 0)
+        {
+            Debug.LogError("Faction no reconocida: " + f);
+            return;
+        }
+
+        if (typeFill == null || typeFill.Length <= index ||
+            typeBg == null || typeBg.Length <= index)
+        {
+            Debug.LogError(
+                $"Sprites insuficientes. Fill: {typeFill?.Length}, " +
+                $"BG: {typeBg?.Length}, índice solicitado: {index}"
+            );
+            return;
+        }
+
+        bg_fill.sprite = typeBg[index];
+        fillbar.sprite = typeFill[index];
 
         canv_health.SetActive(false);
 
@@ -47,7 +84,7 @@ public class HealthComponent : MonoBehaviour
         // Actualizar relleno.
         fillbar.fillAmount = healthPercent;
        
-
+        /*
         // Interpolar colores.
         if (healthPercent >= 0.5f)
         {
@@ -61,6 +98,7 @@ public class HealthComponent : MonoBehaviour
             float t = healthPercent / 0.5f;
             fillbar.color = Color.Lerp(Color.red, Color.yellow, t);
         }
+        */
 
     }
 

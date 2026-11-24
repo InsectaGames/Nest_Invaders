@@ -128,8 +128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0, y: 2.72}
-  m_SizeDelta: {x: 5.3654, y: 0.3195}
+  m_AnchoredPosition: {x: 0.06, y: 2.62}
+  m_SizeDelta: {x: 7.5125, y: 0.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8249268997077996682
 Canvas:
@@ -151,8 +151,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 635156791
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &4223041305994393720
 MonoBehaviour:
@@ -252,14 +252,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.017763138, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c6d7379137808e1478d1ea7578f7753b, type: 3}
+  m_Sprite: {fileID: -437736659700795457, guid: ce263b8e7edddbc42bf7e6eac32e85b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -392,10 +392,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6626006237025240174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0023999214, y: 0.000008583069}
-  m_SizeDelta: {x: -0.0047998, y: 0}
+  m_AnchorMin: {x: 0.12562723, y: 0.25872412}
+  m_AnchorMax: {x: 0.98450226, y: 0.6966681}
+  m_AnchoredPosition: {x: -0.01139998, y: 0.008961275}
+  m_SizeDelta: {x: -0.015546357, y: 0.0033921394}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8447021367050483856
 CanvasRenderer:
@@ -418,14 +418,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.017763138, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c6d7379137808e1478d1ea7578f7753b, type: 3}
+  m_Sprite: {fileID: 7489298067996525923, guid: 46f5eed4c50a40d4aa4f9a37ca1e9851, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -523,7 +523,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
   canv_health: {fileID: 2070946757540763863}
+  bg_fill: {fileID: 9178532020006975749}
   fillbar: {fileID: 5951302379660943927}
+  typeFill: []
+  typeBg: []
   death_effect_ally: {fileID: 0}
   death_effect_enemy: {fileID: 0}
 --- !u!58 &3839016442115381566
