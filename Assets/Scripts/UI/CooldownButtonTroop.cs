@@ -81,6 +81,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 
         if(data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES)
         {
+            Debug.Log("Error");
             cooldownImage.fillAmount = 0f;
             _anim.ResetTrigger("pressed");
             _anim.SetTrigger("not_enough_resources");
