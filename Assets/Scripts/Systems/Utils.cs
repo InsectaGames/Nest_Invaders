@@ -34,9 +34,12 @@ public class Utils
     #endregion
 
     #region ENTRADA DE USUARIO
+
+    // TECLADO
     public static bool KeyPressed(Key key) => Keyboard.current != null && key != Key.None && Keyboard.current[key].wasPressedThisFrame;
     public static bool KeyHeld(Key key) => Keyboard.current != null && key != Key.None && Keyboard.current[key].isPressed;
 
+    // RATÓN
     public static bool MouseActive() => Mouse.current != null;
     public static Vector2 GetMousePos() => Mouse.current.position.ReadValue();
 
@@ -49,5 +52,6 @@ public class Utils
     public static ButtonControl LeftClick => Mouse.current.leftButton;
     public static ButtonControl MiddleClick => Mouse.current.middleButton;
     public static ButtonControl RightClick => Mouse.current.rightButton;
+    
     #endregion
 }
