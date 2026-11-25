@@ -3273,7 +3273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TroopPoolManager
   prefab: {fileID: 6056719398558215712, guid: 635548a63e85ac345aca59f0048ac24d, type: 3}
-  initialSize: 35
+  initialSize: 15
 --- !u!4 &924418201
 Transform:
   m_ObjectHideFlags: 0

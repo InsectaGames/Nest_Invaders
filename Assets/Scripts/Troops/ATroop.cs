@@ -350,6 +350,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         this.sceneFaction = Faction.None;
         spriteRenderer.transform.rotation = Quaternion.identity;
         spriteRenderer.flipX = false;
+        spriteRenderer.color = Color.white;
         gameObject.SetActive(false);
         ps.Stop();
     }

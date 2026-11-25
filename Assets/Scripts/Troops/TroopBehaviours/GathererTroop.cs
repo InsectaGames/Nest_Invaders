@@ -40,6 +40,9 @@ public class GathererTroop : MonoBehaviour, ITroop
     private float gatheringTimer;
     private float movementRetryTimer;
 
+    private Animator _anim;
+
+
     private void Awake()
     {
         troop = GetComponent<ATroop>();
@@ -47,6 +50,7 @@ public class GathererTroop : MonoBehaviour, ITroop
         spriteRenderer = GetComponent<SpriteRenderer>();
         nvm = this.GetComponent<NavMeshAgent>();
         col = this.GetComponent<Collider2D>();
+        _anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -191,12 +195,12 @@ public class GathererTroop : MonoBehaviour, ITroop
         if (invalidPath || stalled)
             troop.SetTarget(currentTarget);
     }
-
+    
     private void UpdateSpriteVisuals()
     {
         spriteRenderer.flipX = (nvm.velocity.x < 0);
     }
-
+    
     private bool HasReachedTarget()
     {
         if (agent.pathPending)
@@ -225,11 +229,15 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         col.enabled = false;
 
+        
+
         agent.isStopped = true;
         agent.ResetPath();
 
         if (spriteRenderer != null)
             spriteRenderer.enabled = false;
+
+        _anim.SetBool("has_fungus", true);
     }
 
     private void UpdateGathering()
@@ -257,7 +265,7 @@ public class GathererTroop : MonoBehaviour, ITroop
     private void DeliverResources()
     {
         troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, Utils.GetRandomInclusive(minAmount, maxAmount)));
-
+        _anim.SetBool("has_fungus", false);
         BeginMovement(gatherPointTransform, GathererState.MovingToGatherPoint);
     }
 
