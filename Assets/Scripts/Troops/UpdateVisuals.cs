@@ -89,11 +89,11 @@ public class UpdateVisuals : MonoBehaviour
 
     private void FlipSprite34()
     {
-        if (nvm.velocity.x > 0.01f)
+        if (nvm.destination.x > 0.01f)
         {
             spr.flipX = false;
         }
-        else if (nvm.velocity.x < -0.01f)
+        else if (nvm.destination.x < -0.01f)
         {
             spr.flipX = true;
         }

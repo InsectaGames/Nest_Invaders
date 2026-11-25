@@ -13,8 +13,8 @@ public class GameFlowController : MonoBehaviour
     [Header("Escenas")]
     [SerializeField] private string levelSelectionScene = "SubLevelsScene";
     [SerializeField] private string gameplayScene = "Main_arena";
-    [SerializeField] private string victoryScene = "VictoryScene";
-    [SerializeField] private string defeatScene = "DefeatScene";
+  //[SerializeField] private string victoryScene = "VictoryScene";
+  //[SerializeField] private string defeatScene = "DefeatScene";
     [SerializeField] private string creditsScene = "Credits";
     [SerializeField] private string settingsScene = "Settings";
     [SerializeField] private string shopScene = "Shop";
@@ -25,10 +25,19 @@ public class GameFlowController : MonoBehaviour
     [Header("Transicion entre escenas")]
     [SerializeField] private Animator transition;
 
+    [Header("Victoria_derrota")]
+    [SerializeField] private Animator vic_anim;
+    [SerializeField] private Animator def_anim;
 
     private void Awake()
     {
         transition = this.GetComponent<Animator>();
+
+        if(SceneManager.GetActiveScene().name == gameplayScene)
+        {
+            vic_anim = GameObject.FindGameObjectWithTag("Canv_vic").GetComponent<Animator>();
+            def_anim = GameObject.FindGameObjectWithTag("Canv_def").GetComponent<Animator>();
+        }
     }
 
     private void Update()
@@ -44,7 +53,19 @@ public class GameFlowController : MonoBehaviour
             else
                 PauseGame();
         }
-    }
+
+
+        ///////DEBUG////////
+        ///
+        if (Utils.KeyPressed(UnityEngine.InputSystem.Key.V))
+        {
+
+              TriggerVictory();
+            //TriggerDefeat();
+        }
+
+
+        }
 
     #region MENU
 
@@ -244,8 +265,9 @@ public class GameFlowController : MonoBehaviour
         }
 
 
-        SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
-       // ReturnToLevelSelection();
+        //SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
+        // ReturnToLevelSelection();
+        vic_anim.SetTrigger("trigger_victory");
     }
 
 
@@ -260,14 +282,9 @@ public class GameFlowController : MonoBehaviour
         Time.timeScale = 1f;
         gamePaused = false;
 
-        if (!string.IsNullOrEmpty(defeatScene))
-        {
-            SceneManager.LoadScene(defeatScene , LoadSceneMode.Additive);
-        }
-        else
-        {
-            ReturnToLevelSelection();
-        }
+            // SceneManager.LoadScene(defeatScene , LoadSceneMode.Additive);
+       def_anim.SetTrigger("trigger_defeat");
+      
     }
 
     #endregion

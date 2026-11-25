@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ public class HealthComponent : MonoBehaviour
 
     [SerializeField] private Image bg_fill;
     [SerializeField] private Image fillbar;
+
+    private SpriteRenderer spriteRenderer;
 
     [SerializeField] private Sprite[] typeFill;
     [SerializeField] private Sprite[] typeBg;
@@ -54,6 +57,8 @@ public class HealthComponent : MonoBehaviour
         bg_fill.sprite = typeBg[index];
         fillbar.sprite = typeFill[index];
 
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+
         canv_health.SetActive(false);
 
         UpdateHealthUI();
@@ -63,10 +68,32 @@ public class HealthComponent : MonoBehaviour
     {
         int result = Health - amount;
         Health = (result < 0) ? 0 : result;
-     
 
+        StartCoroutine(RecieveDamageAnimation());
         UpdateHealthUI();
         // if(IsDead()) { Die(); }
+    }
+    private IEnumerator RecieveDamageAnimation()
+    {
+        spriteRenderer.color = Color.red;
+
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            spriteRenderer.color = Color.Lerp(
+                Color.red,
+                Color.white,
+                elapsedTime / duration
+            );
+
+            yield return null;
+        }
+
+        spriteRenderer.color = Color.white;
     }
 
     public void Heal(int amount = 1)
