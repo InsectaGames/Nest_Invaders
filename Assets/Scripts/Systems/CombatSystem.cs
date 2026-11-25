@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CombatSystem
 {
+    private static ATroop cachedSpringMiniBoss;
+
     #region ATAQUE
 
     // Por ahora a lo sencillo: Ataque de daño aleatorio.
@@ -81,12 +83,16 @@ public class CombatSystem
         if (attacker == null || attacker.GetDefinition() == null)
             return null;
 
+        // El minijefe tiene prioridad absoluta mientras siga vivo.
+        ATroop boss = GetLivingSpringMiniBoss(attacker.GetFaction() == Faction.ALLY ? Faction.ENEMY : Faction.ALLY);
+
+        if (boss != null && IsValidEnemy(attacker, boss))
+            return boss;
+
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attacker.transform.position, detectionRadius);
 
         ATroop closestEnemy = null;
         ATroop closestTank = null;
-        ATroop closestBoss = null;
-        float shortestBossDistance = Mathf.Infinity;
 
         float shortestDistance = Mathf.Infinity;
         float shortestTankDistance = Mathf.Infinity;
@@ -103,15 +109,7 @@ public class CombatSystem
 
             float distance = (otherTroop.transform.position - attacker.transform.position).sqrMagnitude;
 
-            if (otherTroop.GetDefinition().type == TroopType.SPRING_MINIBOSS)
-            {
-                if (distance < shortestBossDistance)
-                {
-                    shortestBossDistance = distance;
-                    closestBoss = otherTroop;
-                }
-            }
-            else if (otherTroop.GetDefinition().type == TroopType.TANK)
+            if (otherTroop.GetDefinition().type == TroopType.TANK)
             {
                 if (distance < shortestTankDistance)
                 {
@@ -126,13 +124,55 @@ public class CombatSystem
             }
         }
 
-        if (closestBoss != null && attacker.GetDefinition().type != TroopType.TANK && attacker.GetDefinition().type != TroopType.NIGHT_CREATURE)
-        {
-            return closestBoss != null ? closestBoss : (closestTank != null ? closestTank : closestEnemy);
-        }
-
         return closestTank != null ? closestTank : closestEnemy;
     }
+
+    #endregion
+
+    #region MINI JEFE
+
+    public static ATroop GetLivingSpringMiniBoss(Faction faction)
+    {
+        if (cachedSpringMiniBoss != null)
+        {
+            HealthComponent health = cachedSpringMiniBoss.GetHealth();
+
+            if (IsValidMiniBoss(cachedSpringMiniBoss, faction, health))
+            {
+                return cachedSpringMiniBoss;
+            }
+
+            cachedSpringMiniBoss = null;
+        }
+
+        ATroop[] troops = Object.FindObjectsByType<ATroop>(FindObjectsSortMode.None);
+
+        foreach (ATroop candidate in troops)
+        {
+            if (candidate == null || candidate.GetDefinition() == null)
+                continue;
+
+            if (candidate.GetDefinition().type != TroopType.SPRING_MINIBOSS || candidate.GetFaction() != faction)
+                continue;
+
+            HealthComponent health = candidate.GetHealth();
+
+            if (health == null || health.IsDead())
+                continue;
+
+            cachedSpringMiniBoss = candidate;
+            return cachedSpringMiniBoss;
+        }
+
+        return null;
+    }
+
+    private static bool IsValidMiniBoss(ATroop miniBoss, Faction faction, HealthComponent health) =>
+        miniBoss.gameObject.activeInHierarchy && miniBoss.GetDefinition() != null &&
+        miniBoss.GetDefinition().type == TroopType.SPRING_MINIBOSS &&
+        miniBoss.GetFaction() == faction && health != null && !health.IsDead();
+
+    public static bool HasLivingSpringMiniBoss(Faction faction) => GetLivingSpringMiniBoss(faction) != null;
 
     #endregion
 }

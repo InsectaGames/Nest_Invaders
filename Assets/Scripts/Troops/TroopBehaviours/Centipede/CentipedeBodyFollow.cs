@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 [DefaultExecutionOrder(-1000)]
 public class CentipedeBodyFollow : MonoBehaviour
@@ -37,10 +36,6 @@ public class CentipedeBodyFollow : MonoBehaviour
     [SerializeField, Min(0f)] private float healthCanvasOffset = 0.5f;
     [SerializeField] private SpriteRenderer headSprite;
 
-    [Header("NavmeshAgent")]
-    [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private TroopDefinition definition;
-
     [Header("Animación")]
     [SerializeField] private Animator headAnimator;
 
@@ -48,6 +43,7 @@ public class CentipedeBodyFollow : MonoBehaviour
     private bool isMoving;
 
     private bool isAttackingAnimation;
+    private bool headMovedThisFrame;
 
     // Punto del recorrido y distancia acumulada.
     private struct PathPoint
@@ -71,20 +67,6 @@ public class CentipedeBodyFollow : MonoBehaviour
     // Angulo del eje original del sprite, calculado una sola vez.
     private float spriteAxisAngle;
 
-    private void Awake()
-    {
-        if (head == null)
-            return;
-
-        agent = head.gameObject.GetComponent<NavMeshAgent>();
-
-        if (agent != null)
-        {
-            agent.updateRotation = false;
-            agent.updateUpAxis = false;
-        }
-    }
-
     private void Start()
     {
         if (head == null)
@@ -99,31 +81,11 @@ public class CentipedeBodyFollow : MonoBehaviour
 
         CacheSpriteAxis();
         InitializeHistory();
-
-        if (definition == null && head.TryGetComponent<ATroop>(out ATroop headTroop))
-            definition = headTroop.GetDefinition();
-
-        if (agent != null)
-        {
-            if (!agent.enabled)
-                agent.enabled = true;
-
-            agent.speed = definition.speed;
-            agent.isStopped = false;
-
-            if (!agent.isOnNavMesh)
-            {
-                Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
-                return;
-            }
-
-            // agent.ResetPath();
-        }
-
     }
 
     private void LateUpdate()
     {
+        headMovedThisFrame = false;
         RecordHeadMovement();
         UpdateSegments();
         CleanHistory();
@@ -207,6 +169,8 @@ public class CentipedeBodyFollow : MonoBehaviour
         float movementDistance = movement.magnitude;
 
         if (movementDistance < 0.001f) return;
+
+        headMovedThisFrame = true;
 
         Vector3 direction = movement / movementDistance;
         float distanceInFrame = 0f;
@@ -331,15 +295,10 @@ public class CentipedeBodyFollow : MonoBehaviour
         if (isAttackingAnimation)
             return;
 
-        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+        if (headMovedThisFrame == isMoving)
             return;
 
-        bool moving = agent.velocity.sqrMagnitude > 0.01f;
-
-        if (moving == isMoving)
-            return;
-
-        isMoving = moving;
+        isMoving = headMovedThisFrame;
 
         float animationSpeed = isMoving ? 1f : 0f;
 
@@ -391,6 +350,14 @@ public class CentipedeBodyFollow : MonoBehaviour
     {
         if (head == null) return;
         InitializeHistory();
+    }
+
+    public Vector2 GetHeadForwardDirection()
+    {
+        if (head == null)
+            return Vector2.right;
+
+        return head.TransformDirection(new Vector3(localForwardAxis.x, localForwardAxis.y, 0f)).normalized;
     }
 
     private void OnValidate()

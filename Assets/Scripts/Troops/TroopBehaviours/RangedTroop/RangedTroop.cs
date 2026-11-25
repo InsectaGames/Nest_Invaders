@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -70,6 +69,17 @@ public class RangedTroop : MonoBehaviour, ITroop, ICombatState
             nextTargetUpdateTime = Time.time + targetUpdateInterval;
 
             dangerTarget = CombatSystem.FindClosestEnemy(troop, dangerRadius);
+
+            if (troop.GetFaction() == Faction.ALLY)
+            {
+                ATroop boss = CombatSystem.GetLivingSpringMiniBoss(Faction.ENEMY);
+
+                if (boss != null && currentTarget != boss)
+                {
+                    currentTarget = boss;
+                    returningToBase = false;
+                }
+            }
 
             if (!IsInCombat)
             {

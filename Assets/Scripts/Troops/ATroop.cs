@@ -306,6 +306,9 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         // Si llega a una base enemiga, le hace daño y vuelve al pool.
         if (baseCol.GetFaction() != sceneFaction)
         {
+            if (CombatSystem.HasLivingSpringMiniBoss(baseCol.GetFaction()))
+                return;
+        
             baseHealth.TakeDamage();
             Debug.Log($"Base dañada! Vida restante: { baseHealth.Health }");
             ReturnToPool();

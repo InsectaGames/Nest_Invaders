@@ -23,6 +23,7 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
     private float nextAttackTime = 0f;
     private float enemyStartTime;
     private float nextTargetUpdateTime;
+    private float nextBossCheckTime;
 
     private bool returningToBase;
 
@@ -45,8 +46,22 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
     private void Update()
     {
         UpdateSpriteVisuals();
+
         if (troop == null || troop.GetDefinition() == null)
             return;
+
+        if (Time.time >= nextBossCheckTime)
+        {
+            nextBossCheckTime = Time.time + targetUpdateInterval;
+
+            if (troop.GetFaction() == Faction.ALLY)
+            {
+                ATroop boss = CombatSystem.GetLivingSpringMiniBoss(Faction.ENEMY);
+
+                if (boss != null && enemyToAttack != boss)
+                    SetCombatTarget(boss, true);
+            }
+        }
 
         // Comprobar si el objetivo actual sigue siendo válido.
         if (!HasValidTarget())
@@ -115,6 +130,7 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
         enemyToAttack = null;
         nextAttackTime = 0f;
         nextTargetUpdateTime = 0f;
+        nextBossCheckTime = 0f;
         returningToBase = false;
 
         isAttacking = false;
@@ -125,13 +141,19 @@ public class MeleeTroop : MonoBehaviour, ITroop, ICombatState
 
         troop.SetMovementStopped(false);
 
-        ReturnToEnemyBase();
+        ATroop boss = troop.GetFaction() == Faction.ALLY ? CombatSystem.GetLivingSpringMiniBoss(Faction.ENEMY) : null;
+
+        if (boss != null)
+            SetCombatTarget(boss, true);
+        else
+            ReturnToEnemyBase();
     }
 
     public void ResetBehaviour()
     {
         enemyToAttack = null;
         nextAttackTime = 0f;
+        nextBossCheckTime = 0f;
         enemyStartTime = 0f;
 
         isAttacking = false;
