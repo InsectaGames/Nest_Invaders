@@ -69,12 +69,16 @@ public class HealthComponent : MonoBehaviour
         int result = Health - amount;
         Health = (result < 0) ? 0 : result;
 
+        if(this.gameObject.tag != "Base")
         StartCoroutine(RecieveDamageAnimation());
+        
         UpdateHealthUI();
         // if(IsDead()) { Die(); }
     }
     private IEnumerator RecieveDamageAnimation()
     {
+        
+
         spriteRenderer.color = Color.red;
 
         float duration = 0.5f;
@@ -94,6 +98,7 @@ public class HealthComponent : MonoBehaviour
         }
 
         spriteRenderer.color = Color.white;
+        yield return null;
     }
 
     public void Heal(int amount = 1)

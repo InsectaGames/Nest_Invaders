@@ -221,7 +221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3219114840544508469, guid: db18998adce67764aa17352758b943ac, type: 3}
+  m_Sprite: {fileID: -3219114840544508469, guid: ca9c943a597312240a58867e44e1a555, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.95
+  m_fontSize: 30.2
   m_fontSizeBase: 47.18
   m_fontWeight: 400
   m_enableAutoSizing: 1
