@@ -42,7 +42,6 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     private Animator _anim;
 
-
     private void Awake()
     {
         troop = GetComponent<ATroop>();
@@ -228,8 +227,6 @@ public class GathererTroop : MonoBehaviour, ITroop
         gatheringTimer = gatheringDuration;
 
         col.enabled = false;
-
-        
 
         agent.isStopped = true;
         agent.ResetPath();

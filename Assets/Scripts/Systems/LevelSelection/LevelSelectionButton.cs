@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class LevelSelectionButton : MonoBehaviour
 {
@@ -33,9 +31,6 @@ public class LevelSelectionButton : MonoBehaviour
     {
         if (pathParent != null)
             pathImages = pathParent.GetComponentsInChildren<Image>(true);
-
-        
-
     }
 
     private void Start()

@@ -11,8 +11,6 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
     // Facción utilizada cuando la tropa se coloca directamente en una escena.
     [SerializeField] private Faction sceneFaction = Faction.None;
 
-
-
     private TroopPoolManager poolManager;
     private bool returningToPool = true;
 
@@ -36,10 +34,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
     private Transform allyBaseTransform;
 
-
     [SerializeField] private ParticleSystem ps;
-
-
 
     //[SerializeField] private GameObject infection;
 
@@ -339,10 +334,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         returningToPool = true;
 
         spriteRenderer.transform.rotation = Quaternion.identity;
-        spriteRenderer.flipX = false;
-
-       
-            
+        spriteRenderer.flipX = false;    
     }
 
     public void OnDespawn()
