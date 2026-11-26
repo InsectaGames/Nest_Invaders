@@ -65,21 +65,20 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
     private IEnumerator Start()
     {
-        // Si ya ha sido inicializada por el pool, no hacer nada.
         if (!returningToPool || definition == null)
             yield break;
 
-        // Asegurar que el agente está activo.
-        if (agent != null && !agent.enabled)
-            agent.enabled = true;
+        TroopType behaviour = definition.behaviourType != TroopType.none ? definition.behaviourType : definition.type;
 
-        // Esperar a que el NavMesh esté disponible.
-        while (agent != null && agent.enabled && !agent.isOnNavMesh)
+        if (behaviour != TroopType.GATHERER)
         {
-            yield return null;
+            if (agent != null && !agent.enabled)
+                agent.enabled = true;
+
+            while (agent != null && agent.enabled && !agent.isOnNavMesh)
+                yield return null;
         }
 
-        // Comprobar de nuevo por si la tropa ha sido inicializada entretanto por otro sistema.
         if (!returningToPool)
             yield break;
 
@@ -144,8 +143,6 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         RefreshBaseReferences();
 
-       
-
         if (troopCollider != null)
             troopCollider.enabled = true;
 
@@ -153,30 +150,38 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
 
         if (f == Faction.ALLY) ps.Play();
 
-        // Configuración común del NavMesh.
+        TroopType behaviour = definition.behaviourType != TroopType.none ? definition.behaviourType : definition.type;
+
+        // Configuración de navegación según el comportamiento.
         if (agent != null)
         {
-            if (!agent.enabled)
-                agent.enabled = true;
-
-            agent.speed = definition.speed;
-            agent.isStopped = false;
-            agent.updateUpAxis = false;
-            agent.updateRotation = false;
-
-            if (!agent.isOnNavMesh)
+            if (behaviour == TroopType.GATHERER)
             {
-                Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
-                return;
+                agent.enabled = false;
             }
-            
-            agent.ResetPath();
-        } 
+            else
+            {
+                if (!agent.enabled)
+                    agent.enabled = true;
+
+                agent.speed = definition.speed;
+                agent.isStopped = false;
+                agent.updateUpAxis = false;
+                agent.updateRotation = false;
+
+                if (!agent.isOnNavMesh)
+                {
+                    Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
+                    return;
+                }
+
+                agent.ResetPath();
+            }
+        }
 
         allyBaseTransform = FindBaseTransform(f);
 
         // Inicializar el comportamiento correspondiente al tipo de tropa, con excepciones.
-        TroopType behaviour = definition.behaviourType != TroopType.none ? definition.behaviourType : definition.type;
         ActivateTroopBehaviour(behaviour);
 
         troopFlocking?.Initialize();
@@ -257,6 +262,21 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         {
             Debug.LogWarning($"{name}: no se ha encontrado un punto válido del NavMesh cerca de {target.name}.");
         }
+    }
+
+    public bool SetGathererTarget(Transform target, out Vector3 destination)
+    {
+        destination = Vector3.zero;
+
+        if (target == null || agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return false;
+
+        if (!NavMesh.SamplePosition(target.position, out NavMeshHit hit, 3f, agent.areaMask))
+            return false;
+
+        destination = hit.position;
+        agent.isStopped = false;
+        return agent.SetDestination(destination);
     }
 
     // Paralizar o reanudar el movimiento del agente, para el combate.
@@ -365,13 +385,22 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         // Restaurar el NavMeshAgent por si la tropa fue devuelta mientras estaba recolectando.
         if (agent != null)
         {
-            if (!agent.enabled)
-                agent.enabled = true;
+            TroopType behaviour = definition != null ? (definition.behaviourType != TroopType.none  ? definition.behaviourType : definition.type) : TroopType.none;
 
-            agent.isStopped = false;
+            if (behaviour == TroopType.GATHERER)
+            {
+                agent.enabled = false;
+            }
+            else
+            {
+                if (!agent.enabled)
+                    agent.enabled = true;
 
-            if (agent.isOnNavMesh)
-                agent.ResetPath();
+                agent.isStopped = false;
+
+                if (agent.isOnNavMesh)
+                    agent.ResetPath();
+            }
         }
 
         GetComponent<AnimationSelector>()?.ResetVisuals();

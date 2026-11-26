@@ -11,12 +11,16 @@ public class NavMeshUpdater : MonoBehaviour
 
     [Header("Navigation")]
     [SerializeField] private NavMeshSurface surface;
+    [SerializeField] private GathererPathFinder gathererPathfinder;
 
     private IEnumerator Start()
     {
         // Obtener el NavMeshSurface.
         if (surface == null)
             surface = GetComponent<NavMeshSurface>();
+
+        if (gathererPathfinder == null)
+            gathererPathfinder = GetComponent<GathererPathFinder>();
 
         LevelDefinition levelDefinition = GameTestMode.IsBehaviourTestScene ? null : LevelSession.SelectedLevel;
 
@@ -50,6 +54,8 @@ public class NavMeshUpdater : MonoBehaviour
 
         Physics2D.SyncTransforms();
         yield return null;
+
+        gathererPathfinder.BuildGrid();
         surface.BuildNavMesh();
     }
 

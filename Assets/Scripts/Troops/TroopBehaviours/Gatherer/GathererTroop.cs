@@ -1,7 +1,4 @@
-
-using BehaviourAPI.Core;
 using UnityEngine;
-using UnityEngine.AI;
 
 public enum GathererState
 {
@@ -15,10 +12,10 @@ public enum GathererState
 public class GathererTroop : MonoBehaviour, ITroop
 {
     private ATroop troop;
-    private NavMeshAgent agent;
     private SpriteRenderer spriteRenderer;
-    private NavMeshAgent nvm;
     private Collider2D col;
+    private Animator _anim;
+    private GathererPathFinder pathfinder;
 
     public TroopType Type => TroopType.GATHERER;
 
@@ -28,27 +25,26 @@ public class GathererTroop : MonoBehaviour, ITroop
     private Transform gatherPointTransform;
     private Transform currentTarget;
 
+    private Vector2[] currentPath;
+    private int pathIndex;
+
     [Header("Recolección")]
     [SerializeField] private float gatheringDuration = 5f;
     [SerializeField] private int minAmount = 2;
     [SerializeField] private int maxAmount = 4;
 
     [Header("Movimiento")]
-    [SerializeField] private float arrivalTolerance = 0.3f;
+    [SerializeField] private float arrivalTolerance = 0.2f;
     [SerializeField] private float movementRetryInterval = 1.5f;
 
     private float gatheringTimer;
     private float movementRetryTimer;
 
-    private Animator _anim;
-
     private void Awake()
     {
         troop = GetComponent<ATroop>();
-        agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        nvm = this.GetComponent<NavMeshAgent>();
-        col = this.GetComponent<Collider2D>();
+        col = GetComponent<Collider2D>();
         _anim = GetComponent<Animator>();
     }
 
@@ -69,14 +65,10 @@ public class GathererTroop : MonoBehaviour, ITroop
             return;
         }
 
-        if (state != GathererState.MovingToGatherPoint && state != GathererState.ReturningToBase)
-            return;
-
-        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
-            return;
-
-        UpdateMovement();
-        UpdateSpriteVisuals();
+        if (state == GathererState.MovingToGatherPoint || state == GathererState.ReturningToBase)
+        {
+            UpdateMovement();
+        }
     }
 
     #region INITIALIZATION
@@ -86,14 +78,12 @@ public class GathererTroop : MonoBehaviour, ITroop
         if (troop == null)
             troop = GetComponent<ATroop>();
 
-        if (agent == null)
-            agent = GetComponent<NavMeshAgent>();
-
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        state = GathererState.WaitingForTargets;
+        pathfinder = FindFirstObjectByType<GathererPathFinder>();
 
+        state = GathererState.WaitingForTargets;
         gatheringTimer = 0f;
         movementRetryTimer = 0f;
 
@@ -107,12 +97,21 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     private void TryInitializeTargets()
     {
+        if (pathfinder == null)
+            pathfinder = FindFirstObjectByType<GathererPathFinder>();
+
+        if (pathfinder == null)
+            return;
+
         if (gatherPointTransform == null)
         {
             GameObject gatherPoint = GameObject.FindGameObjectWithTag("GatherPoint");
 
             if (gatherPoint != null)
-                gatherPointTransform = gatherPoint.transform;
+            {
+                Transform marker = gatherPoint.transform.Find("GatherTarget");
+                gatherPointTransform = marker != null ? marker : gatherPoint.transform;
+            }
         }
 
         Transform allyBase = troop.GetAllyBaseTransform();
@@ -126,14 +125,16 @@ public class GathererTroop : MonoBehaviour, ITroop
     public void ResetBehaviour()
     {
         state = GathererState.Inactive;
-
         gatheringTimer = 0f;
         movementRetryTimer = 0f;
 
         gatherPointTransform = null;
         currentTarget = null;
+        currentPath = null;
+        pathIndex = 0;
 
-        col.enabled = true;
+        if (col != null)
+            col.enabled = true;
 
         if (spriteRenderer != null)
             spriteRenderer.enabled = true;
@@ -143,78 +144,95 @@ public class GathererTroop : MonoBehaviour, ITroop
 
     #region MOVEMENT
 
+    private Transform GetBaseGatherTarget()
+    {
+        Transform allyBase = troop.GetAllyBaseTransform();
+
+        if (allyBase == null)
+            return null;
+
+        Transform marker = allyBase.Find("GathererTarget");
+        return marker != null ? marker : allyBase;
+    }
+
     private void BeginMovement(Transform target, GathererState newState)
     {
-        if (target == null)
+        if (target == null || pathfinder == null)
             return;
 
         currentTarget = target;
         state = newState;
-
         movementRetryTimer = 0f;
+        currentPath = null;
+        pathIndex = 0;
 
-        if (agent != null && agent.enabled && agent.isOnNavMesh)
-        {
-            agent.isStopped = false;
-            troop.SetTarget(currentTarget);
-        }
+        TryCalculatePath();
+    }
+
+    private bool TryCalculatePath()
+    {
+        if (currentTarget == null || pathfinder == null)
+            return false;
+
+        if (!pathfinder.FindPath(transform.position, currentTarget.position, out Vector2[] path))
+            return false;
+
+        currentPath = path;
+        pathIndex = 0;
+        return true;
     }
 
     private void UpdateMovement()
     {
-        agent.isStopped = false;
-
         if (currentTarget == null)
         {
             state = GathererState.WaitingForTargets;
             return;
         }
 
-        if (HasReachedTarget())
+        if (currentPath == null || pathIndex >= currentPath.Length)
         {
-            if (state == GathererState.MovingToGatherPoint)
-                BeginGathering();
-            else if (state == GathererState.ReturningToBase)
-                DeliverResources();
+            if (currentPath != null && pathIndex >= currentPath.Length)
+            {
+                OnReachedTarget();
+                return;
+            }
+
+            movementRetryTimer -= Time.deltaTime;
+
+            if (movementRetryTimer <= 0f)
+            {
+                movementRetryTimer = movementRetryInterval;
+                TryCalculatePath();
+            }
 
             return;
         }
 
-        movementRetryTimer -= Time.deltaTime;
+        Vector2 currentPosition = transform.position;
+        Vector2 waypoint = currentPath[pathIndex];
 
-        if (movementRetryTimer > 0f || agent.pathPending)
-            return;
+        Vector2 nextPosition = Vector2.MoveTowards(currentPosition, waypoint, troop.GetDefinition().speed * Time.deltaTime);
 
-        movementRetryTimer = movementRetryInterval;
+        Vector2 direction = nextPosition - currentPosition;
 
-        bool invalidPath = !agent.hasPath || agent.pathStatus != NavMeshPathStatus.PathComplete;
+        transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
 
-        bool stalled = agent.hasPath && agent.velocity.sqrMagnitude < 0.01f && agent.remainingDistance > agent.stoppingDistance + arrivalTolerance;
+        if (Mathf.Abs(direction.x) > 0.001f && spriteRenderer != null)
+            spriteRenderer.flipX = direction.x < 0f;
 
-        if (invalidPath || stalled)
-            troop.SetTarget(currentTarget);
+        if (Vector2.Distance(nextPosition, waypoint) <= arrivalTolerance)
+            pathIndex++;
     }
-    
-    private void UpdateSpriteVisuals()
+
+    private void OnReachedTarget()
     {
-        spriteRenderer.flipX = (nvm.velocity.x < 0);
-    }
-    
-    private bool HasReachedTarget()
-    {
-        if (agent.pathPending)
-            return false;
+        currentPath = null;
 
-        if (agent.hasPath)
-        {
-            if (agent.pathStatus != NavMeshPathStatus.PathComplete)
-                return false;
-
-            return agent.remainingDistance <= agent.stoppingDistance + arrivalTolerance;
-        }
-
-        // Respaldo para destinos que coinciden prácticamente con la posición actual del agente.
-        return Vector3.Distance(transform.position, currentTarget.position) <= agent.stoppingDistance + arrivalTolerance;
+        if (state == GathererState.MovingToGatherPoint)
+            BeginGathering();
+        else if (state == GathererState.ReturningToBase)
+            DeliverResources();
     }
 
     #endregion
@@ -228,41 +246,40 @@ public class GathererTroop : MonoBehaviour, ITroop
 
         col.enabled = false;
 
-        agent.isStopped = true;
-        agent.ResetPath();
-
         if (spriteRenderer != null)
             spriteRenderer.enabled = false;
 
-        _anim.SetBool("has_fungus", true);
+        _anim?.SetBool("has_fungus", true);
     }
 
     private void UpdateGathering()
     {
         gatheringTimer -= Time.deltaTime;
 
-        if (gatheringTimer <= 0f)
+        if (gatheringTimer > 0f)
+            return;
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
+
+        Transform allyBaseTarget = GetBaseGatherTarget();
+
+        if (allyBaseTarget == null)
         {
-            if (spriteRenderer != null)
-                spriteRenderer.enabled = true;
-
-            Transform allyBase = troop.GetAllyBaseTransform();
-
-            if (allyBase == null)
-            {
-                state = GathererState.WaitingForTargets;
-                return;
-            }
-
-            col.enabled = true;
-            BeginMovement(allyBase, GathererState.ReturningToBase);
+            state = GathererState.WaitingForTargets;
+            return;
         }
+
+        col.enabled = true;
+        BeginMovement(allyBaseTarget, GathererState.ReturningToBase);
     }
 
     private void DeliverResources()
     {
         troop.SendResourceEvent(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, Utils.GetRandomInclusive(minAmount, maxAmount)));
-        _anim.SetBool("has_fungus", false);
+
+        _anim?.SetBool("has_fungus", false);
+
         BeginMovement(gatherPointTransform, GathererState.MovingToGatherPoint);
     }
 

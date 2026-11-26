@@ -251,7 +251,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 754603338734959417, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.09996796
+      value: 0.09996033
       objectReference: {fileID: 0}
     - target: {fileID: 2750216903530126455, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_Name
@@ -1323,7 +1323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.10702515
+      value: -0.107055664
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4388,7 +4388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.10000038
+      value: 0.099998474
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4517,6 +4517,7 @@ GameObject:
   - component: {fileID: 1241456675}
   - component: {fileID: 1241456674}
   - component: {fileID: 1241456677}
+  - component: {fileID: 1241456678}
   m_Layer: 0
   m_Name: NavMesh
   m_TagString: Untagged
@@ -4620,6 +4621,27 @@ MonoBehaviour:
   pointsOfInterest:
   - {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   surface: {fileID: 1241456675}
+  gathererPathfinder: {fileID: 1241456678}
+--- !u!114 &1241456678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241456673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8ea911ba3d08047961dac18cc40536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GathererPathFinder
+  center: {x: -0.0543, y: 0.0729}
+  size: {x: 36.62, y: 20}
+  cellSize: 0.25
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  gathererRadius: 0.5
+  safetyMargin: 0.15
 --- !u!1 &1286329200
 GameObject:
   m_ObjectHideFlags: 0
@@ -4655,7 +4677,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.13375, y: 0.88533705}
   m_AnchorMax: {x: 0.25500003, y: 0.9774457}
-  m_AnchoredPosition: {x: -0.022033691, y: 0.15698242}
+  m_AnchoredPosition: {x: -0.022094727, y: 0.15698242}
   m_SizeDelta: {x: 0.119003296, y: 0.5960007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1286329202
@@ -4910,11 +4932,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.07342529
+      value: 0.07336426
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.10702515
+      value: -0.107055664
       objectReference: {fileID: 0}
     - target: {fileID: 477949070948651058, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4998,7 +5020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.10000038
+      value: 0.10000229
       objectReference: {fileID: 0}
     - target: {fileID: 4403742958029748197, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5343,7 +5365,7 @@ PrefabInstance:
       objectReference: {fileID: 3405064141843487395, guid: 5dd7ec2c5822b8b469db6c310545c6ac, type: 3}
     - target: {fileID: 6148888313420318171, guid: b9eda667e033bbb4fa5001c621a8fe5d, type: 3}
       propertyPath: m_fontSize
-      value: 24.55
+      value: 24.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11644,7 +11666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_fontSize
-      value: 19.15
+      value: 19.1
       objectReference: {fileID: 0}
     - target: {fileID: 1320510276544021149, guid: 70a714d98cc4a8745bddf2c20990f3d5, type: 3}
       propertyPath: m_margin.w

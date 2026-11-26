@@ -165,7 +165,6 @@ GameObject:
   - component: {fileID: -7611178479286851247}
   - component: {fileID: 6510354002243189156}
   - component: {fileID: 6056719398558215712}
-  - component: {fileID: 6692132938675508249}
   - component: {fileID: 2264519432635813725}
   - component: {fileID: 227354602153264876}
   - component: {fileID: 8904036214587931233}
@@ -175,6 +174,7 @@ GameObject:
   - component: {fileID: 5710064644136453479}
   - component: {fileID: 8870340171512564411}
   - component: {fileID: 5970411232637596535}
+  - component: {fileID: 1828942089916012769}
   m_Layer: 0
   m_Name: PFB_Bug
   m_TagString: Untagged
@@ -398,27 +398,6 @@ MonoBehaviour:
   - {fileID: 5320904566057167363}
   - {fileID: 2223015878359088277}
   ps: {fileID: 0}
---- !u!114 &6692132938675508249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358891150988844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92835702751b41348a915d601d1a6b88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TroopFlocking
-  neighbourRadius: 3.5
-  separationRadius: 2
-  troopLayers:
-    serializedVersion: 2
-    m_Bits: 193
-  separationStrength: 3.5
-  alignmentStrength: 0
-  correctionDistance: 1.5
-  updateInterval: 0.1
 --- !u!114 &2264519432635813725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +560,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpdateVisuals
   lifeCanvas: {fileID: 589425462129644402}
+--- !u!114 &1828942089916012769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358891150988844776}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92835702751b41348a915d601d1a6b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TroopFlocking
+  neighbourRadius: 3.5
+  separationRadius: 2
+  troopLayers:
+    serializedVersion: 2
+    m_Bits: 193
+  separationStrength: 3.5
+  alignmentStrength: 0
+  correctionDistance: 1.5
+  updateInterval: 0.1
 --- !u!1 &4054950483857702460
 GameObject:
   m_ObjectHideFlags: 0
