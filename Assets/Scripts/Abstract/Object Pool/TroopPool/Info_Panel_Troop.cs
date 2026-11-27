@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Info_Panel_Troop : MonoBehaviour , IObserver<GameEvent<ATroop>>
+public class Info_Panel_Troop : MonoBehaviour, IObserver<GameEvent<ATroop>>
 {
     [SerializeField] private TMP_Text countTroop_text;
     [SerializeField] private Image countTroop_img;

@@ -7,8 +7,6 @@ public class AnimationSelector : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     private int troopParameterHash;
-    
-    private int select;
 
     private void Awake()
     {

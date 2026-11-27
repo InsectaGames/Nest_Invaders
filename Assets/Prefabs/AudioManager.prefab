@@ -437,7 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   audioEntries:
   - name: Menu_Theme
-    clip: {fileID: 8300000, guid: f8db104eeafec3941b28b928bc4a2409, type: 3}
+    clip: {fileID: 8300000, guid: 3e2b7f844371621459af812a674b27b8, type: 3}
   - name: Day_Theme
     clip: {fileID: 8300000, guid: 157fc151e2e500e4ab3669945ea2f3ab, type: 3}
   - name: Night_Theme
@@ -453,6 +453,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: d46f4734a695574418b83253ef660ec8, type: 2}
   defaultSFXVolume: 0.5
   defaultMusicVolume: 0.5
+  musicFadeDuration: 3
 --- !u!1 &7605977669283181206
 GameObject:
   m_ObjectHideFlags: 0

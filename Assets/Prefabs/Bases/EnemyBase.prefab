@@ -232,8 +232,12 @@ MonoBehaviour:
   canv_health: {fileID: 7364307219104858615}
   bg_fill: {fileID: 6705193270373314068}
   fillbar: {fileID: 2000982741948107706}
-  typeFill: []
-  typeBg: []
+  typeFill:
+  - {fileID: 7489298067996525923, guid: 46f5eed4c50a40d4aa4f9a37ca1e9851, type: 3}
+  - {fileID: -1241525877850367005, guid: ea6f63055667bad4d9b7148c9bdf12fd, type: 3}
+  typeBg:
+  - {fileID: -437736659700795457, guid: ce263b8e7edddbc42bf7e6eac32e85b9, type: 3}
+  - {fileID: 6203210303901926673, guid: 859b2f7311e100144a6f4e58a502c8f6, type: 3}
   death_effect_ally: {fileID: 0}
   death_effect_enemy: {fileID: 0}
 --- !u!58 &1412585909268355574
