@@ -218,6 +218,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
             resources[leavesIndex].cantidad += LevelSession.SelectedLevel.passiveAmount;
 
             UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHER_1, new ResourceSlot(Resource.FUNGUS, resources[leavesIndex].cantidad)));
+
+            UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHERED_1, new ResourceSlot(Resource.FUNGUS, LevelSession.SelectedLevel.passiveAmount)));
         }
     }
 
@@ -645,6 +647,8 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
         resources[index].cantidad = Utils.Clamp(resources[index].cantidad + data.data.cantidad, 0, maximum);
 
         UpdateObservers(new GameEvent<ResourceSlot>(data.logicEvent, new ResourceSlot(data.data.res, resources[index].cantidad)));
+
+        UpdateObservers(new GameEvent<ResourceSlot>(LogicEvent.RESOURCE_GATHERED_1, new ResourceSlot(Resource.FUNGUS, data.data.cantidad)));
 
         Debug.Log($"Ahora tengo {resources[index].cantidad} del recurso " + resources[index].res);
     }
