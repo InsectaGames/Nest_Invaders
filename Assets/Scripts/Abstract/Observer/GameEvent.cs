@@ -9,6 +9,7 @@ public enum LogicEvent
     TIME_CHANGE,
     TROOP_DESPAWN,
     NOT_ENOUGH_RESOURCES, 
+    TUTORIAL_INCREMENT,
     UI_SOUND
 }
 

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
+public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubject<GameEvent<int>>
 {
     [Header("Configuración")]
     [SerializeField] private Button button;
@@ -15,6 +16,8 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 
     private Animator _anim;
 
+    private List<IObserver<GameEvent<int>>> _observers = new List<IObserver<GameEvent<int>>>();
+
     private void Start()
     {
         _anim = GetComponent<Animator>();
@@ -23,6 +26,9 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
             .GetComponent<UITroopsGenerator>()
             .AddObserver(this);
 
+
+        if (LevelSession.SelectedLevel._tutorial)
+            AddObserver(GameObject.FindGameObjectWithTag("tutorial").GetComponent<Tutorial_canvas>());
 
         GameObject[] _go = GameObject.FindGameObjectsWithTag("Base");
 
@@ -79,7 +85,12 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
         if (data.data != buttonID)
             return;
 
-        if(data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES)
+
+        if (LevelSession.SelectedLevel._tutorial)
+         UpdateObservers(new GameEvent<int>(LogicEvent.TUTORIAL_INCREMENT, 0));
+
+
+        if (data.logicEvent == LogicEvent.NOT_ENOUGH_RESOURCES)
         {
             Debug.Log("Error");
             cooldownImage.fillAmount = 0f;
@@ -110,6 +121,23 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>>
 
             _anim.ResetTrigger("not_enough_resources");
             _anim.SetTrigger("pressed");  
+        }
+    }
+    public void AddObserver(IObserver<GameEvent<int>> obs)
+    {
+        _observers.Add(obs);
+    }
+
+    public void RemoveObserver(IObserver<GameEvent<int>> obs)
+    {
+        _observers.Remove(obs);
+    }
+
+    public void UpdateObservers(GameEvent<int> data)
+    {
+        foreach (var obs in _observers)
+        {
+            obs.UpdateObserver(data);
         }
     }
 }

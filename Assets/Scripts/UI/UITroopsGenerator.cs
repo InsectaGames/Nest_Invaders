@@ -15,6 +15,7 @@ public class UITroopsGenerator : ASubject<GameEvent<int>>
     private void Awake()
     {
         isSummoning = new bool[buttons.Length];
+
     }
 
     public void UIGenerateEntity(int id)
@@ -41,4 +42,7 @@ public class UITroopsGenerator : ASubject<GameEvent<int>>
         if (buttons[id] != null)
             buttons[id].interactable = true;
     }
+
+
+
 }
