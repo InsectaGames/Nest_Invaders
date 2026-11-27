@@ -86,7 +86,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
             return;
 
 
-        if (LevelSession.SelectedLevel._tutorial)
+        if (LevelSession.SelectedLevel._tutorial && data.data == 1)
          UpdateObservers(new GameEvent<int>(LogicEvent.TUTORIAL_INCREMENT, 0));
 
 
