@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class MsgPoolGathererCollected : MonoBehaviour,
@@ -19,8 +20,11 @@ public class MsgPoolGathererCollected : MonoBehaviour,
         );
     }
 
-    private void Start()
+   void Start()
     {
+
+       // yield return null;
+
         GameObject[] _go = GameObject.FindGameObjectsWithTag("Base");
 
         foreach (var go in _go)
