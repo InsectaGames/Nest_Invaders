@@ -21,6 +21,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        button = this.GetComponent<Button>();
 
         GameObject.Find("UI_Controller")
             .GetComponent<UITroopsGenerator>()
