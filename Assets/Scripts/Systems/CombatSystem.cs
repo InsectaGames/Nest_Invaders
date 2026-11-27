@@ -6,7 +6,6 @@ public class CombatSystem
 
     #region ATAQUE
 
-    // Por ahora a lo sencillo: Ataque de daño aleatorio.
     public static void PerformAttack(ATroop attacker, ATroop target)
     {
         if (!IsValidEnemy(attacker, target))

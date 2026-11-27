@@ -49,12 +49,12 @@ MonoBehaviour:
   pauseMenu: {fileID: 0}
   levelSelectionScene: SubLevelsScene
   gameplayScene: Main_arena
-  victoryScene: VictoryScene
-  defeatScene: DefeatScene
   creditsScene: Credits
   settingsScene: Settings
   shopScene: Shop
   transition: {fileID: 1728183604383839245}
+  vic_anim: {fileID: 8917248894734714096, guid: d94b92176b719f54097683889943fe9d, type: 3}
+  def_anim: {fileID: 4301410184638285868, guid: a63400218e775fa438d27167210d4f24, type: 3}
 --- !u!95 &1728183604383839245
 Animator:
   serializedVersion: 7

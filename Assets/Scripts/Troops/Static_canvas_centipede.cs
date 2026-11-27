@@ -6,7 +6,7 @@ public class Static_canvas : MonoBehaviour
 
     private Vector3 offset = new Vector3(-0.44f, 1.67f, 0f);
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (target == null) return;
 

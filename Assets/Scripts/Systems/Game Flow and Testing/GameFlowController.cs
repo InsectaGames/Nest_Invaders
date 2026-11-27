@@ -21,7 +21,6 @@ public class GameFlowController : MonoBehaviour
 
     private string _TransSceneSetted;
 
-
     [Header("Transicion entre escenas")]
     [SerializeField] private Animator transition;
 
@@ -32,12 +31,6 @@ public class GameFlowController : MonoBehaviour
     private void Awake()
     {
         transition = this.GetComponent<Animator>();
-
-        if(SceneManager.GetActiveScene().name == gameplayScene)
-        {
-            vic_anim = GameObject.FindGameObjectWithTag("Canv_vic").GetComponent<Animator>();
-            def_anim = GameObject.FindGameObjectWithTag("Canv_def").GetComponent<Animator>();
-        }
     }
 
     private void Update()
@@ -54,18 +47,14 @@ public class GameFlowController : MonoBehaviour
                 PauseGame();
         }
 
-
-        ///////DEBUG////////
-        ///
+        #if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Utils.KeyPressed(UnityEngine.InputSystem.Key.V))
         {
-
-              TriggerVictory();
+            TriggerVictory();
             //TriggerDefeat();
         }
-
-
-        }
+        #endif
+    }
 
     #region MENU
 
@@ -152,15 +141,8 @@ public class GameFlowController : MonoBehaviour
         SetSceneChange(levelSelectionScene);
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded += OnSceneLoaded;
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -264,8 +246,7 @@ public class GameFlowController : MonoBehaviour
             Debug.Log($"El siguiente nivel ya estaba desbloqueado: {completedLevel.nextLevel.Name}");
         }
 
-
-        //SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
+        // SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
         // ReturnToLevelSelection();
         vic_anim.SetTrigger("trigger_victory");
     }

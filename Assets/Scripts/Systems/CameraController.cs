@@ -25,7 +25,6 @@ public class CameraController : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private GameFlowController gameFlowController;
 
-
     private void Awake()
     {
         camara = GetComponent<Camera>();

@@ -337,6 +337,10 @@ public class AudioManager : Singleton<AudioManager>, IObserver<GameEvent<string>
         {
             PlaySound("UI_Sound");
         }
+        else if (data.logicEvent == LogicEvent.TROOP_DEATH && data.data.Equals("ALLY"))
+        {
+            PlaySound("Ally_Death_Sound");
+        }
     }
 
     public void UpdateObserver(GameEvent<DayTime> data)

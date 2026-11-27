@@ -118,10 +118,10 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         troopBehaviour.InitializeBehaviour();
     }
 
-    public void Initialize(TroopDefinition troopDefinition, Faction f, TroopPoolManager owner)
+    public bool Initialize(TroopDefinition troopDefinition, Faction f, TroopPoolManager owner)
     {
         if (troopDefinition == null)
-            return;
+            return false;
 
         definition = troopDefinition;
         sceneFaction = f;
@@ -172,7 +172,7 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
                 if (!agent.isOnNavMesh)
                 {
                     Debug.LogWarning($"{name}: el agente no está situado sobre el NavMesh.");
-                    return;
+                    return false;
                 }
 
                 agent.ResetPath();
@@ -185,6 +185,8 @@ public class ATroop : ASubject<GameEvent<ResourceSlot>>, IPoolable
         ActivateTroopBehaviour(behaviour);
 
         troopFlocking?.Initialize();
+
+        return true;
     }
 
     #endregion
