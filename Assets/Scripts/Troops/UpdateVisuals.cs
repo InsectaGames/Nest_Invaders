@@ -30,8 +30,7 @@ public class UpdateVisuals : MonoBehaviour
     }
 
     /// <summary>
-    /// Se llama cada vez que la tropa se inicializa,
-    /// incluso cuando procede del Object Pool.
+    /// Se llama cada vez que la tropa se inicializa, incluso cuando procede del Object Pool.
     /// </summary>
     public void InitializeVisuals(TroopType type)
     {

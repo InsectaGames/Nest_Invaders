@@ -23,6 +23,11 @@ public class TroopDefinition : ScriptableObject
     public ResourceSlot[] recursos;  // <Resource, int>  ==== ResourceInventory   Cost[] cost;
     public ResourceSlot[] capacity;  // <Resource, int>
 
+    [Header("Límite de tropas")]
+    [SerializeField] private int maxActiveTroops = 10;
+
+    public int MaxActiveTroops => maxActiveTroops;
+
     [Header("Comportamiento")]
     public BehaviourRunner bhvRunner;
 }

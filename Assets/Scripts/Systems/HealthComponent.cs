@@ -20,6 +20,7 @@ public class HealthComponent : MonoBehaviour
 
     [SerializeField] private GameObject death_effect_ally;
     [SerializeField] private GameObject death_effect_enemy;
+    
     public void Initialize( Faction f , int maxHealth = 100)
     {
         Health = maxHealth;
@@ -44,12 +45,11 @@ public class HealthComponent : MonoBehaviour
             return;
         }
 
-        if (typeFill == null || typeFill.Length <= index ||
-            typeBg == null || typeBg.Length <= index)
+        if (typeFill == null || typeFill.Length <= index || typeBg == null || typeBg.Length <= index)
         {
             Debug.LogError(
                 $"Sprites insuficientes. Fill: {typeFill?.Length}, " +
-                $"BG: {typeBg?.Length}, índice solicitado: {index}"
+                $"BG: {typeBg?.Length}, Ãndice solicitado: {index}"
             );
             return;
         }
@@ -70,15 +70,13 @@ public class HealthComponent : MonoBehaviour
         Health = (result < 0) ? 0 : result;
 
         if(this.gameObject.tag != "Base")
-        StartCoroutine(RecieveDamageAnimation());
+            StartCoroutine(RecieveDamageAnimation());
         
         UpdateHealthUI();
         // if(IsDead()) { Die(); }
     }
     private IEnumerator RecieveDamageAnimation()
     {
-        
-
         spriteRenderer.color = Color.red;
 
         float duration = 0.5f;
@@ -88,11 +86,7 @@ public class HealthComponent : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            spriteRenderer.color = Color.Lerp(
-                Color.red,
-                Color.white,
-                elapsedTime / duration
-            );
+            spriteRenderer.color = Color.Lerp(Color.red, Color.white, elapsedTime / duration);
 
             yield return null;
         }
@@ -147,6 +141,7 @@ public class HealthComponent : MonoBehaviour
             else if (troop.GetFaction() == Faction.ENEMY)
                 Instantiate(death_effect_enemy, transform.position, Quaternion.identity);
 
+            AudioManager.Instance.UpdateObserver(new GameEvent<string>(LogicEvent.TROOP_DEATH, troop.GetFaction().ToString()));
             troop.ReturnToPool();
             return;
         }

@@ -514,7 +514,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
 
             if (troop == null)
             {
-                Debug.LogWarning("No se ha podido invocar la tropa. Comprueba que el pool tenga objetos disponibles.");
+                Debug.LogWarning("No se ha podido invocar la tropa. Comprueba que el pool tenga objetos disponibles o que la tropa no supere el límite permitido.");
                 return null;
             }
 
