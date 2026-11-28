@@ -301,6 +301,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonCooldown
   button: {fileID: 5937444980217501485}
   cooldownImage: {fileID: 5918792338869747726}
+  troopImg: {fileID: 3876624075694854861}
+  cost_text: {fileID: 1320510276544021149}
   cooldownTime: 0
   buttonID: 0
 --- !u!95 &4247978299204819385

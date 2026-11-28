@@ -28,7 +28,7 @@ public class UITroopsGenerator : ASubject<GameEvent<int>>
     private IEnumerator SummonEntity(int id)
     {
         isSummoning[id] = true;
-        buttons[id].interactable = false;
+       // buttons[id].interactable = false;
 
         GameEvent<int> troopSummon = new GameEvent<int>(LogicEvent.TROOP_PLACED, id);
 
@@ -38,7 +38,7 @@ public class UITroopsGenerator : ASubject<GameEvent<int>>
 
         isSummoning[id] = false;
 
-        if (buttons[id] != null)
-            buttons[id].interactable = true;
+        //if (buttons[id] != null)
+        //  buttons[id].interactable = true;
     }
 }

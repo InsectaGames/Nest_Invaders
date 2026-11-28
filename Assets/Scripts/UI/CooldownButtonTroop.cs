@@ -2,12 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubject<GameEvent<int>>
 {
     [Header("Configuración")]
     [SerializeField] private Button button;
     [SerializeField] private Image cooldownImage;
+
+    [SerializeField] private Image troopImg;
+    [SerializeField] private TMP_Text cost_text;
+
     [SerializeField] private float cooldownTime = 3f;
     [SerializeField] private int buttonID;
 
@@ -45,17 +50,24 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
 
     public void OnButtonPressed()
     {
-        if (!isOnCooldown)
+        Debug.Log("ANIMATION EVENT EJECUTADO");
+
+        if (isOnCooldown)
         {
-            StartCoroutine(CooldownCoroutine());
+            Debug.Log("BLOQUEADO POR COOLDOWN");
+            return;
         }
+
+        StartCoroutine(CooldownCoroutine());
     }
 
     private IEnumerator CooldownCoroutine()
     {
-        isOnCooldown = true;
 
+        Debug.Log("INICIO COOLDOWN");
+        isOnCooldown = true;
         button.interactable = false;
+
         cooldownImage.gameObject.SetActive(true);
 
         float elapsedTime = 0f;
@@ -64,7 +76,9 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
         {
             elapsedTime += Time.deltaTime;
 
-            cooldownImage.fillAmount = 1f - (elapsedTime / cooldownTime);
+            float progress = Mathf.Clamp01(elapsedTime / cooldownTime);
+
+            cooldownImage.fillAmount = 1f - progress;
 
             yield return null;
         }
@@ -72,12 +86,56 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
         cooldownImage.fillAmount = 0f;
         cooldownImage.gameObject.SetActive(false);
 
-        button.interactable = true;
         isOnCooldown = false;
+        button.interactable = true;
+
+
+        Debug.Log("FIN COOLDOWN");
     }
+
+
+    private IEnumerator NotEnoughButtonAnim()
+    {
+        Color text_color = new Color(1f, (float)(155 / 255), (float)(155 / 255));
+
+
+        troopImg.color = Color.red;
+        button.image.color = Color.red;
+        cost_text.color = text_color;
+
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            troopImg.color = Color.Lerp(Color.red, Color.white, elapsedTime / duration);
+            button.image.color = Color.Lerp(Color.red, Color.white, elapsedTime / duration);
+            cost_text.color = Color.Lerp(text_color, Color.white, elapsedTime / duration);
+
+            yield return null;
+        }
+
+        troopImg.color = Color.white;
+        button.image.color = Color.white;
+        cost_text.color =    Color.white;
+        yield return null;
+    }
+
+    public void PlayPressedAnimation()
+    {
+        if (isOnCooldown)
+            return;
+
+        _anim.SetTrigger("pressed");
+    }
+
 
     public void UpdateObserver(GameEvent<int> data)
     {
+
+        Debug.Log("EVENTO RECIBIDO: " + data.logicEvent);
         // Solo reaccionamos si el ID coincide con el botón.
         if (data.data != buttonID)
             return;
@@ -91,7 +149,8 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
             Debug.Log("Error");
             cooldownImage.fillAmount = 0f;
             _anim.ResetTrigger("pressed");
-            _anim.SetTrigger("not_enough_resources");
+            StartCoroutine(NotEnoughButtonAnim());
+            return;
         }
         else if(data.logicEvent == LogicEvent.TROOP_PLACED)
         {
@@ -114,8 +173,8 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
                     break;
             }
 
-            _anim.ResetTrigger("not_enough_resources");
-            _anim.SetTrigger("pressed");  
+            //_anim.ResetTrigger("not_enough_resources");
+            PlayPressedAnimation(); 
         }
     }
 

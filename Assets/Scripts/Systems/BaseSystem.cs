@@ -479,7 +479,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
         if (buttons[id].OnCoolDown)
             return;
 
-        buttons[id].OnButtonPressed();
+       // buttons[id].OnButtonPressed();
 
         if (towerSummons == null || id < 0 || id >= towerSummons.Count)
         {
