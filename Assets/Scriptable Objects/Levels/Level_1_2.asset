@@ -33,13 +33,15 @@ MonoBehaviour:
   resourceArea: {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   resourceAreaPositions:
   - {x: -0.73, y: -7.61}
+  obstacles: []
   enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
-  enemyBasePositions:
-  - {x: 8.92, y: 5.72}
-  enemyBaseHealth: 20
-  obstacleNumber: 10
-  enemySpawnInterval: 13
-  maxSpawnableAmount: 2
+  enemyBases:
+  - type: 0
+    position: {x: 8.92, y: 5.72}
+    health: 20
+    spawnInterval: 12
+    minSpawnAmount: 1
+    maxSpawnAmount: 2
   chanceToSpawnMore: 10
   enemyTroops:
   - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
@@ -50,5 +52,6 @@ MonoBehaviour:
   maxNightCreatureAmount: 2
   IsMidBossStage: 0
   midBossSpawnDistance: 3
+  _tutorial: 0
   IsMainBossStage: 0
   bossPrefab: {fileID: 0}

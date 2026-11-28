@@ -248,6 +248,7 @@ public class GameFlowController : MonoBehaviour
 
         // SceneManager.LoadScene(victoryScene, LoadSceneMode.Additive);
         // ReturnToLevelSelection();
+        vic_anim.gameObject.SetActive(true);
         vic_anim.SetTrigger("trigger_victory");
     }
 

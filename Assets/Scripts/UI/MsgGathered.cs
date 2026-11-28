@@ -7,16 +7,20 @@ public class MsgGathered : MonoBehaviour, IPoolable
     [SerializeField] private TMP_Text countText;
     [SerializeField] private Animator animator;
 
-
-
     public void RecieveQuantity(int quantity = 0)
     {
         countText.text = "+ " + quantity;
 
-        // Reiniciar y reproducir la animación.
-        animator.Play("Gathered", 0, 0f);
-    }
+        if (animator == null)
+            return;
 
+        int stateHash = Animator.StringToHash("msgGatheredFungus");
+
+        if (animator.HasState(0, stateHash))
+            animator.Play(stateHash, 0, 0f);
+        else
+            Debug.LogError($"No existe el estado 'Gathered' en el Animator de {name}.", animator);
+    }
 
     private System.Action<MsgGathered> onFinished;
 
@@ -43,5 +47,4 @@ public class MsgGathered : MonoBehaviour, IPoolable
     {
         countText.text = "";
     }
-
 }

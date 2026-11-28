@@ -2,8 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MsgPoolGathererCollected : MonoBehaviour,
-    IObserver<GameEvent<ResourceSlot>>
+public class MsgPoolGathererCollected : MonoBehaviour, IObserver<GameEvent<ResourceSlot>>
 {
     private IObjectPool<MsgGathered> pool;
 
@@ -13,18 +12,11 @@ public class MsgPoolGathererCollected : MonoBehaviour,
 
     private void Awake()
     {
-        pool = new AObjectPool<MsgGathered>(
-            prefab,
-            initialSize,
-            parent
-        );
+        pool = new AObjectPool<MsgGathered>(prefab, initialSize, parent);
     }
 
-   void Start()
+   private void Start()
     {
-
-       // yield return null;
-
         GameObject[] _go = GameObject.FindGameObjectsWithTag("Base");
 
         foreach (var go in _go)

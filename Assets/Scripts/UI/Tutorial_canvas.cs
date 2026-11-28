@@ -21,7 +21,7 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
     private bool canContinue;
     private bool waitingForEvent;
 
-    // Pasos que dependen de otro bot髇 del juego
+    // Pasos que dependen de otro bot贸n del juego.
     private readonly int[] observerSteps = { 4 ,6};
     private int observerEventsReceived;
     private const int MAX_OBSERVER_EVENTS = 2;
@@ -52,7 +52,7 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
 
         canContinue = false;
 
-        // Comprobar si el paso actual depende de un evento externo
+        // Comprobar si el paso actual depende de un evento externo.
         if (System.Array.IndexOf(observerSteps, tutorialSteps) >= 0)
         {
             waitingForEvent = true;
@@ -87,12 +87,12 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
 
         while (tutorialSteps < tutorial_but_sprites.Length)
         {
-            // El juego se pausa al comenzar cada explicaci髇
+            // El juego se pausa al comenzar cada explicaci贸n.
             Time.timeScale = 0f;
 
             yield return new WaitForSecondsRealtime(stepDelay);
 
-            // Preparar nuevo sprite
+            // Preparar nuevo sprite.
             but.image.sprite = tutorial_but_sprites[tutorialSteps];
 
             Debug.Log("Nuevo sprite de turotial" + tutorial_but_sprites[tutorialSteps].name);
@@ -101,11 +101,11 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
             color.a = 0f;
             but.image.color = color;
 
-            // Activar interacci髇
+            // Activar interacci贸n.
             graphicRaycaster.enabled = true;
             but.interactable = true;
 
-            // FADE IN
+            // FADE IN.
             float elapsed = 0f;
 
             while (elapsed < fadeDuration)
@@ -123,12 +123,12 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
 
             canContinue = true;
 
-            // Esperar pulsaci髇
+            // Esperar pulsaci贸n.
             yield return new WaitUntil(() => !canContinue);
 
             but.interactable = false;
 
-            // FADE OUT
+            // FADE OUT.
             elapsed = 0f;
 
             while (elapsed < fadeDuration)
@@ -144,39 +144,32 @@ public class Tutorial_canvas : MonoBehaviour, IObserver<GameEvent<int>>
             color.a = 0f;
             but.image.color = color;
 
-            // Desactivar interacci髇
+            // Desactivar interacci贸n.
             graphicRaycaster.enabled = false;
 
-            // Reanudar juego entre explicaciones
+            // Reanudar juego entre explicaciones.
             Time.timeScale = 1f;
 
-           
-
-            // Si depende de un evento externo, esperar a que ocurra
+            // Si depende de un evento externo, esperar a que ocurra.
             if (waitingForEvent)
             {
                 yield return new WaitUntil(() => !waitingForEvent);
 
                 yield return new WaitForSeconds(3f);
-
             }
             else
             {
                 yield return new WaitForSeconds(stepDelay);
-
             }
-
-           
         }
 
-        // Finalizar tutorial
+        // Finalizar tutorial.
         Time.timeScale = 1f;
         graphicRaycaster.enabled = false;
         gameObject.SetActive(false);
     }
 
-
-    void OnDisable()
+    private void OnDisable()
     {
         Time.timeScale = 1f;
     }

@@ -8,24 +8,31 @@ public enum LevelDifficulty
 
 public enum ObstacleType
 {
-    BUSH_A , 
-    BUSH_B , 
-    BUSH_C ,
-    BUSH_D , 
-    BUSH_E , 
-    FLOWERS, 
-    MUSH_A ,
-    MUSH_B ,
-    ROCK_A ,
-    ROCK_B ,
-    ROCK_C ,
-    ROCK_D ,
-    ROCK_E ,
-    ROCK_F ,
-    STICK_A,
-    STICK_B ,
-    LOG
+    BUSH_A, BUSH_B,  BUSH_C, BUSH_D,  BUSH_E, 
+    FLOWERS,  MUSH_A, MUSH_B,
+    ROCK_A, ROCK_B, ROCK_C, ROCK_D, ROCK_E, ROCK_F,
+    STICK_A, STICK_B, LOG
+}
 
+public enum EnemyBaseType
+{
+    NORMAL, SPECIAL
+}
+
+[System.Serializable]
+public class EnemyBaseDefinition
+{
+    [Header("Identificación")]
+    public EnemyBaseType type = EnemyBaseType.NORMAL;
+
+    [Header("Ubicación")]
+    public Vector2 position;
+
+    [Header("Configuración")]
+    [Min(1)] public int health = 10;
+    [Min(0.1f)] public float spawnInterval = 10f;
+    [Min(1)] public int minSpawnAmount = 1;
+    [Min(1)] public int maxSpawnAmount = 3;
 }
 
 [System.Serializable]
@@ -34,7 +41,6 @@ public struct EnemySummons
     public TroopDefinition enemyTroop;
     public int chance;
 }
-
 
 [System.Serializable]
 public struct Obstacle
@@ -75,18 +81,15 @@ public class LevelDefinition : ScriptableObject
     public GameObject resourceArea;
     public Vector2[] resourceAreaPositions;
 
-    [Header("Base Enemiga")]
-    public GameObject enemyBase;
-    public Vector2[] enemyBasePositions;
-    public int enemyBaseHealth = 10;
-
     [Header("Obstáculos")]
     public Obstacle[] obstacles;
 
-    [Header("Generación enemiga")]
-    [Min(0.1f)] public float enemySpawnInterval = 10f;
-    [Min(1)] public int maxSpawnableAmount = 1;
-    [Min(1)] public int chanceToSpawnMore = 20;
+    [Header("Bases enemigas")]
+    public GameObject enemyBase;
+    public EnemyBaseDefinition[] enemyBases = new EnemyBaseDefinition[0];
+
+    [Header("Generación de enemigos")]
+    [Min(1)] public int chanceToSpawnMore = 10;
     public EnemySummons[] enemyTroops;
     public TroopDefinition defaultTroop;
 

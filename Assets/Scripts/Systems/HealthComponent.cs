@@ -26,7 +26,7 @@ public class HealthComponent : MonoBehaviour
         Health = maxHealth;
         MaxHealth = maxHealth;
 
-        int index = -1;
+        int index;
 
         switch (f)
         {
@@ -34,15 +34,9 @@ public class HealthComponent : MonoBehaviour
                 index = 0;
                 break;
 
-            case Faction.ENEMY:
+            default:
                 index = 1;
                 break;
-        }
-
-        if (index < 0)
-        {
-            Debug.LogError("Faction no reconocida: " + f);
-            return;
         }
 
         if (typeFill == null || typeFill.Length <= index || typeBg == null || typeBg.Length <= index)

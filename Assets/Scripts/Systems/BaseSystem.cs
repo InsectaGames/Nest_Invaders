@@ -78,6 +78,12 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
     public int GetLeaves() => GetResourceAmount(Resource.FUNGUS);
     public int GetSticks() => GetResourceAmount(Resource.SPIDERWEBS);
 
+    private EnemyBaseDefinition enemyBaseDefinition;
+
+    public void ConfigureEnemyBase(EnemyBaseDefinition definition) => enemyBaseDefinition = definition;
+
+    public event Action<BaseSystem> OnBaseDestroyed;
+
     private int GetResourceAmount(Resource resource)
     {
         int index = GetResourceIndex(resource);
@@ -113,7 +119,12 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
 
             if (level != null)
             {
-                initialHealth = faction == Faction.ALLY ? level.allyBaseHealth : level.enemyBaseHealth;
+                if (faction == Faction.ALLY)
+                    initialHealth = level.allyBaseHealth;
+                else if (enemyBaseDefinition != null)
+                    initialHealth = enemyBaseDefinition.health;
+                else
+                    initialHealth = 10;
 
                 bool shouldFaceRight = transform.position.x < 0f;
 
@@ -237,9 +248,15 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
             return;
         }
 
-        if (level.enemySpawnInterval <= 0f)
+        if (enemyBaseDefinition == null)
         {
-            Debug.LogError("BaseSystem: El intervalo de aparición de enemigos debe ser mayor que cero.", this);
+            Debug.LogError("BaseSystem: No se ha asignado la configuración de esta base enemiga.", this);
+            return;
+        }
+
+        if (enemyBaseDefinition.spawnInterval <= 0f || enemyBaseDefinition.minSpawnAmount < 1 || enemyBaseDefinition.maxSpawnAmount < enemyBaseDefinition.minSpawnAmount)
+        {
+            Debug.LogError("BaseSystem: La configuración de generación de tropas no es válida.", this);
             return;
         }
 
@@ -249,7 +266,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
             return;
         }
 
-        enemySpawnInterval = level.enemySpawnInterval;
+        enemySpawnInterval = enemyBaseDefinition.spawnInterval;
 
         enemyTroops.Clear();
 
@@ -290,22 +307,29 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
 
     private void SpawnEnemyUnit()
     {
-        if (faction != Faction.ENEMY)
+        if (faction != Faction.ENEMY || enemyTroops.Count == 0)
             return;
 
-        if (enemyTroops.Count == 0)
-            return;
+        int minAmount = enemyBaseDefinition.minSpawnAmount;
+        int maxAmount = enemyBaseDefinition.maxSpawnAmount;
+        int targetAmount = Utils.GetRandom(minAmount, maxAmount + 1);
 
-        for(int i = 0; i < LevelSession.SelectedLevel.maxSpawnableAmount; i++)
+        for (int i = 0; i < targetAmount; i++)
         {
             TroopDefinition definition = GetUnitToSpawn();
 
+            if (definition == null)
+                continue;
+
             SpawnConfiguredTroop(definition, false);
 
-            float roll = Utils.GetRandom(0, 100);
+            if (i >= minAmount - 1)
+            {
+                float roll = Utils.GetRandom(0, 100);
 
-            if(roll > LevelSession.SelectedLevel.chanceToSpawnMore)
-                break;
+                if (roll > LevelSession.SelectedLevel.chanceToSpawnMore)
+                    break;
+            }
         }
     }
 
@@ -572,28 +596,7 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
         // 1. La destrucción de la base debe comprobarse en TODAS las escenas.
         if (IsDestroyed() && !destructionHandled)
         {
-            destructionHandled = true;
-
-            StopEnemySpawner();
-
-            GameObject controllerObject = GameObject.FindGameObjectWithTag("GameFlowController");
-
-            GameFlowController gfc = controllerObject != null ? controllerObject.GetComponent<GameFlowController>() : null;
-
-            if (gfc != null)
-            {
-                if (faction == Faction.ALLY)
-                    gfc.TriggerDefeat();
-                else if (faction == Faction.ENEMY)
-                    gfc.TriggerVictory();
-            }
-            else
-            {
-                Debug.LogError("No se encontró GameFlowController en la escena.");
-            }
-
-            // Ejecutar la muerte de la base.
-            health.Die();
+            HandleDestruction();
             return;
         }
 
@@ -615,6 +618,28 @@ public class BaseSystem : ASubject<GameEvent<ResourceSlot>>, ISubject<GameEvent<
             }
         }
         */
+    }
+
+    private void HandleDestruction()
+    {
+        if (destructionHandled)
+            return;
+
+        destructionHandled = true;
+        StopEnemySpawner();
+
+        if (faction == Faction.ENEMY)
+            OnBaseDestroyed?.Invoke(this);
+
+        else if (faction == Faction.ALLY)
+        {
+            GameObject controllerObject = GameObject.FindGameObjectWithTag("GameFlowController");
+            GameFlowController gfc = controllerObject != null ? controllerObject.GetComponent<GameFlowController>() : null;
+
+            gfc?.TriggerDefeat();
+        }
+
+        health.Die();
     }
 
     #endregion

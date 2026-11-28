@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class LevelGameplayInitializer : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class LevelGameplayInitializer : MonoBehaviour
 
     public GameObject AllyBaseInstance { get; private set; }
     public GameObject EnemyBaseInstance { get; private set; }
+    public List<GameObject> EnemyBaseInstances { get; private set; } = new List<GameObject>();
     public GameObject ResourceAreaInstance { get; private set; }
+
+    private int destroyedEnemyBases;
+    private GameFlowController gameFlowController;
 
     private void Awake()
     {
@@ -28,20 +33,66 @@ public class LevelGameplayInitializer : MonoBehaviour
             return;
         }
 
+        GameObject controllerObject = GameObject.FindGameObjectWithTag("GameFlowController");
+        gameFlowController = FindFirstObjectByType<GameFlowController>();
+
+        if (gameFlowController == null)
+            Debug.LogError("LevelGameplayInitializer: No se ha encontrado GameFlowController.", this);
+
         Vector2 allyPosition = GetRandomPosition(level.allyBasePositions, allyBaseSpawnPoint);
-        Vector2 enemyPosition = GetRandomPosition(level.enemyBasePositions, enemyBaseSpawnPoint);
         Vector2 resourceAreaPosition = GetRandomPosition(level.resourceAreaPositions, resourceAreaSpawnPoint);
 
+        EnemyBaseDefinition[] enemyDefinitions = GetEnemyBaseDefinitions(level);
+        Vector2 enemyPosition = enemyDefinitions[0].position;
+
         if (level.IsMidBossStage)
-        {
             SpawnMidBoss(level, enemyPosition, allyPosition);
-        }
 
         AllyBaseInstance = SpawnBase(level.allyBase, allyPosition, "aliada");
-        EnemyBaseInstance = SpawnBase(level.enemyBase, enemyPosition, "enemiga");
+
+        foreach (EnemyBaseDefinition definition in enemyDefinitions)
+        {
+            GameObject instance = SpawnBase(level.enemyBase, definition.position, definition.type.ToString());
+
+            if (instance == null)
+                continue;
+
+            BaseSystem baseSystem = instance.GetComponent<BaseSystem>();
+
+            if (baseSystem == null)
+            {
+                Debug.LogError("El prefab de la base enemiga necesita un componente BaseSystem.", instance);
+                Destroy(instance);
+                continue;
+            }
+
+            baseSystem.ConfigureEnemyBase(definition);
+            baseSystem.OnBaseDestroyed += HandleEnemyBaseDestroyed;
+            EnemyBaseInstances.Add(instance);
+        }
+
+        EnemyBaseInstance = EnemyBaseInstances.Count > 0 ? EnemyBaseInstances[0] : null;
+
         ResourceAreaInstance = SpawnBase(level.resourceArea, resourceAreaPosition, "recursos");
 
-        Debug.Log($"Gameplay inicializado para: {level.Name}");
+        Debug.Log($"Gameplay inicializado para: {level.Name}. Bases enemigas: {EnemyBaseInstances.Count}");
+    }
+
+    private EnemyBaseDefinition[] GetEnemyBaseDefinitions(LevelDefinition level) => level.enemyBases;
+
+    private void HandleEnemyBaseDestroyed(BaseSystem destroyedBase)
+    {
+        destroyedEnemyBases++;
+
+        Debug.Log($"Base enemiga destruida: {destroyedEnemyBases}/{EnemyBaseInstances.Count}");
+
+        if (destroyedEnemyBases >= EnemyBaseInstances.Count)
+        {
+            if (gameFlowController != null)
+                gameFlowController.TriggerVictory();
+            else
+                Debug.LogError("No se puede activar la victoria: GameFlowController es null.");
+        }
     }
 
     private Vector2 GetRandomPosition(Vector2[] positions, Transform fallback)

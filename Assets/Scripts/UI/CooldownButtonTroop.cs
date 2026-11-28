@@ -23,10 +23,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
         _anim = GetComponent<Animator>();
         button = this.GetComponent<Button>();
 
-        GameObject.Find("UI_Controller")
-            .GetComponent<UITroopsGenerator>()
-            .AddObserver(this);
-
+        GameObject.Find("UI_Controller").GetComponent<UITroopsGenerator>().AddObserver(this);
 
         if (LevelSession.SelectedLevel._tutorial)
             AddObserver(GameObject.FindGameObjectWithTag("tutorial").GetComponent<Tutorial_canvas>());
@@ -67,8 +64,7 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
         {
             elapsedTime += Time.deltaTime;
 
-            cooldownImage.fillAmount =
-                1f - (elapsedTime / cooldownTime);
+            cooldownImage.fillAmount = 1f - (elapsedTime / cooldownTime);
 
             yield return null;
         }
@@ -86,7 +82,6 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
         if (data.data != buttonID)
             return;
 
-
         if (LevelSession.SelectedLevel._tutorial && data.data == 1)
          UpdateObservers(new GameEvent<int>(LogicEvent.TUTORIAL_INCREMENT, 0));
 
@@ -97,7 +92,6 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
             cooldownImage.fillAmount = 0f;
             _anim.ResetTrigger("pressed");
             _anim.SetTrigger("not_enough_resources");
-
         }
         else if(data.logicEvent == LogicEvent.TROOP_PLACED)
         {
@@ -124,6 +118,9 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
             _anim.SetTrigger("pressed");  
         }
     }
+
+    #region OBSERVER
+    
     public void AddObserver(IObserver<GameEvent<int>> obs)
     {
         _observers.Add(obs);
@@ -141,4 +138,6 @@ public class ButtonCooldown : MonoBehaviour, IObserver<GameEvent<int>> , ISubjec
             obs.UpdateObserver(data);
         }
     }
+
+    #endregion
 }

@@ -33,10 +33,6 @@ MonoBehaviour:
   resourceArea: {fileID: 5277817564068839378, guid: 6ea6268769f164c4b8dc2898888434bc, type: 3}
   resourceAreaPositions:
   - {x: 0, y: -7.49}
-  enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
-  enemyBasePositions:
-  - {x: 13.8, y: 1.39}
-  enemyBaseHealth: 10
   obstacles:
   - obsType: 0
     pos: {x: -2.34, y: 2.11}
@@ -46,8 +42,17 @@ MonoBehaviour:
     pos: {x: 0, y: 3}
   - obsType: 14
     pos: {x: -8, y: 0}
-  enemySpawnInterval: 15
-  maxSpawnableAmount: 1
+  enemyBase: {fileID: 4358978796533573320, guid: a52b9479d369c4b4badde94a0d1fc21d, type: 3}
+  enemyBases:
+  - type: 0
+    position: {x: 13.8, y: 1.39}
+    health: 10
+    spawnInterval: 15
+    minSpawnAmount: 1
+    maxSpawnAmount: 1
+  enemyBasePositions:
+  - {x: 13.8, y: 1.39}
+  enemyBaseHealth: 10
   chanceToSpawnMore: 1
   enemyTroops:
   - enemyTroop: {fileID: 11400000, guid: c4401d6c4d9d0114983f59b93539643a, type: 2}
